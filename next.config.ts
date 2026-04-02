@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "nirvanatoday.com",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+        pathname: "/s/files/1/0753/2635/7667/files/**",
+      },
     ],
   },
 };

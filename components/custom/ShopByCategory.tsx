@@ -1,10 +1,10 @@
 "use client"
-import * as React from "react";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-
 import {
   Carousel,
   CarouselContent,
@@ -14,55 +14,14 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { ProgressiveBlur } from "../ui/progressive-blur";
+import { SHOP_CATEGORIES } from "@/lib/data";
 
-const SHOP_CATEGORIES = [
-  {
-    name: "Gummies",
-    href: "/shop/type/gummies",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/Gummies.png",
-    tagline: "Daily mood and calm support in easy-to-love flavors.",
-    pill: "Best Seller",
-  },
-  {
-    name: "Tinctures",
-    href: "/shop/type/tinctures",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/T2.png",
-    tagline: "Fast-acting drops with precise control per serving.",
-    pill: "New",
-  },
-  {
-    name: "THCP Vapes",
-    href: "/shop/type/vapes",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/THCPVape.png",
-    tagline: "Portable, smooth, and crafted for instant unwind.",
-    pill: "Trending",
-  },
-  {
-    name: "CBD",
-    href: "/shop/cbd",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/CBDHemp.png",
-    tagline: "Clean everyday essentials for total body balance.",
-    pill: "Essential",
-  },
-  {
-    name: "Pets",
-    href: "/shop/type/pets",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/PetsTincture.png",
-    tagline: "Calm routines and joint comfort for furry companions.",
-  },
-  {
-    name: "Capsules",
-    href: "/shop/type/capsules",
-    image: "https://nirvanatoday.com/wp-content/uploads/2026/04/Capsules.png",
-    tagline: "No-mess precision and consistent strength per capsule.",
-  }
-];
 
 export default function ShopByCategory() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [isPaused, setIsPaused] = React.useState(false);
+  const [api, setApi] = useState<CarouselApi>();
+  const [isPaused, setIsPaused] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api || isPaused) return;
 
     const intervalId = setInterval(() => {

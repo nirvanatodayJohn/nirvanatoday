@@ -25,7 +25,7 @@ const FEATURES = [
         iconClassName: "size-40 sm:size-52",
     },
     {
-        title: "For You & Pets.",
+        title: "For Pets.",
         description: "Trusted, specialized formulas safe enough for your furry companions.",
         icon: SmileIcon,
         className: "md:col-span-2",
@@ -42,10 +42,8 @@ const FEATURES = [
 
 export default function WhyChooseUs() {
     return (
-        <section className="bg-background py-24 sm:py-32">
+        <section className="py-24 sm:py-32">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-
-                {/* Apple-style massive, minimalist header */}
                 <div className="mx-auto mb-20 flex max-w-4xl flex-col items-center text-center">
                     <h2 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
                         Uncompromising quality.<br />
@@ -78,7 +76,7 @@ export default function WhyChooseUs() {
                                     icon={feature.icon}
                                     strokeWidth={0.5}
                                     className={cn(
-                                        "text-foreground/10 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:text-foreground/20",
+                                        "text-muted-foreground",
                                         feature.iconClassName
                                     )}
                                 />

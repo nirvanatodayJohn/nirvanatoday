@@ -35,7 +35,7 @@ const ASSURANCES = [
 
 export default function Assurance() {
     return (
-        <section className="bg-background py-24 sm:py-32">
+        <section className="py-24 sm:py-32">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
