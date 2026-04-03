@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   ArrowRight01Icon,
@@ -12,6 +12,7 @@ import {
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import CartSheet from "@/components/custom/CartSheet";
 
 import {
   Accordion,
@@ -29,70 +30,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { BANNER_ITEMS, PRIMARY_LINKS, PRODUCT_FAMILIES, ProductFamily, SHOP_BY_TYPE } from "@/lib/data";
 
-type ProductFamily = {
-  name: string;
-  items: string[];
-};
-
-const PRODUCT_FAMILIES: ProductFamily[] = [
-  {
-    name: "CBD",
-    items: ["Gummies", "Capsules", "Pre Rolls", "Tinctures", "Topicals", "Vapes", "Pets"],
-  },
-  {
-    name: "Delta 8",
-    items: ["Capsules", "Gummies", "Topicals", "Tinctures", "Pre Rolls", "Vapes"],
-  },
-  {
-    name: "Delta 9",
-    items: ["Gummies"],
-  },
-  {
-    name: "Delta 10",
-    items: ["Tinctures", "Vapes"],
-  },
-  {
-    name: "THCP",
-    items: ["Vapes"],
-  },
-  {
-    name: "Blends",
-    items: ["Vapes"],
-  },
-  {
-    name: "Kratom",
-    items: ["Powders"],
-  },
-];
-
-const SHOP_BY_TYPE = [
-  "Capsules",
-  "Gummies",
-  "Powders",
-  "Pre-Rolls",
-  "Tinctures",
-  "Topicals",
-  "Vapes",
-  "Sleep",
-  "Pets",
-];
-
-const PRIMARY_LINKS = [
-  { label: "Blogs", href: "/blogs" },
-  { label: "About Us", href: "/about-us" },
-  { label: "No Gimmicks", href: "/no-gimmicks" },
-];
-
-const BANNER_ITEMS = [
-  "Veteran Owned & Operated",
-  "Free Shipping",
-  "30-day guarantee",
-  "3rd-Party Lab Tested",
-  "US-Grown Hemp",
-  "Money-Back Guarantee",
-  "No Gimmicks",
-];
 
 function toSlug(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -224,9 +163,9 @@ export default function Navbar() {
   );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background">
+    <header className=" top-0 z-40 border-b border-border bg-background">
       <div
-        className="relative isolate overflow-hidden border-b bg-linear-to-b from-lime-500 to-lime-600 text-primary-foreground"
+        className="relative isolate overflow-hidden border-b bg-linear-to-b from-[#E3FFE7] to-[#E3FFE7] text-primary-foreground"
       >
         <div
           className="relative mx-auto flex max-w-7xl overflow-hidden px-4 sm:px-6 lg:px-8"
@@ -243,7 +182,7 @@ export default function Navbar() {
                 key={`${item}-${index}`}
                 className="flex shrink-0 items-center gap-4 text-sm font-semibold "
               >
-                <span className="whitespace-nowrap">{item}</span>
+                <span className="whitespace-nowrap text-primary">{item}</span>
                 <span
                   aria-hidden="true"
                   className="h-4 w-px rounded-full bg-primary-foreground/85"
@@ -370,13 +309,7 @@ export default function Navbar() {
         </div>
 
         <div className="ml-auto hidden items-center gap-2 lg:flex">
-          <Link
-            href="/cart"
-            aria-label="Open cart"
-            className={buttonVariants({ variant: "ghost", size: "icon" })}
-          >
-            <HugeiconsIcon icon={ShoppingCart01Icon} strokeWidth={1.8} />
-          </Link>
+          <CartSheet />
           <Link
             href="/account"
             aria-label="Open profile"
@@ -387,13 +320,7 @@ export default function Navbar() {
         </div>
 
         <div className="ml-auto flex items-center gap-2 lg:hidden">
-          <Link
-            href="/cart"
-            aria-label="Open cart"
-            className={buttonVariants({ variant: "ghost", size: "icon" })}
-          >
-            <HugeiconsIcon icon={ShoppingCart01Icon} strokeWidth={1.8} />
-          </Link>
+          <CartSheet />
           <Button
             variant="ghost"
             size="icon"

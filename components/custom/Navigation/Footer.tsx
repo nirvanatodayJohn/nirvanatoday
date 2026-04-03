@@ -2,13 +2,11 @@ import Link from "next/link";
 
 import {
   Facebook01Icon,
-  HourglassIcon,
   InstagramIcon,
   NewTwitterIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,7 +28,6 @@ const FOOTER_SECTIONS: FooterSection[] = [
       { label: "About Us", href: "/about-us" },
       { label: "Lab Results", href: "/lab-results" },
       { label: "Blogs", href: "/blogs" },
-      { label: "Faq's", href: "/faqs" },
       { label: "Contact Us", href: "/contact-us" },
     ],
   },
@@ -47,7 +44,7 @@ const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Customer Services",
     links: [
-      { label: "Shipping & Returns", href: "/shipping-returns" },
+      { label: "Shipping Policy", href: "/shipping-policy" },
       { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Terms & Conditions", href: "/terms-conditions" },
       { label: "FDA Disclaimer", href: "/fda-disclaimer" },
@@ -138,7 +135,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="py-4 text-sm text-center text-muted-foreground">
+
+        <div className="text-center py-4 text-xs font-bold text-muted-foreground/60 border-t border-border/40">
           <p>&copy; {new Date().getFullYear()} Nirvana Today. All rights reserved.</p>
         </div>
       </div>

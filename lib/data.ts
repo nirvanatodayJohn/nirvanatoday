@@ -1,3 +1,8 @@
+export type ProductFamily = {
+  name: string;
+  items: string[];
+};
+
 export const SHOP_CATEGORIES = [
   {
     name: "Gummies",
@@ -45,13 +50,13 @@ export const SHOP_CATEGORIES = [
 ];
 
 export const POINTS = [
-    "No phony percentages.",
-    "No slashed MSRP prices.",
-    "No referral tricks.",
-    "No spin-the-wheels.",
-    "No last minute discounts.",
-    "No pop-ups ever."
-]
+  "No phony percentages.",
+  "No slashed MSRP prices.",
+  "No referral tricks.",
+  "No spin-the-wheels.",
+  "No last minute discounts.",
+  "No pop-ups ever.",
+];
 
 export const FAQ_ITEMS = [
   {
@@ -116,4 +121,78 @@ export const FAQ_ITEMS = [
     answer:
       "All of our products comply with federal laws, but local regulations may vary. While our products are legal under federal law, we recommend checking your state’s specific cannabis or hemp laws to ensure compliance in your area. We always try to stay updated on regulations and can offer guidance if needed.",
   },
+];
+
+export const PRODUCT_FAMILIES: ProductFamily[] = [
+  {
+    name: "CBD",
+    items: [
+      "Gummies",
+      "Capsules",
+      "Pre Rolls",
+      "Tinctures",
+      "Topicals",
+      "Vapes",
+      "Pets",
+    ],
+  },
+  {
+    name: "Delta 8",
+    items: [
+      "Capsules",
+      "Gummies",
+      "Topicals",
+      "Tinctures",
+      "Pre Rolls",
+      "Vapes",
+    ],
+  },
+  {
+    name: "Delta 9",
+    items: ["Gummies"],
+  },
+  {
+    name: "Delta 10",
+    items: ["Tinctures", "Vapes"],
+  },
+  {
+    name: "THCP",
+    items: ["Vapes"],
+  },
+  {
+    name: "Blends",
+    items: ["Vapes"],
+  },
+  {
+    name: "Kratom",
+    items: ["Powders"],
+  },
+];
+
+export const SHOP_BY_TYPE = [
+  "Capsules",
+  "Gummies",
+  "Powders",
+  "Pre-Rolls",
+  "Tinctures",
+  "Topicals",
+  "Vapes",
+  "Sleep",
+  "Pets",
+];
+
+export const PRIMARY_LINKS = [
+  { label: "Blogs", href: "/blogs" },
+  { label: "About Us", href: "/about-us" },
+  { label: "No Gimmicks", href: "/no-gimmicks" },
+];
+
+export const BANNER_ITEMS = [
+  "Veteran Owned & Operated",
+  "Free Shipping",
+  "30-day guarantee",
+  "3rd-Party Lab Tested",
+  "US-Grown Hemp",
+  "Money-Back Guarantee",
+  "No Gimmicks",
 ];
