@@ -53,9 +53,9 @@ const FOOTER_SECTIONS: FooterSection[] = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Facebook", href: "#", icon: Facebook01Icon },
-  { label: "Instagram", href: "#", icon: InstagramIcon },
-  { label: "X", href: "#", icon: NewTwitterIcon },
+  { label: "Facebook", href: "https://www.facebook.com/people/Nirvana-Today/61578931778649/", icon: Facebook01Icon },
+  { label: "Instagram", href: "https://www.instagram.com/nirvana.today_/", icon: InstagramIcon },
+  { label: "X", href: "https://x.com/llc_nirvan15476", icon: NewTwitterIcon },
 ];
 
 export default function Footer() {

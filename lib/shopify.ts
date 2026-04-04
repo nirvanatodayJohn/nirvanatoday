@@ -2,15 +2,32 @@ const domain = `${process.env.SHOPIFY_SHOP}.myshopify.com`;
 const endpoint = `https://${domain}/api/2024-01/graphql.json`;
 const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
+// ─── Cache Tags ──────────────────────────────────────────────
+// These tags let us surgically invalidate specific data via webhook.
+// When Shopify sends a webhook, we call revalidateTag("products") or
+// revalidateTag("blogs") to bust only that slice of cache.
+export const CACHE_TAGS = {
+  products: "products",
+  blogs: "blogs",
+} as const;
+
 type ShopifyFetchArgs = {
   query: string;
   variables?: Record<string, any>;
   cache?: RequestCache;
+  tags?: string[];
 };
 
-async function shopifyFetch<T>({ query, variables, cache = "force-cache" }: ShopifyFetchArgs): Promise<{ status: number; body: T }> {
+async function shopifyFetch<T>({
+  query,
+  variables,
+  cache = "force-cache",
+  tags,
+}: ShopifyFetchArgs): Promise<{ status: number; body: T }> {
   if (!key) {
-    throw new Error("SHOPIFY_STOREFRONT_ACCESS_TOKEN is not set in environment variables.");
+    throw new Error(
+      "SHOPIFY_STOREFRONT_ACCESS_TOKEN is not set in environment variables."
+    );
   }
 
   try {
@@ -25,7 +42,7 @@ async function shopifyFetch<T>({ query, variables, cache = "force-cache" }: Shop
         ...(variables && { variables }),
       }),
       cache,
-      // next: { revalidate: 900 }, // 15 mins
+      ...(tags && { next: { tags } }),
     });
 
     return {
@@ -51,6 +68,7 @@ export type Product = {
   compareAtPrice?: string;
   image: string;
   badge?: string;
+  tags: string[];
   availableForSale: boolean;
 };
 
@@ -122,7 +140,7 @@ const productFragment = `
 export async function getProducts(): Promise<Product[]> {
   const query = `
     query getProducts {
-      products(first: 50) {
+      products(first: 250) {
         edges {
           node {
             ...product
@@ -133,7 +151,10 @@ export async function getProducts(): Promise<Product[]> {
     ${productFragment}
   `;
 
-  const res = await shopifyFetch<any>({ query });
+  const res = await shopifyFetch<any>({
+    query,
+    tags: [CACHE_TAGS.products],
+  });
 
   return res.body.data.products.edges.map((edge: any) => {
     const node = edge.node;
@@ -141,27 +162,38 @@ export async function getProducts(): Promise<Product[]> {
     const compareAt = node.compareAtPriceRange?.minVariantPrice;
 
     return {
-      id: node.id,
+      id: node.variants.edges[0]?.node.id || node.id,
       handle: node.handle,
       title: node.title,
       description: node.description,
-      category: node.productType || "Product", // Fallback for empty Shopify Product Type
-      price: new Intl.NumberFormat("en-IN", { // Updated to en-IN for Rupee formatting
+      category: node.productType || "Product",
+      price: new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: price.currencyCode,
+        currency: "USD",
       }).format(price.amount),
-      compareAtPrice: compareAt && compareAt.amount > 0 ? new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: compareAt.currencyCode,
-      }).format(compareAt.amount) : undefined,
-      image: node.images.edges[0]?.node.url ,
-      badge: node.tags.find((tag: string) => tag.toLowerCase().includes("support") || tag.toLowerCase().includes("focus")) || "",
+      compareAtPrice:
+        compareAt && compareAt.amount > 0
+          ? new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format(compareAt.amount)
+          : undefined,
+      image: node.images.edges[0]?.node.url,
+      badge:
+        node.tags.find(
+          (tag: string) =>
+            tag.toLowerCase().includes("support") ||
+            tag.toLowerCase().includes("focus")
+        ) || "",
+      tags: node.tags,
       availableForSale: node.availableForSale,
     };
   });
 }
 
-export async function getProductByHandle(handle: string): Promise<Product | null> {
+export async function getProductByHandle(
+  handle: string
+): Promise<Product | null> {
   const query = `
     query getProduct($handle: String!) {
       product(handle: $handle) {
@@ -174,6 +206,7 @@ export async function getProductByHandle(handle: string): Promise<Product | null
   const res = await shopifyFetch<any>({
     query,
     variables: { handle },
+    tags: [CACHE_TAGS.products],
   });
 
   const node = res.body.data.product;
@@ -183,21 +216,32 @@ export async function getProductByHandle(handle: string): Promise<Product | null
   const compareAt = node.compareAtPriceRange?.minVariantPrice;
 
   return {
-    id: node.id,
+    id: node.variants.edges[0]?.node.id || node.id,
     handle: node.handle,
     title: node.title,
     description: node.description,
-    category: node.productType || "Product", // Fallback for empty Shopify Product Type
-    price: new Intl.NumberFormat("en-IN", { // Updated to en-IN for Rupee formatting
+    category: node.productType || "Product",
+    price: new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: price.currencyCode,
+      currency: "USD",
     }).format(price.amount),
-    compareAtPrice: compareAt && compareAt.amount > 0 ? new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: compareAt.currencyCode,
-    }).format(compareAt.amount) : undefined,
-    image: node.images.edges[0]?.node.url || "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png", // Fallback image
-    badge: node.tags.find((tag: string) => tag.toLowerCase().includes("support") || tag.toLowerCase().includes("focus")) || "",
+    compareAtPrice:
+      compareAt && compareAt.amount > 0
+        ? new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(compareAt.amount)
+        : undefined,
+    image:
+      node.images.edges[0]?.node.url ||
+      "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
+    badge:
+      node.tags.find(
+        (tag: string) =>
+          tag.toLowerCase().includes("support") ||
+          tag.toLowerCase().includes("focus")
+      ) || "",
+    tags: node.tags,
     availableForSale: node.availableForSale,
   };
 }
@@ -228,9 +272,10 @@ export type PaginatedArticles = {
   hasPreviousPage: boolean;
 };
 
-export async function getArticles(page: number = 1, pageSize: number = 9): Promise<PaginatedArticles> {
-  // First, we fetch all article cursors to calculate total and map to pages (up to 250)
-  // Storefront doesn't have offset, so we need cursors to jump to Page X.
+export async function getArticles(
+  page: number = 1,
+  pageSize: number = 9
+): Promise<PaginatedArticles> {
   const query = `
     query getArticles {
       blogByHandle(handle: "blogs") {
@@ -247,19 +292,23 @@ export async function getArticles(page: number = 1, pageSize: number = 9): Promi
     ${articleFragment}
   `;
 
-  const res = await shopifyFetch<any>({ 
-    query, 
-    cache: "no-store" 
+  const res = await shopifyFetch<any>({
+    query,
+    tags: [CACHE_TAGS.blogs],
   });
 
   if (!res.body?.data || !res.body.data.blogByHandle) {
-    return { articles: [], totalArticles: 0, hasNextPage: false, hasPreviousPage: false };
+    return {
+      articles: [],
+      totalArticles: 0,
+      hasNextPage: false,
+      hasPreviousPage: false,
+    };
   }
 
   const allEdges = res.body.data.blogByHandle.articles.edges;
   const totalArticles = allEdges.length;
 
-  // Calculate the slice for the requested page
   const startIdx = (page - 1) * pageSize;
   const endIdx = startIdx + pageSize;
   const pagedEdges = allEdges.slice(startIdx, endIdx);
@@ -274,7 +323,9 @@ export async function getArticles(page: number = 1, pageSize: number = 9): Promi
       contentHtml: node.contentHtml,
       publishedAt: node.publishedAt,
       author: node.authorV2?.name || "Nirvana Today Team",
-      image: node.image?.url || "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
+      image:
+        node.image?.url ||
+        "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
       tags: node.tags,
     };
   });
@@ -283,11 +334,13 @@ export async function getArticles(page: number = 1, pageSize: number = 9): Promi
     articles,
     totalArticles,
     hasNextPage: endIdx < totalArticles,
-    hasPreviousPage: page > 1
+    hasPreviousPage: page > 1,
   };
 }
 
-export async function getArticleByHandle(handle: string): Promise<Article | null> {
+export async function getArticleByHandle(
+  handle: string
+): Promise<Article | null> {
   const query = `
     query getArticle($handle: String!) {
       blogByHandle(handle: "blogs") {
@@ -302,11 +355,14 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
   const res = await shopifyFetch<any>({
     query,
     variables: { handle },
-    cache: "no-store",
+    tags: [CACHE_TAGS.blogs],
   });
 
   if (!res.body?.data) {
-    console.error("❌ Shopify getArticleByHandle Error:", JSON.stringify(res.body));
+    console.error(
+      "❌ Shopify getArticleByHandle Error:",
+      JSON.stringify(res.body)
+    );
     return null;
   }
 
@@ -321,16 +377,24 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
     contentHtml: node.contentHtml,
     publishedAt: node.publishedAt,
     author: node.authorV2?.name || "Nirvana Today Team",
-    image: node.image?.url || "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
+    image:
+      node.image?.url ||
+      "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
     tags: node.tags,
   };
 }
 
 /**
  * 🔐 CUSTOMER AUTHENTICATION
+ * These mutations are user-specific and MUST NOT be cached.
  */
 
-export async function createCustomer(email: string, password: string, firstName: string = "", lastName: string = "") {
+export async function createCustomer(
+  email: string,
+  password: string,
+  firstName: string = "",
+  lastName: string = ""
+) {
   const query = `
     mutation customerCreate($input: CustomerCreateInput!) {
       customerCreate(input: $input) {
@@ -349,8 +413,8 @@ export async function createCustomer(email: string, password: string, firstName:
 
   const res = await shopifyFetch<any>({
     query,
-    variables: { 
-      input: { email, password, firstName, lastName } 
+    variables: {
+      input: { email, password, firstName, lastName },
     },
     cache: "no-store",
   });
@@ -377,8 +441,8 @@ export async function createAccessToken(email: string, password: string) {
 
   const res = await shopifyFetch<any>({
     query,
-    variables: { 
-      input: { email, password } 
+    variables: {
+      input: { email, password },
     },
     cache: "no-store",
   });
@@ -424,4 +488,50 @@ export async function getCustomer(accessToken: string) {
   });
 
   return res.body.data.customer;
+}
+export async function createCheckout(items: { id: string; quantity: number }[]) {
+  const query = `
+    mutation cartCreate($input: CartInput!) {
+      cartCreate(input: $input) {
+        cart {
+          id
+          checkoutUrl
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: {
+      input: {
+        lines: items.map((item) => ({
+          merchandiseId: item.id,
+          quantity: item.quantity,
+        })),
+      },
+    },
+    cache: "no-store",
+  });
+
+  const data = res.body.data?.cartCreate;
+
+  if (!data) {
+    console.error("Shopify cartCreate returned no data:", JSON.stringify(res.body));
+    return { checkout: null, errors: res.body.errors || [] };
+  }
+
+  if (data.userErrors?.length > 0) {
+    console.error("Shopify cartCreate errors:", JSON.stringify(data.userErrors));
+    return { checkout: null, errors: data.userErrors };
+  }
+
+  return {
+    checkout: { webUrl: data.cart?.checkoutUrl },
+    errors: [],
+  };
 }

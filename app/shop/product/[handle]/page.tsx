@@ -12,8 +12,16 @@ import {
 import AddToCartButton from "@/components/custom/AddToCartButton"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-export default async function ProductPage({ params }: { params: { handle: string } }) {
-    const product = await getProductByHandle(params.handle);
+export async function generateStaticParams() {
+    const products = await getProducts();
+    return products.map((product) => ({
+        handle: product.handle,
+    }));
+}
+
+export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
+    const { handle } = await params;
+    const product = await getProductByHandle(handle);
 
     if (!product) {
         notFound();

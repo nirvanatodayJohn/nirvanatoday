@@ -5,6 +5,8 @@ import { useCart } from "@/lib/store/useCart"
 import { type Product } from "@/lib/shopify"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { ShoppingCartIcon, Tick01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
 export default function AddToCartButton({ product }: { product: Product }) {
   const router = useRouter()
@@ -14,7 +16,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (isInCart) {
       router.push("/cart")
       return
@@ -32,12 +34,17 @@ export default function AddToCartButton({ product }: { product: Product }) {
   }
 
   return (
-    <Button 
+    <Button
       onClick={handleAddToCart}
-      variant={isInCart ? "outline" : "default"}
-      className="w-full font-semibold transition-all active:scale-95"
+      variant="outline"
+      size="icon"
+      className="rounded-full shadow-sm transition-all active:scale-95 shrink-0"
+      aria-label={isInCart ? "View cart" : "Add to cart"}
     >
-      {isInCart ? "View cart" : "Add to cart"}
+      <HugeiconsIcon
+        icon={isInCart ? Tick01Icon : ShoppingCartIcon}
+        strokeWidth={2}
+      />
     </Button>
   )
 }

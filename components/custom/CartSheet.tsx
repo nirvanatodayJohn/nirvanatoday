@@ -2,33 +2,54 @@
 
 import { useCart } from "@/lib/store/useCart";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { 
-  Sheet, 
-  SheetContent, 
-  SheetHeader, 
-  SheetTitle, 
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
   SheetFooter
 } from "@/components/ui/sheet";
-import { 
-  Delete02Icon, 
-  Add01Icon, 
-  Remove01Icon, 
+import {
+  Delete02Icon,
+  Add01Icon,
+  Remove01Icon,
   ShoppingCart02Icon,
-  ArrowRight01Icon,
   ShoppingCart01Icon
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState, useTransition } from "react";
+import { handleCheckoutAction } from "@/app/actions/checkout";
 
 export default function CartSheet() {
   const { items, removeItem, updateQuantity, totalPrice, totalItems } = useCart();
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+
+  const handleCheckout = () => {
+    if (items.length === 0) return;
+
+    startTransition(async () => {
+      try {
+        const result = await handleCheckoutAction(
+          items.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+          }))
+        );
+
+        if (result?.webUrl) {
+          window.location.href = result.webUrl;
+        } else {
+          console.error("Checkout creation failed:", result?.errors);
+        }
+      } catch (error) {
+        console.error("Error creating checkout:", error);
+      }
+    });
+  };
 
   useEffect(() => {
     setIsHydrated(true);
@@ -42,10 +63,10 @@ export default function CartSheet() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         render={
-          <Button variant="ghost" size="icon" className="relative h-10 w-10 shrink-0 rounded-full">
+          <Button variant="ghost" size="icon" className="relative shrink-0 rounded-full">
             <HugeiconsIcon icon={ShoppingCart01Icon} strokeWidth={1.8} />
             {totalItemCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground animate-in zoom-in duration-300">
+              <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                 {totalItemCount}
               </span>
             )}
@@ -53,9 +74,8 @@ export default function CartSheet() {
         }
       />
       <SheetContent className="flex w-full flex-col p-0 sm:max-w-md">
-        <SheetHeader className="border-b border-border/40 p-6">
+        <SheetHeader className="border-b p-3">
           <SheetTitle className="flex items-center gap-3 text-2xl font-bold tracking-tight">
-            <HugeiconsIcon icon={ShoppingCart02Icon} strokeWidth={2} className="size-6" />
             Your Cart
             {totalItemCount > 0 && (
               <span className="ml-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
@@ -65,7 +85,7 @@ export default function CartSheet() {
           </SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-1 flex-col overflow-y-auto px-6 py-4">
+        <div className="flex flex-1 flex-col overflow-y-auto p-2">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
               <div className="rounded-full bg-muted/50 p-6">
@@ -75,8 +95,8 @@ export default function CartSheet() {
                 <p className="text-lg font-bold">Your cart is empty</p>
                 <p className="text-sm text-muted-foreground">Add some items to get started!</p>
               </div>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="mt-2 rounded-full px-8 font-bold"
                 onClick={() => setOpen(false)}
               >
@@ -84,29 +104,26 @@ export default function CartSheet() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-6 py-4">
+            <div className="space-y-4">
               {items.map((item) => (
-                <div key={item.id} className="group flex gap-4 pr-1">
-                  <div className="relative aspect-square size-24 shrink-0 overflow-hidden rounded-2xl border border-border/40 bg-zinc-50/50 dark:bg-zinc-900/50">
+                <div key={item.id} className="group flex gap-2 rounded-2xl bg-muted p-2">
+                  <div className="relative aspect-square size-20 shrink-0 overflow-hidden rounded-2xl border border-border/40 bg-zinc-50/50 dark:bg-zinc-900/50">
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
-                      className="object-contain p-3 mix-blend-multiply dark:mix-blend-normal"
+                      className="object-contain p-2 mix-blend-multiply dark:mix-blend-normal"
                     />
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between py-0.5">
                     <div className="flex justify-between gap-3">
-                      <div className="space-y-0.5">
-                        <h4 className="text-sm font-bold tracking-tight line-clamp-1">{item.title}</h4>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">{item.category}</p>
-                      </div>
+                      <h4 className="text-sm font-bold tracking-tight line-clamp-1">{item.title}</h4>
                       <p className="text-sm font-bold tracking-tight">{item.price}</p>
                     </div>
 
                     <div className="flex items-center justify-between mt-auto">
-                      <div className="flex items-center gap-0.5 rounded-lg border border-border/50 p-0.5">
+                      <div className="flex items-center gap-0.5 rounded-lg border p-0.5">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -143,10 +160,10 @@ export default function CartSheet() {
         </div>
 
         {items.length > 0 && (
-          <SheetFooter className="mt-auto flex flex-col gap-4 border-t border-border/40 bg-zinc-50/80 p-6 backdrop-blur-md dark:bg-zinc-950/80">
-            <div className="space-y-1.5 w-full">
-              <div className="flex justify-between text-sm font-medium">
-                <span className="text-muted-foreground">Subtotal</span>
+          <SheetFooter className="mt-auto flex flex-col gap-2 border-t p-4">
+            <div className="space-y-2 w-full">
+              <div className="flex justify-between text-muted-foreground text-sm font-medium">
+                <span>Subtotal</span>
                 <span>{totalPrice()}</span>
               </div>
               <div className="flex justify-between text-base font-bold">
@@ -154,11 +171,14 @@ export default function CartSheet() {
                 <span className="text-primary">{totalPrice()}</span>
               </div>
             </div>
-            <Button className="w-full rounded-2xl py-6 text-base font-bold shadow-xl shadow-primary/10 transition-all hover:scale-[1.02] active:scale-95">
-              Checkout
-              <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.5} className="ml-2 size-4" />
+            <Button
+              className="w-full text-base font-bold"
+              onClick={handleCheckout}
+              disabled={isPending}
+            >
+              {isPending ? "Processing..." : "Checkout"}
             </Button>
-            <p className="w-full text-center text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">
+            <p className="w-full text-center text-xs text-muted-foreground">
               Tax and shipping calculated at checkout
             </p>
           </SheetFooter>

@@ -2,7 +2,7 @@ import { getArticles } from "@/lib/shopify";
 import Image from "next/image";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon, Calendar01Icon, BookOpen01Icon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Calendar01Icon } from "@hugeicons/core-free-icons";
 
 export default async function BlogSection() {
   const { articles } = await getArticles(1, 3);
@@ -10,15 +10,12 @@ export default async function BlogSection() {
   if (!articles || articles.length === 0) return null;
 
   return (
-    <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="border-t py-16">
+      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex items-end justify-between gap-6">
-          <div className="max-w-2xl space-y-4">
-            <div className="flex items-center gap-3">
-              <HugeiconsIcon icon={BookOpen01Icon} strokeWidth={2} className="size-6 text-primary" />
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Latest Blogs</h2>
-            </div>
-            <p className="text-lg text-muted-foreground">
+          <div className="max-w-2xl space-y-1">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Latest Blogs</h2>
+            <p className="text-muted-foreground">
               Deep dives into wellness, THCA flower, and lifestyle from the Nirvana Today team.
             </p>
           </div>
@@ -26,11 +23,11 @@ export default async function BlogSection() {
             href="/blogs"
             className="hidden items-center gap-2 text-sm font-bold text-foreground hover:text-primary transition-colors sm:flex group"
           >
-            View all blogs 
-            <HugeiconsIcon 
-              icon={ArrowRight01Icon} 
-              strokeWidth={2.5} 
-              className="size-4 transition-transform duration-300 group-hover:translate-x-1" 
+            View all blogs
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              strokeWidth={2.5}
+              className="size-4 transition-transform duration-300 group-hover:translate-x-1"
             />
           </Link>
         </div>
@@ -40,14 +37,14 @@ export default async function BlogSection() {
             <Link
               key={article.id}
               href={`/blogs/${article.handle}`}
-              className="group flex flex-col h-full rounded-[2.5rem] bg-zinc-50 p-4 border border-border/40 transition-all duration-300 hover:bg-muted dark:bg-zinc-900/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5"
+              className="group flex flex-col h-full rounded-3xl bg-muted p-4 border "
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-background">
+              <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl bg-background">
                 <Image
                   src={article.image}
                   alt={article.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>

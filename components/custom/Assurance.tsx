@@ -35,24 +35,26 @@ const ASSURANCES = [
 
 export default function Assurance() {
     return (
-        <section className="py-24 sm:py-32">
-            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="border-t py-16">
+            <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
                     {/* Left Column: Sticky Title (Apple style scroll effect) */}
                     <div className="flex flex-col items-start lg:py-8">
-                        <div className="sticky top-32">
-                            <h2 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
-                                Absolute <br />
-                                <span className="text-muted-foreground">transparency.</span>
-                            </h2>
-                            <p className="mt-8 max-w-md text-xl font-medium tracking-tight text-muted-foreground lg:text-2xl">
-                                We publish Certificates of Analysis for potency and purity on every product, so you know exactly what you are getting.
-                            </p>
-                            <div className="mt-12">
+                        <div className="sticky top-32 space-y-4">
+                            <div className="space-y-4">
+                                <h2 className="text-5xl leading-15 font-bold tracking-tighter text-foreground sm:text-7xl">
+                                    Absolute <br />
+                                    <span className="text-primary">transparency.</span>
+                                </h2>
+                                <p className="max-w-md text-xl font-medium tracking-tight text-muted-foreground lg:text-xl">
+                                    We publish Certificates of Analysis for potency and purity on every product, so you know exactly what you are getting.
+                                </p>
+                            </div>
+                            <div>
                                 <Link
                                     href="/lab-results"
-                                    className="group inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-semibold text-background transition-all hover:scale-105 active:scale-95"
+                                    className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-background"
                                 >
                                     View Lab Results
                                     <HugeiconsIcon

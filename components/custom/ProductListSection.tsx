@@ -11,12 +11,20 @@ import { getProducts } from "@/lib/shopify";
 
 export default async function ProductListSection() {
   const allProducts = await getProducts();
-  const featuredProducts = allProducts.slice(0, 4);
+
+  const filteredBestSellers = allProducts
+    .filter((product) =>
+      product.tags.some(tag => tag.toLowerCase().trim() === "best-seller")
+    );
+
+  const featuredProducts = filteredBestSellers.length > 0
+    ? filteredBestSellers.slice(0, 8)
+    : allProducts.slice(0, 4);
 
   return (
-    <section className="pb-20 pt-16 sm:py-28">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <section className="border-t py-16">
+      <div className="flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl lg:text-6xl">
             Best Sellers
           </h2>
@@ -25,57 +33,38 @@ export default async function ProductListSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-2">
           {featuredProducts.map((product, idx) => (
-            <article key={product.id} className="group relative flex flex-col h-full rounded-2xl bg-muted border p-6">
+            <article key={product.id} className="group relative flex flex-col h-full rounded-2xl bg-muted border p-4">
               <Link
                 href={`/shop/product/${product.handle}`}
-                className="relative aspect-square w-full block overflow-hidden mix-blend-multiply"
+                className="relative aspect-square w-full block overflow-hidden rounded-xl bg-background"
               >
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain object-center "
-                />
-
-                {product.badge && (
-                  <div className="absolute left-2 top-2 z-10">
-                    <span className="inline-flex items-center rounded-full border border-black/5 bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black shadow-xs backdrop-blur-md">
-                      {product.badge}
-                    </span>
-                  </div>
-                )}
-              </Link>
-
-              <div className="mt-6 flex flex-col flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex flex-col gap-1">
-                    <Link href={`/shop/product/${product.handle}`}>
-                      <h3 className="text-lg font-bold tracking-tight text-foreground line-clamp-1 transition-colors hover:text-primary">
-                        {product.title}
-                      </h3>
-                    </Link>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {product.category}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-end shrink-0 pt-0.5">
-                    <span className="text-lg font-bold text-foreground tracking-tight">{product.price}</span>
-                    {product.compareAtPrice && (
-                      <span className="text-[11px] font-semibold text-muted-foreground line-through opacity-60">
-                        {product.compareAtPrice}
-                      </span>
-                    )}
-                  </div>
+                <div className="absolute inset-4">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-contain object-center mix-blend-multiply"
+                    />
                 </div>
+              </Link>
+              <div className="flex flex-col flex-1 pt-4">
+                <Link href={`/shop/product/${product.handle}`} className="focus:outline-none">
+                  <h3 className="text-sm font-medium leading-tight text-foreground line-clamp-1 transition-colors group-hover:text-primary">
+                    {product.title}
+                  </h3>
+                </Link>
 
-                <div className="mt-auto pt-4 grid grid-cols-2 gap-2">
+                <span className="text-lg font-extrabold tracking-tight text-foreground mt-1">{product.price}</span>
+
+                {/* Actions */}
+                <div className="flex items-center gap-2 mt-4">
                   <AddToCartButton product={product} />
-                  <Link href={`/shop/product/${product.handle}`} className="w-full">
-                    <Button variant="outline" className="w-full font-semibold">
-                      Shop now
+                  <Link href={`/shop/product/${product.handle}`} className="flex-1">
+                    <Button className="w-full font-bold">
+                      Buy Now <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
                     </Button>
                   </Link>
                 </div>

@@ -312,7 +312,7 @@ export default function Navbar() {
           <CartSheet />
           <Link
             href="/account"
-            aria-label="Open profile"
+            aria-label="Account"
             className={buttonVariants({ variant: "ghost", size: "icon" })}
           >
             <HugeiconsIcon icon={UserIcon} strokeWidth={1.8} />

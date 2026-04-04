@@ -25,10 +25,16 @@ export default async function BlogsPage({
 }) {
   const params = await searchParams;
   const currentPage = Number(params.page) || 1;
-  const pageSize = 7;
+  const isFirstPage = currentPage === 1;
+  const pageSize = isFirstPage ? 7 : 6;
 
   const { articles, totalArticles, hasNextPage, hasPreviousPage } = await getArticles(currentPage, pageSize);
-  const totalPages = Math.ceil(totalArticles / pageSize);
+  
+  // Custom total pages calculation to account for the first page taking 7 and others taking 6
+  // (Total - 7) / 6 + 1
+  const totalPages = totalArticles > 7 
+    ? Math.ceil((totalArticles - 7) / 6) + 1 
+    : 1;
 
   if (!articles || articles.length === 0) {
     return (
@@ -38,8 +44,6 @@ export default async function BlogsPage({
     );
   }
 
-  // We take the first one for featured ONLY on the first page
-  const isFirstPage = currentPage === 1;
   const featuredArticle = isFirstPage ? articles[0] : null;
   const gridArticles = isFirstPage ? articles.slice(1) : articles;
 
@@ -48,7 +52,7 @@ export default async function BlogsPage({
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
-        <div className="mb-12 max-w-3xl space-y-4">
+        <div className="mb-10 max-w-3xl space-y-4">
           <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
             Latest Blogs
           </h1>
@@ -61,21 +65,21 @@ export default async function BlogsPage({
         {featuredArticle && (
           <Link
             href={`/blogs/${featuredArticle.handle}`}
-            className="group flex flex-col md:flex-row overflow-hidden rounded-[2.5rem] border border-border/40 bg-zinc-50 dark:bg-zinc-900/50 p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:shadow-black/5 mb-16"
+            className="group flex flex-col md:flex-row overflow-hidden rounded-3xl border bg-muted p-4 mb-8"
           >
-            <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-[2rem] bg-background md:w-[55%] md:aspect-auto">
+            <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-3xl bg-background md:w-[55%] md:aspect-auto">
               <Image
                 src={featuredArticle.image}
                 alt={featuredArticle.title}
                 fill
                 priority
-                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, 55vw"
               />
             </div>
 
             <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12 w-full">
-              <div className="mb-6 flex flex-wrap items-center gap-3 text-sm font-medium text-muted-foreground line-clamp-1">
+              <div className="mb-4 flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground line-clamp-1">
                 <div className="flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 shadow-xs border border-border/50">
                   <HugeiconsIcon icon={Calendar01Icon} strokeWidth={2} className="size-4" />
                   {new Date(featuredArticle.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -105,30 +109,27 @@ export default async function BlogsPage({
         )}
 
         {/* Latest Articles Grid */}
-        <div className="space-y-12">
-          <div className="flex items-center gap-3">
-            <HugeiconsIcon icon={BookOpen01Icon} strokeWidth={2} className="size-6 text-primary" />
-            <h3 className="text-2xl font-bold tracking-tight">{!isFirstPage ? "Previous Blogs" : "More from the blogs"}</h3>
-          </div>
+        <div className="space-y-10">
+          <h3 className="text-2xl pl-2 font-bold tracking-tight">{!isFirstPage ? "Previous Blogs" : "More from the blogs"}</h3>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {gridArticles.map((article: Article) => (
               <Link
                 key={article.id}
                 href={`/blogs/${article.handle}`}
-                className="group flex flex-col h-full rounded-[2.5rem] bg-zinc-50 p-4 border border-border/40 transition-all duration-300 hover:bg-muted dark:bg-zinc-900/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5"
+                className="group flex flex-col h-full rounded-3xl bg-muted p-4 border"
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-background">
+                <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl bg-background">
                   <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
 
-                <div className="mt-6 flex flex-1 flex-col px-3 pb-2">
+                <div className="mt-4 flex flex-1 flex-col px-3 pb-2">
                   <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-medium text-muted-foreground">
                     <span className="flex items-center gap-1.5">
                       <HugeiconsIcon icon={Calendar01Icon} strokeWidth={2} className="size-3.5" />

@@ -23,6 +23,9 @@ export default function ShopByCategory() {
     if (!api || isPaused) return;
 
     const intervalId = setInterval(() => {
+      // Don't scroll if user is in another tab or the app is hidden
+      if (document.hidden) return;
+
       if (api.canScrollNext()) {
         api.scrollNext();
       } else {
@@ -34,12 +37,13 @@ export default function ShopByCategory() {
   }, [api, isPaused]);
 
   return (
-    <section className="bg-secondary py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 sm:mb-12">
+    <section className="border-t py-16">
+      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-2 space-y-1">
           <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
-            Shop by category. <span className="text-muted-foreground font-semibold">Take a look at what's right for you.</span>
+            Shop by category.
           </h2>
+          <p className="text-muted-foreground font-semibold">Take a look at what's right for you.</p>
         </div>
       </div>
       <div
@@ -64,7 +68,7 @@ export default function ShopByCategory() {
                   className="group relative block h-72 shrink-0 overflow-hidden rounded-[2rem] border border-border/40 bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/5 sm:w-80 md:h-120 md:w-96"
                 >
                   <Image
-                    loading="eager"
+                    priority
                     src={category.image}
                     alt={category.name}
                     fill

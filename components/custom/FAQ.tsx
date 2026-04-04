@@ -8,17 +8,15 @@ import {
 } from "@/components/ui/accordion"
 import { FAQ_ITEMS } from "@/lib/data"
 
-
-
 export default function FAQ() {
     return (
-        <section className="bg-background">
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-                <div className="flex flex-col items-center gap-4 text-center">
-                    <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <section className="border-t py-16">
+            <div className="flex w-full flex-col gap-8 px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col gap-1">
+                    <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
                         Frequently Asked Questions
                     </h2>
-                    <p className="max-w-150 text-balance text-muted-foreground sm:text-lg">
+                    <p className="text-muted-foreground sm:text-lg">
                         Everything you need to know about our products, shipping, and policies.
                     </p>
                 </div>

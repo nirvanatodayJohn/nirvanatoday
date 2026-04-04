@@ -85,45 +85,45 @@ const TESTIMONIALS: Testimonial[] = [
     },
 ];
 export default function Testimonials() {
-  return (
-      <section className="border-b border-border/60 bg-background">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-              <p className="text-center text-2xl font-semibold text-foreground sm:text-5xl">
-                  What our Customers Say
-              </p>
+    return (
+        <section className="border-t py-16">
+            <div className="flex w-full max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
+                <p className="text-center text-2xl font-semibold text-foreground sm:text-5xl">
+                    What our Customers Say
+                </p>
 
-              <div className="rounded-[calc(var(--radius)*3.5)] border border-border/70 bg-card p-3 sm:p-4">
-                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-                      {TESTIMONIALS.map((testimonial, i) => (
-                          <article
-                              key={i}
-                              className="grid min-h-80 grid-rows-[auto_1fr_auto] rounded-2xl border border-border/60 bg-muted px-6 py-7"
-                          >
-                              <div>
-                                  <StarRow count={testimonial.stars} />
-                              </div>
+                <div className="rounded-[calc(var(--radius)*3.5)] border bg-card p-3 sm:p-4">
+                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                        {TESTIMONIALS.map((testimonial, i) => (
+                            <article
+                                key={i}
+                                className="grid min-h-80 grid-rows-[auto_1fr_auto] rounded-2xl border border-border/60 bg-muted px-6 py-7"
+                            >
+                                <div>
+                                    <StarRow count={testimonial.stars} />
+                                </div>
 
-                              <div className="flex items-start py-6">
-                                  <p className="text-balance text-lg font-medium text-foreground">
-                                      "{testimonial.quote}"
-                                  </p>
-                              </div>
+                                <div className="flex items-start py-6">
+                                    <p className="text-balance text-lg font-medium text-foreground">
+                                        "{testimonial.quote}"
+                                    </p>
+                                </div>
 
-                              <div className="flex items-center gap-4 border-t border-border/60 pt-5">
-                                  <img
-                                      src={testimonial.avatar}
-                                      alt={`${testimonial.name} profile`}
-                                      className="size-14 rounded-full border border-border/60 bg-background object-cover"
-                                  />
-                                  <h3 className="text-lg font-semibold tracking-tight text-foreground">
-                                      {testimonial.name}
-                                  </h3>
-                              </div>
-                          </article>
-                      ))}
-                  </div>
-              </div>
-          </div>
-      </section>
-  )
+                                <div className="flex items-center gap-4 border-t border-border/60 pt-5">
+                                    <img
+                                        src={testimonial.avatar}
+                                        alt={`${testimonial.name} profile`}
+                                        className="size-14 rounded-full border border-border/60 bg-background object-cover"
+                                    />
+                                    <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                                        {testimonial.name}
+                                    </h3>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
 }
