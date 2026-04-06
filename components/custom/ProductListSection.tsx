@@ -9,11 +9,11 @@ import { getProducts } from "@/lib/shopify";
 import ProductCard from "@/components/custom/ProductCard";
 
 export default async function ProductListSection() {
-  const allProducts = await getProducts();
+  const { products: allProducts } = await getProducts();
 
   const filteredBestSellers = allProducts
     .filter((product) =>
-      product.tags.some(tag => tag.toLowerCase().trim() === "best-seller")
+      product.tags?.some(tag => tag.toLowerCase().trim() === "best-seller")
     );
 
   const featuredProducts = filteredBestSellers.length > 0
