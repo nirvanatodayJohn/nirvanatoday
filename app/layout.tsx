@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/custom/Navigation/Navbar";
 import Footer from "@/components/custom/Navigation/Footer";
+import FloatingActions from "@/components/custom/FloatingActions";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -36,6 +38,8 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <Toaster position="top-center" richColors />
+        <FloatingActions />
       </body>
     </html>
   );

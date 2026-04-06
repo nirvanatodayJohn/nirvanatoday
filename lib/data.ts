@@ -196,3 +196,73 @@ export const BANNER_ITEMS = [
   "Money-Back Guarantee",
   "No Gimmicks",
 ];
+
+export type HeroStat = {
+  label: string;
+  value: string;
+  detail?: string;
+};
+
+export type HeroCTA = {
+  label: string;
+  href: string;
+  variant?: "default" | "outline" | "ghost";
+};
+
+export type HeroContent = {
+  title: {
+    prefix: string;
+    emphasis: string;
+    suffix: string;
+  };
+  description: string;
+  image: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+  highlights: string[];
+  ctas: HeroCTA[];
+  stats: HeroStat[];
+};
+
+export const HERO_CONTENT: HeroContent = {
+  title: {
+    prefix: "Wellness for",
+    emphasis: "High-Stakes",
+    suffix: "Living",
+  },
+  description:
+    "Veteran-owned brand offering capsules, gummies, topicals, THCP Vapes, tinctures, pre-rolls, vapes, sleep, kratom and pet care, made in the USA, transparently tested.",
+  image: {
+    src: "/Products.png",
+    alt: "Nirvana Today wellness products",
+    width: 800,
+    height: 800,
+  },
+  highlights: [
+    "3rd-party lab tested",
+    "No fake discounts",
+    "Fast, free shipping",
+    "Veteran owned and operated",
+  ],
+  ctas: [
+    { label: "Shop Now", href: "/shop", variant: "default" },
+    { label: "View Lab Results", href: "/lab-results", variant: "outline" },
+  ],
+  stats: [
+    { label: "Purity grade", value: "99.9%", detail: "Verified batches" },
+    {
+      label: "Active botanicals",
+      value: "100+",
+      detail: "Purpose-built blends",
+    },
+    { label: "Shipping", value: "$0", detail: "On qualifying orders" },
+    {
+      label: "Customer rating",
+      value: "4.9/5",
+      detail: "Across verified reviews",
+    },
+  ],
+};

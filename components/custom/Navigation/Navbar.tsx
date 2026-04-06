@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { BANNER_ITEMS, PRIMARY_LINKS, PRODUCT_FAMILIES, ProductFamily, SHOP_BY_TYPE } from "@/lib/data";
+import Image from "next/image";
 
 
 function toSlug(value: string) {
@@ -163,7 +164,7 @@ export default function Navbar() {
   );
 
   return (
-    <header className=" top-0 z-40 border-b border-border bg-background">
+    <header className=" top-0 z-40 bg-background">
       <div
         className="relative isolate overflow-hidden border-b bg-linear-to-b from-[#E3FFE7] to-[#E3FFE7] text-primary-foreground"
       >
@@ -196,11 +197,9 @@ export default function Navbar() {
       <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-1 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-muted"
+          className=""
         >
-          <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground">
-            NT
-          </div>
+          <Image src="/Logo.png" width={100} height={100} alt="Logo"/>
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
@@ -221,28 +220,33 @@ export default function Navbar() {
                   Shop All
                 </NavigationMenuTrigger>
                 <NavigationMenuContent onMouseLeave={() => setActiveFamilyName(null)}>
-                  <div className="flex gap-2 p-3 w-max min-w-120">
+                    <div className="flex gap-2 p-3 w-max min-w-120">
                     {/* Left Intro Card (That Beautiful Thing) */}
-                    <div className="flex w-60 shrink-0 flex-col justify-between rounded-2xl bg-muted p-5">
+                    <div className="flex w-60 shrink-0 flex-col justify-between rounded-2xl bg-muted p-5 transition-all duration-300">
                       <div className="space-y-3">
-                        <p className="text-sm font-medium text-primary">Shop All</p>
+                        <p className="text-sm font-medium text-primary">
+                          {activeFamily ? `Shop ${activeFamily.name}` : "Shop All"}
+                        </p>
                         <div className="space-y-2">
                           <h2 className="text-xl font-semibold tracking-tight text-foreground">
-                            Explore by family.
+                            {activeFamily ? `Explore ${activeFamily.name}.` : "Explore by family."}
                           </h2>
                           <p className="text-sm leading-6 text-muted-foreground">
-                            Find the perfect format that fits your routine.
+                            {activeFamily 
+                              ? `Our premium selection of ${activeFamily.name} products.`
+                              : "Find the perfect format that fits your routine."
+                            }
                           </p>
                         </div>
                       </div>
                       <Link
-                        href="/shop"
+                        href={activeFamily ? getFamilyHref(activeFamily.name) : "/shop"}
                         className={cn(
                           "mt-5 inline-flex w-fit items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm transition-colors hover:bg-card",
-                          isPathActive(pathname, "/shop") && "bg-card"
+                          isPathActive(pathname, activeFamily ? getFamilyHref(activeFamily.name) : "/shop") && "bg-card"
                         )}
                       >
-                        Browse all
+                        {activeFamily ? `Browse all ${activeFamily.name}` : "Browse all"}
                         <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={1.8} className="size-4" />
                       </Link>
                     </div>

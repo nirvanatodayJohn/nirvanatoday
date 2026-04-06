@@ -9,6 +9,7 @@ const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 export const CACHE_TAGS = {
   products: "products",
   blogs: "blogs",
+  collections: "collections",
 } as const;
 
 type ShopifyFetchArgs = {
@@ -67,9 +68,25 @@ export type Product = {
   price: string;
   compareAtPrice?: string;
   image: string;
-  badge?: string;
+  badge: string;
   tags: string[];
   availableForSale: boolean;
+  rating?: number;
+  reviewCount?: number;
+  options: { name: string; values: string[] }[];
+  variants: {
+    id: string;
+    title: string;
+    availableForSale: boolean;
+    price: string;
+  }[];
+};
+
+export type PaginatedProducts = {
+  products: Product[];
+  totalProducts: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 };
 
 export type Article = {
@@ -92,6 +109,12 @@ const productFragment = `
     description
     availableForSale
     productType
+    rating: metafield(namespace: "reviews", key: "rating") {
+        value
+    }
+    reviewCount: metafield(namespace: "reviews", key: "rating_count") {
+        value
+    }
     priceRange {
       minVariantPrice {
         amount
@@ -113,6 +136,10 @@ const productFragment = `
       }
     }
     tags
+    options {
+      name
+      values
+    }
     collections(first: 10) {
       edges {
         node {
@@ -137,7 +164,10 @@ const productFragment = `
   }
 `;
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(
+  page: number = 1,
+  pageSize: number = 12
+): Promise<PaginatedProducts> {
   const query = `
     query getProducts {
       products(first: 250) {
@@ -156,7 +186,23 @@ export async function getProducts(): Promise<Product[]> {
     tags: [CACHE_TAGS.products],
   });
 
-  return res.body.data.products.edges.map((edge: any) => {
+  if (!res.body?.data) {
+    return {
+      products: [],
+      totalProducts: 0,
+      hasNextPage: false,
+      hasPreviousPage: false,
+    };
+  }
+
+  const allEdges = res.body.data.products.edges;
+  const totalProducts = allEdges.length;
+
+  const startIdx = (page - 1) * pageSize;
+  const endIdx = startIdx + pageSize;
+  const pagedEdges = allEdges.slice(startIdx, endIdx);
+
+  const products = pagedEdges.map((edge: any) => {
     const node = edge.node;
     const price = node.priceRange.minVariantPrice;
     const compareAt = node.compareAtPriceRange?.minVariantPrice;
@@ -182,13 +228,32 @@ export async function getProducts(): Promise<Product[]> {
       badge:
         node.tags.find(
           (tag: string) =>
-            tag.toLowerCase().includes("support") ||
-            tag.toLowerCase().includes("focus")
+            (tag || "").toLowerCase().includes("support") ||
+            (tag || "").toLowerCase().includes("focus")
         ) || "",
       tags: node.tags,
       availableForSale: node.availableForSale,
+      rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
+      reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+      options: node.options || [],
+      variants: node.variants.edges.map((v: any) => ({
+        id: v.node.id,
+        title: v.node.title,
+        availableForSale: v.node.availableForSale,
+        price: new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(v.node.price.amount),
+      })),
     };
   });
+
+  return {
+    products,
+    totalProducts,
+    hasNextPage: endIdx < totalProducts,
+    hasPreviousPage: page > 1,
+  };
 }
 
 export async function getProductByHandle(
@@ -243,7 +308,104 @@ export async function getProductByHandle(
       ) || "",
     tags: node.tags,
     availableForSale: node.availableForSale,
+    rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
+    reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+    options: node.options || [],
+    variants: node.variants.edges.map((v: any) => ({
+      id: v.node.id,
+      title: v.node.title,
+      availableForSale: v.node.availableForSale,
+      price: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(v.node.price.amount),
+    })),
   };
+}
+
+export async function getProductsByTag(tag: string): Promise<Product[]> {
+  return getProductsByQuery(`tag:${tag}`);
+}
+
+export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
+  const query = `
+    query getProductsByQuery($query: String!) {
+      products(first: 50, query: $query) {
+        edges {
+          node {
+            ...product
+          }
+        }
+      }
+    }
+    ${productFragment}
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { query: queryStr },
+    tags: [CACHE_TAGS.products]
+  });
+
+  if (!res.body?.data?.products) return [];
+
+  return res.body.data.products.edges.map((edge: any) => {
+    const node = edge.node;
+    const price = node.priceRange.minVariantPrice;
+    const compareAt = node.compareAtPriceRange?.minVariantPrice;
+
+    return {
+      id: node.variants.edges[0]?.node.id || node.id,
+      handle: node.handle,
+      title: node.title,
+      description: node.description,
+      category: node.productType || "Product",
+      price: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(price.amount),
+      compareAtPrice: compareAt && compareAt.amount > 0 ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(compareAt.amount) : undefined,
+      image: node.images.edges[0]?.node.url || "",
+      badge: node.tags.find((t: string) => (t || "").toLowerCase().includes("support") || (t || "").toLowerCase().includes("focus")) || "",
+      tags: node.tags,
+      availableForSale: node.availableForSale,
+      rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
+      reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+      options: node.options || [],
+      variants: node.variants.edges.map((v: any) => ({
+        id: v.node.id,
+        title: v.node.title,
+        availableForSale: v.node.availableForSale,
+        price: new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(v.node.price.amount),
+      })),
+    };
+  });
+}
+
+export async function getCollectionByHandle(handle: string, cache: RequestCache = "force-cache"): Promise<{ title: string; descriptionHtml: string } | null> {
+  const query = `
+    query getCollection($handle: String!) {
+      collection(handle: $handle) {
+        title
+        descriptionHtml
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { handle },
+    cache,
+    tags: [CACHE_TAGS.collections]
+  });
+
+  return res.body.data.collection || null;
 }
 
 const articleFragment = `

@@ -36,6 +36,11 @@ export async function POST(request: NextRequest) {
       revalidatedTags.push(CACHE_TAGS.products);
     }
 
+    if (shopifyTopic.startsWith("collections/")) {
+      revalidateTag(CACHE_TAGS.collections, "default");
+      revalidatedTags.push(CACHE_TAGS.collections);
+    }
+
     if (
       shopifyTopic.startsWith("articles/") ||
       shopifyTopic.startsWith("blogs/")
@@ -48,7 +53,8 @@ export async function POST(request: NextRequest) {
     if (revalidatedTags.length === 0) {
       revalidateTag(CACHE_TAGS.products, "default");
       revalidateTag(CACHE_TAGS.blogs, "default");
-      revalidatedTags = [CACHE_TAGS.products, CACHE_TAGS.blogs];
+      revalidateTag(CACHE_TAGS.collections, "default");
+      revalidatedTags = [CACHE_TAGS.products, CACHE_TAGS.blogs, CACHE_TAGS.collections];
     }
 
     console.log(
@@ -88,10 +94,11 @@ export async function GET(request: NextRequest) {
   // No tag specified → revalidate all
   revalidateTag(CACHE_TAGS.products, "default");
   revalidateTag(CACHE_TAGS.blogs, "default");
+  revalidateTag(CACHE_TAGS.collections, "default");
 
   return NextResponse.json({
     revalidated: true,
-    tags: [CACHE_TAGS.products, CACHE_TAGS.blogs],
+    tags: [CACHE_TAGS.products, CACHE_TAGS.blogs, CACHE_TAGS.collections],
     now: Date.now(),
   });
 }

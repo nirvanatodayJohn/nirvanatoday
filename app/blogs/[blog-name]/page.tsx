@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
               strokeWidth={2}
               className="transition-transform group-hover:-translate-x-1"
             />
-            All Articles
+            All Blogs
           </Link>
 
           <header className="flex flex-col items-start gap-4 pb-12 text-left sm:pb-20">
@@ -87,7 +87,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
       {article.image && (
         <div className="mx-auto mb-16 max-w-4xl px-5  sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] shadow-sm ring-1 ring-border/10">
-            <div className="relative aspect-[16/9] w-full">
+            <div className="relative aspect-video w-full">
               <Image
                 src={article.image}
                 alt={article.title}

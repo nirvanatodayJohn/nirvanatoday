@@ -5,10 +5,12 @@ import Assurance from "@/components/custom/Assurance";
 import Testimonials from "@/components/custom/Testimonials";
 import FAQ from "@/components/custom/FAQ";
 import BlogSection from "@/components/custom/BlogSection";
+import Hero from "@/components/custom/Hero";
 
 export default function Home() {
   return (
     <main className="flex-1 bg-background">
+      <Hero />
       <ShopByCategory />
       <ProductListSection />
       <WhyChooseUs />

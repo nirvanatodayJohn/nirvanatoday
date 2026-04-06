@@ -1,13 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import AddToCartButton from "@/components/custom/AddToCartButton";
 
 import { Button } from "@/components/ui/button";
 import { getProducts } from "@/lib/shopify";
+import ProductCard from "@/components/custom/ProductCard";
 
 export default async function ProductListSection() {
   const allProducts = await getProducts();
@@ -34,42 +33,8 @@ export default async function ProductListSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-2">
-          {featuredProducts.map((product, idx) => (
-            <article key={product.id} className="group relative flex flex-col h-full rounded-2xl bg-muted border p-4">
-              <Link
-                href={`/shop/product/${product.handle}`}
-                className="relative aspect-square w-full block overflow-hidden rounded-xl bg-background"
-              >
-                <div className="absolute inset-4">
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-contain object-center mix-blend-multiply"
-                    />
-                </div>
-              </Link>
-              <div className="flex flex-col flex-1 pt-4">
-                <Link href={`/shop/product/${product.handle}`} className="focus:outline-none">
-                  <h3 className="text-sm font-medium leading-tight text-foreground line-clamp-1 transition-colors group-hover:text-primary">
-                    {product.title}
-                  </h3>
-                </Link>
-
-                <span className="text-lg font-extrabold tracking-tight text-foreground mt-1">{product.price}</span>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 mt-4">
-                  <AddToCartButton product={product} />
-                  <Link href={`/shop/product/${product.handle}`} className="flex-1">
-                    <Button className="w-full font-bold">
-                      Buy Now <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </article>
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
