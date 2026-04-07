@@ -3,34 +3,42 @@
 import { useCart } from "@/lib/store/useCart";
 import { Button } from "@/components/ui/button";
 import { handleCheckoutAction } from "@/app/actions/checkout";
-import { useTransition, useState } from "react";
+import { useTransition } from "react";
 import { type Product } from "@/lib/shopify";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface ProductActionsProps {
   product: Product;
+  selectedVariantId: string;
+  onVariantChange: (variantId: string) => void;
 }
 
-export default function ProductActions({ product }: ProductActionsProps) {
+export default function ProductActions({
+  product,
+  selectedVariantId,
+  onVariantChange,
+}: ProductActionsProps) {
   const { addItem } = useCart();
   const [isPending, startTransition] = useTransition();
-
-  // If we have variants, default to the first one
-  const [selectedVariantId, setSelectedVariantId] = useState(
-    product.variants?.[0]?.id || product.id
+  const normalizedVariants = (product.variants ?? []).filter(
+    (variant) => variant.title && variant.title.toLowerCase() !== "default title"
   );
-
-  const selectedVariant = product.variants?.find((v) => v.id === selectedVariantId) || product.variants?.[0];
+  const selectedVariant =
+    normalizedVariants.find((variant) => variant.id === selectedVariantId) ||
+    normalizedVariants[0];
 
   const onAddToCart = () => {
-    // If we have a selected variant, use its information
+    const variantLabel =
+      selectedVariant?.title && selectedVariant.title.toLowerCase() !== "default title"
+        ? ` - ${selectedVariant.title}`
+        : "";
     const cartItem = {
       id: selectedVariantId,
       handle: product.handle,
-      title: selectedVariant ? `${product.title} - ${selectedVariant.title}` : product.title,
+      title: `${product.title}${variantLabel}`,
       price: selectedVariant?.price || product.price,
-      image: product.image,
+      image: selectedVariant?.image || product.image,
       category: product.category,
     };
 
@@ -61,22 +69,22 @@ export default function ProductActions({ product }: ProductActionsProps) {
 
   return (
     <div className="mt-8 space-y-8">
-      {/* Variant Selector */}
-      {product.variants && product.variants.length > 1 && (
+      {normalizedVariants.length > 1 && (
         <div className="space-y-4">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-            Select Variety
+          <label className="text-xs font-bold text-muted-foreground">
+            Variant Options
           </label>
           <div className="flex flex-wrap gap-2">
-            {product.variants.map((variant) => (
+            {normalizedVariants.map((variant) => (
               <button
                 key={variant.id}
-                onClick={() => setSelectedVariantId(variant.id)}
+                type="button"
+                onClick={() => onVariantChange(variant.id)}
                 className={cn(
-                  "px-6 py-3 rounded-xl border text-sm font-bold transition-all",
+                  "px-6 py-1.5 rounded-full border text-sm font-bold transition-all",
                   selectedVariantId === variant.id
                     ? "border-foreground bg-foreground text-background"
-                    : "border-border/40 bg-muted/30 text-muted-foreground hover:border-border"
+                    : "border bg-muted text-muted-foreground"
                 )}
               >
                 {variant.title}
@@ -86,18 +94,10 @@ export default function ProductActions({ product }: ProductActionsProps) {
         </div>
       )}
 
-      {/* Synchronized Price Display (Hidden if same as main, or used for emphasis) */}
-      {selectedVariant && selectedVariant.price !== product.price && (
-          <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Selected Price:</span>
-              <span className="text-xl font-bold">{selectedVariant.price}</span>
-          </div>
-      )}
-
       <div className="flex flex-col gap-4 sm:flex-row">
         <Button
           variant="outline"
-          className="h-16 flex-1 rounded-2xl text-lg font-bold transition-all hover:bg-muted"
+          className="h-16 flex-1 rounded-2xl text-lg font-bold bg-muted"
           onClick={onAddToCart}
         >
           Add to Cart

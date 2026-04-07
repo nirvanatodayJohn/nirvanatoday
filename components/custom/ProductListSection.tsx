@@ -5,16 +5,24 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { Button } from "@/components/ui/button";
-import { getProducts } from "@/lib/shopify";
+import { getProducts, getProductsByQuery } from "@/lib/shopify";
 import ProductCard from "@/components/custom/ProductCard";
 
 export default async function ProductListSection() {
-  const { products: allProducts } = await getProducts();
+  const bestSellerTags = [
+    "best-sellers",
+    "best-seller",
+    "Best-sellers",
+    "Best-seller",
+    "BEST-SELLERS",
+    "BEST-SELLER",
+  ];
+  const bestSellerQuery = `(${bestSellerTags.map((tag) => `tag:${tag}`).join(" OR ")})`;
 
-  const filteredBestSellers = allProducts
-    .filter((product) =>
-      product.tags?.some(tag => tag.toLowerCase().trim() === "best-seller")
-    );
+  const [filteredBestSellers, { products: allProducts }] = await Promise.all([
+    getProductsByQuery(bestSellerQuery),
+    getProducts(1, 8),
+  ]);
 
   const featuredProducts = filteredBestSellers.length > 0
     ? filteredBestSellers.slice(0, 8)

@@ -1,10 +1,4 @@
 import Link from "next/link"
-import {
-    FilterIcon,
-    Sorting02Icon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { Button } from "@/components/ui/button"
 import { getProducts } from "@/lib/shopify"
 import ProductCard from "@/components/custom/ProductCard"
 import {
@@ -66,7 +60,7 @@ export default async function ShopPage(props: { searchParams: Promise<{ category
                                 <Link
                                     key={cat}
                                     href={href}
-                                    className={`whitespace-nowrap rounded-full px-5 py-2 text-sm font-bold transition-all duration-300 ${isActive
+                                    className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-bold transition-all duration-300 ${isActive
                                         ? "bg-primary text-background"
                                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                         }`}
@@ -75,17 +69,6 @@ export default async function ShopPage(props: { searchParams: Promise<{ category
                                 </Link>
                             );
                         })}
-                    </div>
-
-                    <div className="hidden items-center gap-4 sm:flex">
-                        <button className="flex items-center gap-2 text-sm font-bold text-muted-foreground transition-colors hover:text-foreground group">
-                            <HugeiconsIcon icon={FilterIcon} strokeWidth={2.5} className="size-4" />
-                            Filter
-                        </button>
-                        <button className="flex items-center gap-2 text-sm font-bold text-muted-foreground transition-colors hover:text-foreground group">
-                            <HugeiconsIcon icon={Sorting02Icon} strokeWidth={2.5} className="size-4" />
-                            Sort
-                        </button>
                     </div>
                 </div>
             </div>

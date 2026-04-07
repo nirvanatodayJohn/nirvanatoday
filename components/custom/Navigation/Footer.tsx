@@ -1,3 +1,6 @@
+"use client";
+
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 import {
@@ -10,6 +13,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { subscribeNewsletterAction } from "@/lib/actions/newsletter";
 
 type FooterLink = {
   label: string;
@@ -44,7 +48,7 @@ const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Customer Services",
     links: [
-      { label: "Shipping Policy", href: "/shipping-policy" },
+      { label: "Shipping Policy: Free Shipping on Every Order", href: "/shipping-policy" },
       { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Terms & Conditions", href: "/terms-conditions" },
       { label: "FDA Disclaimer", href: "/fda-disclaimer" },
@@ -58,7 +62,31 @@ const SOCIAL_LINKS = [
   { label: "X", href: "https://x.com/llc_nirvan15476", icon: NewTwitterIcon },
 ];
 
+type SubscribeStatus = "idle" | "pending" | "success" | "error";
+
 export default function Footer() {
+  const [status, setStatus] = useState<SubscribeStatus>("idle");
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("pending");
+    setStatusMessage(null);
+
+    const formData = new FormData(event.currentTarget);
+    const response = await subscribeNewsletterAction(formData);
+
+    if (response.success) {
+      setStatus("success");
+      setStatusMessage(response.message);
+      event.currentTarget.reset();
+      return;
+    }
+
+    setStatus("error");
+    setStatusMessage(response.message);
+  }
+
   return (
     <footer className="border-t border bg-background">
       <div className="mx-auto flex w-full max-w-7xl pt-4 flex-col px-4">
@@ -68,7 +96,7 @@ export default function Footer() {
               href="/"
               className="inline-flex items-center gap-3 rounded-2xl transition-colors hover:text-primary"
             >
-              <Image src="/Logo2.png" alt="Nirvana Today Logo" className="size-14" width={100} height={100} />
+              <Image src="/Logo.png" alt="Nirvana Today Logo" width={100} height={100} />
             </Link>
           </div>
 
@@ -115,12 +143,13 @@ export default function Footer() {
               Get wellness tips, product launches and exclusive discounts.
             </p>
 
-            <form className="space-y-2">
+            <form className="space-y-2" onSubmit={handleSubmit}>
               <label htmlFor="footer-email" className="sr-only">
                 Your Email Address
               </label>
               <Input
                 id="footer-email"
+                name="email"
                 type="email"
                 placeholder="Your Email Address"
                 className="w-full"
@@ -128,9 +157,20 @@ export default function Footer() {
               <Button
                 type="submit"
                 className="w-full"
+                disabled={status === "pending"}
               >
-                Subscribe
+                {status === "pending" ? "Subscribing..." : "Subscribe"}
               </Button>
+              {statusMessage && (
+                <p
+                  className={`text-sm ${
+                    status === "success" ? "text-emerald-500" : "text-destructive"
+                  }`}
+                  aria-live="polite"
+                >
+                  {statusMessage}
+                </p>
+              )}
             </form>
           </div>
         </div>

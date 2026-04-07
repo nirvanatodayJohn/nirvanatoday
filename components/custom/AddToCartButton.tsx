@@ -8,10 +8,28 @@ import { toast } from "sonner"
 import { ShoppingCartIcon, Tick01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-export default function AddToCartButton({ product }: { product: Product }) {
+type ProductVariant = Product["variants"][number]
+
+export default function AddToCartButton({
+  product,
+  selectedVariant,
+}: {
+  product: Product
+  selectedVariant?: ProductVariant
+}) {
   const router = useRouter()
   const addItem = useCart((state) => state.addItem)
-  const isInCart = useCart((state) => state.items.some((item) => item.id === product.id))
+  const cartItemId = selectedVariant?.id || product.id
+  const selectedVariantTitle =
+    selectedVariant?.title && selectedVariant.title.toLowerCase() !== "default title"
+      ? selectedVariant.title
+      : ""
+  const cartItemTitle = selectedVariantTitle
+    ? `${product.title} - ${selectedVariantTitle}`
+    : product.title
+  const cartItemPrice = selectedVariant?.price || product.price
+  const cartItemImage = selectedVariant?.image || product.image
+  const isInCart = useCart((state) => state.items.some((item) => item.id === cartItemId))
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -23,14 +41,14 @@ export default function AddToCartButton({ product }: { product: Product }) {
     }
 
     addItem({
-      id: product.id,
+      id: cartItemId,
       handle: product.handle,
-      title: product.title,
-      price: product.price,
-      image: product.image,
+      title: cartItemTitle,
+      price: cartItemPrice,
+      image: cartItemImage,
       category: product.category,
     })
-    toast.success(`${product.title} added to cart`)
+    toast.success(`${cartItemTitle} added to cart`)
   }
 
   return (

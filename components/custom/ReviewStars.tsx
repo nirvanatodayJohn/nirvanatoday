@@ -12,23 +12,8 @@ interface ReviewStarsProps {
 }
 
 export default function ReviewStars({ rating = 0, count = 0, className, showCount = true }: ReviewStarsProps) {
-  // If no reviews yet, show "No reviews" or just empty stars
   if (count === 0 && !rating) {
-    return (
-      <div className={cn("flex items-center gap-1.5", className)}>
-        <div className="flex gap-0.5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <HugeiconsIcon
-              key={i}
-              icon={StarIcon}
-              className="size-3.5 text-muted-foreground/30"
-              strokeWidth={1.5}
-            />
-          ))}
-        </div>
-        {showCount && <span className="text-xs font-semibold text-muted-foreground/60">(No reviews)</span>}
-      </div>
-    );
+    return null;
   }
 
   return (

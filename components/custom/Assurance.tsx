@@ -72,7 +72,7 @@ export default function Assurance() {
                         {ASSURANCES.map((item, index) => (
                             <div
                                 key={index}
-                                className="group flex flex-col gap-4 border bg-muted rounded-2xl py-12 px-8 sm:py-14"
+                                className="group flex flex-col gap-4 border bg-card rounded-2xl py-12 px-8 sm:py-14"
                             >
                                 <HugeiconsIcon
                                     icon={item.icon}

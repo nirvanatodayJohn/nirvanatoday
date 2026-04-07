@@ -14,7 +14,7 @@ function AuthPageContent() {
 function AuthFallback() {
   return (
     <div className="w-full max-w-sm md:max-w-4xl">
-      <div className="min-h-[460px] rounded-3xl border border-border/50 bg-background/90" />
+      <div className="min-h-115 rounded-3xl border border-border/50 bg-background/90" />
     </div>
   )
 }

@@ -49,7 +49,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.987 0.02 145);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
@@ -57,11 +57,11 @@
   --popover-foreground: oklch(0.141 0.005 285.823);
   --primary: oklch(0.527 0.154 150.069);
   --primary-foreground: oklch(0.982 0.018 155.826);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
+  --secondary: oklch(0.96 0.02 145);
+  --secondary-foreground: oklch(0.26 0.02 145);
+  --muted: oklch(0.96 0.015 145);
+  --muted-foreground: oklch(0.45 0.03 140);
+  --accent: oklch(0.965 0.018 145);
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
@@ -145,6 +145,80 @@
 @layer utilities {
   .marquee-track {
     animation: var(--animate-marquee);
+  }
+}
+
+@layer components {
+  .product-description-html {
+    @apply mx-auto max-w-4xl text-[1.05rem] leading-8 text-foreground/80;
+  }
+
+  .product-description-html > :first-child {
+    @apply mt-0;
+  }
+
+  .product-description-html > p:first-of-type {
+    @apply text-[1.18rem] leading-9 text-foreground/88 sm:text-[1.28rem];
+  }
+
+  .product-description-html h1,
+  .product-description-html h2,
+  .product-description-html h3,
+  .product-description-html h4 {
+    @apply text-balance font-semibold tracking-tight text-foreground;
+  }
+
+  .product-description-html h1 {
+    @apply mb-6 text-3xl sm:text-4xl;
+  }
+
+  .product-description-html h2 {
+    @apply mt-14 mb-5 text-2xl sm:text-3xl;
+  }
+
+  .product-description-html h3 {
+    @apply mt-11 mb-4 text-xl sm:text-2xl;
+  }
+
+  .product-description-html h4 {
+    @apply mt-8 mb-3 text-lg sm:text-xl;
+  }
+
+  .product-description-html p {
+    @apply mb-5 text-[1.05rem] leading-8 text-foreground/75;
+  }
+
+  .product-description-html ul,
+  .product-description-html ol {
+    @apply mb-7 space-y-3 pl-6 text-[1.05rem] leading-8 text-foreground/75;
+  }
+
+  .product-description-html ul {
+    list-style: disc;
+  }
+
+  .product-description-html ol {
+    list-style: decimal;
+  }
+
+  .product-description-html li > p {
+    @apply mb-0;
+  }
+
+  .product-description-html li::marker {
+    color: color-mix(in oklab, var(--foreground) 38%, transparent);
+  }
+
+  .product-description-html a {
+    @apply font-semibold text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground;
+  }
+
+  .product-description-html strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .product-description-html em {
+    @apply italic text-foreground/70;
   }
 }
 

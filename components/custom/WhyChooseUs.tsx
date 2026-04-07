@@ -57,15 +57,15 @@ export default function WhyChooseUs() {
                         <div
                             key={index}
                             className={cn(
-                                "group relative flex min-h-80 flex-col items-center justify-between overflow-hidden rounded-3xl bg-muted p-8 text-center sm:pt-16",
+                                "group relative flex min-h-80 flex-col items-center justify-between overflow-hidden rounded-3xl bg-muted-foreground p-8 text-center sm:pt-16",
                                 feature.className
                             )}
                         >
-                            <div className="z-10 flex flex-col items-center gap-4">
-                                <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                            <div className="z-10 flex flex-col items-center gap-4 text-background">
+                                <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
                                     {feature.title}
                                 </h3>
-                                <p className="max-w-md text-lg font-medium tracking-tight text-muted-foreground">
+                                <p className="max-w-md text-lg font-medium tracking-tight ">
                                     {feature.description}
                                 </p>
                             </div>
@@ -75,7 +75,7 @@ export default function WhyChooseUs() {
                                     icon={feature.icon}
                                     strokeWidth={0.5}
                                     className={cn(
-                                        "text-muted-foreground",
+                                        "text-muted/50",
                                         feature.iconClassName
                                     )}
                                 />

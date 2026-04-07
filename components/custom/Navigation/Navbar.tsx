@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   ArrowRight01Icon,
   Cancel01Icon,
   Menu01Icon,
-  ShoppingCart01Icon,
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -166,7 +165,7 @@ export default function Navbar() {
   return (
     <header className=" top-0 z-40 bg-background">
       <div
-        className="relative isolate overflow-hidden border-b bg-linear-to-b from-[#E3FFE7] to-[#E3FFE7] text-primary-foreground"
+        className="relative isolate overflow-hidden border-b bg-primary/90 text-black"
       >
         <div
           className="relative mx-auto flex max-w-7xl overflow-hidden px-4 sm:px-6 lg:px-8"
@@ -183,10 +182,10 @@ export default function Navbar() {
                 key={`${item}-${index}`}
                 className="flex shrink-0 items-center gap-4 text-sm font-semibold "
               >
-                <span className="whitespace-nowrap text-primary">{item}</span>
+                <span className="whitespace-nowrap text-black">{item}</span>
                 <span
                   aria-hidden="true"
-                  className="h-4 w-px rounded-full bg-primary-foreground/85"
+                  className="h-4 w-px rounded-full bg-black/60"
                 />
               </div>
             ))}

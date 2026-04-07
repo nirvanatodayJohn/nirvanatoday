@@ -59,11 +59,62 @@ async function shopifyFetch<T>({
   }
 }
 
+export type CustomerEmailMarketingSubscribePayload = {
+  customer?: {
+    id: string;
+    email: string;
+    emailMarketingConsent?: {
+      marketingState: string;
+      marketingOptInLevel: string;
+    };
+  };
+  customerUserErrors: {
+    field: string[];
+    message: string;
+    code?: string;
+  }[];
+};
+
+export async function subscribeEmailMarketing(email: string) {
+  const query = `
+    mutation customerEmailMarketingSubscribe($email: String!) {
+      customerEmailMarketingSubscribe(email: $email) {
+        customer {
+          id
+          email
+          emailMarketingConsent {
+            marketingState
+            marketingOptInLevel
+          }
+        }
+        customerUserErrors {
+          field
+          message
+          code
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<{
+    data?: {
+      customerEmailMarketingSubscribe?: CustomerEmailMarketingSubscribePayload;
+    };
+  }>({
+    query,
+    variables: { email },
+    cache: "no-store",
+  });
+
+  return res.body.data?.customerEmailMarketingSubscribe ?? null;
+}
+
 export type Product = {
   id: string;
   handle: string;
   title: string;
   description: string;
+  descriptionHtml: string;
   category: string;
   price: string;
   compareAtPrice?: string;
@@ -79,6 +130,7 @@ export type Product = {
     title: string;
     availableForSale: boolean;
     price: string;
+    image?: string;
   }[];
 };
 
@@ -107,6 +159,7 @@ const productFragment = `
     title
     handle
     description
+    descriptionHtml
     availableForSale
     productType
     rating: metafield(namespace: "reviews", key: "rating") {
@@ -154,6 +207,10 @@ const productFragment = `
           id
           title
           availableForSale
+          image {
+            url
+            altText
+          }
           price {
             amount
             currencyCode
@@ -212,6 +269,7 @@ export async function getProducts(
       handle: node.handle,
       title: node.title,
       description: node.description,
+      descriptionHtml: node.descriptionHtml,
       category: node.productType || "Product",
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -240,6 +298,7 @@ export async function getProducts(
         id: v.node.id,
         title: v.node.title,
         availableForSale: v.node.availableForSale,
+        image: v.node.image?.url,
         price: new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
@@ -285,6 +344,7 @@ export async function getProductByHandle(
     handle: node.handle,
     title: node.title,
     description: node.description,
+    descriptionHtml: node.descriptionHtml,
     category: node.productType || "Product",
     price: new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -315,6 +375,7 @@ export async function getProductByHandle(
       id: v.node.id,
       title: v.node.title,
       availableForSale: v.node.availableForSale,
+      image: v.node.image?.url,
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -359,6 +420,7 @@ export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
       handle: node.handle,
       title: node.title,
       description: node.description,
+      descriptionHtml: node.descriptionHtml,
       category: node.productType || "Product",
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -379,6 +441,7 @@ export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
         id: v.node.id,
         title: v.node.title,
         availableForSale: v.node.availableForSale,
+        image: v.node.image?.url,
         price: new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",

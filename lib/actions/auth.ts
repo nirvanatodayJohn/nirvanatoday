@@ -14,7 +14,7 @@ export async function loginAction(formData: FormData) {
 
   try {
     const result = await createAccessToken(email, password);
-
+    console.log(result)
     if (result.customerUserErrors && result.customerUserErrors.length > 0) {
       return { error: result.customerUserErrors[0].message };
     }

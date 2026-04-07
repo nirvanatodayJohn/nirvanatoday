@@ -18,15 +18,26 @@ export default async function CategoryPage({ params }: { params: Promise<{ type:
     const singularItem = normalizedHandle.endsWith('s') ? normalizedHandle.slice(0, -1) : normalizedHandle;
     const pluralItem = normalizedHandle.endsWith('s') ? normalizedHandle : `${normalizedHandle}s`;
 
-    // Support both tags AND title-based searching
-    const typeTags = [singularItem.toLowerCase(), pluralItem.toLowerCase(), singularItem.charAt(0).toUpperCase() + singularItem.slice(1), pluralItem.charAt(0).toUpperCase() + pluralItem.slice(1)];
-    const typeQuery = `(${typeTags.map(t => `tag:${t}`).join(' OR ')} OR title:*${singularItem}*)`;
+    // Match only explicit product tags for this type.
+    const typeTags = [
+        singularItem.toLowerCase(),
+        pluralItem.toLowerCase(),
+        singularItem.charAt(0).toUpperCase() + singularItem.slice(1),
+        pluralItem.charAt(0).toUpperCase() + pluralItem.slice(1),
+        singularItem.toUpperCase(),
+        pluralItem.toUpperCase(),
+    ];
+    const typeQuery = `(${[...new Set(typeTags)].map((tag) => `tag:${tag}`).join(' OR ')})`;
 
-    // Fetch using a query that finds either the singular or plural tag with any casing
+    // Fetch products using exact tag matches only.
     const [products, collectionData] = await Promise.all([
         getProductsByQuery(typeQuery),
         getCollectionByHandle(normalizedHandle)
     ]);
+    const allowedTags = new Set([singularItem.toLowerCase(), pluralItem.toLowerCase()]);
+    const filteredProducts = products.filter((product) =>
+        product.tags?.some((tag) => allowedTags.has(tag.toLowerCase().trim()))
+    );
 
     const title = collectionData?.title || type.charAt(0).toUpperCase() + type.slice(1);
 
@@ -58,12 +69,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ type:
 
                 {/* Product Grid */}
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {products.map((product: Product) => (
+                    {filteredProducts.map((product: Product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
 
-                {products.length === 0 && (
+                {filteredProducts.length === 0 && (
                     <div className="mt-32 flex flex-col items-center justify-center space-y-4 text-center">
                         <h3 className="text-2xl font-bold text-foreground">Coming Soon</h3>
                         <p className="max-w-md text-muted-foreground">

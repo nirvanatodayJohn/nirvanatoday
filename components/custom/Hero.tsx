@@ -9,7 +9,7 @@ import { buttonVariants } from "../ui/button";
 export default function Hero() {
     
     return (
-        <section className="relative isolate">
+        <section className="relative isolate bg-card">
             <div className="container px-6">
                 <div className="grid min-h-[calc(92svh-4rem)] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 ">
                     <div className="max-w-2xl space-y-7 text-center lg:text-left">
@@ -50,7 +50,7 @@ export default function Hero() {
                                     width={HERO_CONTENT.image.width}
                                     height={HERO_CONTENT.image.height}
                                     alt={HERO_CONTENT.image.alt}
-                                    className="size-full object-contain"
+                                    className="size-full bg-transparent object-contain"
                                     priority
                                 />
                             </div>
@@ -59,7 +59,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="border-t border-border/60 bg-background">
+            <div className="border-t border-border/60 bg-card">
                 <div className="container mx-auto px-6 lg:px-20">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-8 py-7 sm:py-8 md:grid-cols-4">
                         {HERO_CONTENT.stats.map((stat) => (
