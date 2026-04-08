@@ -163,7 +163,7 @@ export default function Navbar() {
   );
 
   return (
-    <header className=" top-0 z-40 bg-background">
+    <header className="z-40 bg-background">
       <div
         className="relative isolate overflow-hidden border-b bg-primary/90 text-black"
       >
@@ -176,7 +176,7 @@ export default function Navbar() {
               "linear-gradient(to right, transparent 0, white 10%, white 90%, transparent 100%)",
           }}
         >
-          <div className="marquee-track flex min-w-max shrink-0 items-center gap-6 py-2.5 will-change-transform motion-reduce:animate-none">
+          <div className="marquee-track flex min-w-max shrink-0 items-center gap-6 py-5 will-change-transform motion-reduce:animate-none">
             {marqueeItems.map((item, index) => (
               <div
                 key={`${item}-${index}`}
@@ -193,12 +193,12 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-1 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className=""
         >
-          <Image src="/Logo.png" width={100} height={100} alt="Logo"/>
+          <Image src="/Logo.png" width={200} height={200} alt="Logo" className="w-fit sm:h-16 h-14" />
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">

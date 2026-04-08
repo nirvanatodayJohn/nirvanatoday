@@ -9,15 +9,15 @@ import { buttonVariants } from "../ui/button";
 export default function Hero() {
     
     return (
-        <section className="relative isolate bg-card">
-            <div className="container px-6">
-                <div className="grid min-h-[calc(92svh-4rem)] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 ">
-                    <div className="max-w-2xl space-y-7 text-center lg:text-left">
-                        <h1 className="text-pretty text-4xl leading-[1.02] font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+        <section className=" bg-card">
+            <div className="px-4 sm:py-0 py-8">
+                <div className="grid min-h-[calc(92svh-4rem)] items-center lg:grid-cols-2 ">
+                    <div className="max-w-2xl space-y-7 text-left">
+                        <h1 className="text-pretty text-5xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl">
                             {HERO_CONTENT.title.prefix}
-                            <br className="hidden sm:block" />
+                            <br />
                             <span className="text-primary"> {HERO_CONTENT.title.emphasis}</span>
-                            <br className="hidden sm:block" />
+                            <br />
                             {HERO_CONTENT.title.suffix}
                         </h1>
 
@@ -25,14 +25,14 @@ export default function Hero() {
                             {HERO_CONTENT.description}
                         </p>
 
-                        <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4 lg:justify-start">
+                        <div className="flex items-center justify-center gap-2 sm:flex-row sm:gap-4 lg:justify-start">
                             {HERO_CONTENT.ctas.map((cta, index) => (
                                 <Link
                                     key={cta.href}
                                     href={cta.href}
                                     className={cn(
                                         buttonVariants({ variant: cta.variant ?? "default", size: "lg" }),
-                                        "h-11 rounded-full px-7 text-xs font-semibold tracking-widest sm:h-12 sm:px-8",
+                                        "h-11 rounded-full px-5 text-xs font-semibold tracking-widest sm:h-12 sm:px-8",
                                         index === 0 && "shadow-sm"
                                     )}
                                 >

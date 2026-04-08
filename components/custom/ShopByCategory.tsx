@@ -65,7 +65,7 @@ export default function ShopByCategory() {
               <CarouselItem key={category.name} className="basis-auto py-4 pl-4 sm:pl-6 lg:pl-8">
                 <Link
                   href={category.href}
-                  className="group relative block h-72 shrink-0 overflow-hidden rounded-[2rem] border border-border/40 bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/5 sm:w-80 md:h-120 md:w-96"
+                  className="group relative block h-96 sm:h-72 w-[78vw] max-w-sm shrink-0 overflow-hidden rounded-2xl border border-border/40 bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/5 sm:w-80 md:h-120 md:w-96"
                 >
                   <Image
                     priority
@@ -104,7 +104,7 @@ export default function ShopByCategory() {
           </CarouselContent>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-30 w-10 bg-linear-to-l from-secondary via-secondary/95 to-transparent sm:w-14 lg:w-20"
+            className="pointer-events-none absolute sm:block hidden inset-y-0 right-0 z-30 w-10 bg-linear-to-l from-secondary via-secondary/95 to-transparent sm:w-14 lg:w-20"
           />
           <div className="hidden md:block">
             <button

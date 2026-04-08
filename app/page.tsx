@@ -9,7 +9,7 @@ import Hero from "@/components/custom/Hero";
 
 export default function Home() {
   return (
-    <main className="flex-1 bg-background">
+    <main className="bg-background">
       <Hero />
       <ShopByCategory />
       <ProductListSection />
