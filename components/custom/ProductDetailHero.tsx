@@ -135,7 +135,7 @@ export default function ProductDetailHero({ product }: { product: Product }) {
 
       <div className="flex flex-col justify-start p-6 sm:p-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold tracking-normal text-foreground sm:text-5xl">
             {product.title}
           </h1>
 

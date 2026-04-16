@@ -714,6 +714,165 @@ export async function getCustomer(accessToken: string) {
 
   return res.body.data.customer;
 }
+
+export async function getCustomerOrder(accessToken: string, orderId: string) {
+  const query = `
+    query getCustomerOrder($customerAccessToken: String!, $orderId: ID!) {
+      customer(customerAccessToken: $customerAccessToken) {
+        order(id: $orderId) {
+          id
+          orderNumber
+          processedAt
+          statusUrl
+          totalPrice {
+            amount
+            currencyCode
+          }
+          totalTax {
+            amount
+            currencyCode
+          }
+          subtotalPrice {
+            amount
+            currencyCode
+          }
+          totalShippingPrice {
+            amount
+            currencyCode
+          }
+          shippingAddress {
+            address1
+            address2
+            city
+            province
+            zip
+            country
+            firstName
+            lastName
+            phone
+          }
+          lineItems(first: 20) {
+            edges {
+              node {
+                title
+                quantity
+                variant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                  product {
+                    handle
+                  }
+                }
+              }
+            }
+          }
+          successfulFulfillments(first: 5) {
+            trackingCompany
+            trackingInfo(first: 5) {
+              number
+              url
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { customerAccessToken: accessToken, orderId },
+    cache: "no-store",
+  });
+
+  return res.body.data?.customer?.order;
+}
+
+export async function updateCustomer(accessToken: string, customerInput: any) {
+  const query = `
+    mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
+      customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
+        customer {
+          id
+          firstName
+          lastName
+          email
+          phone
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { customerAccessToken: accessToken, customer: customerInput },
+    cache: "no-store",
+  });
+
+  return res.body.data.customerUpdate;
+}
+
+export async function updateCustomerAddress(accessToken: string, addressId: string, addressInput: any) {
+  const query = `
+    mutation customerAddressUpdate($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
+      customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
+        customerAddress {
+          id
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { customerAccessToken: accessToken, id: addressId, address: addressInput },
+    cache: "no-store",
+  });
+
+  return res.body.data.customerAddressUpdate;
+}
+
+export async function addCustomerAddress(accessToken: string, addressInput: any) {
+  const query = `
+    mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
+      customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+        customerAddress {
+          id
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch<any>({
+    query,
+    variables: { customerAccessToken: accessToken, address: addressInput },
+    cache: "no-store",
+  });
+
+  return res.body.data.customerAddressCreate;
+}
 export async function createCheckout(items: { id: string; quantity: number }[]) {
   const query = `
     mutation cartCreate($input: CartInput!) {

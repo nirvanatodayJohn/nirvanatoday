@@ -16,6 +16,36 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import ReviewStars from "@/components/custom/ReviewStars";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ product: string }>;
+}): Promise<Metadata> {
+  const { product: productHandle } = await params;
+  const product = await getProductByHandle(productHandle);
+
+  if (!product) return { title: "Product Not Found" };
+
+  return {
+    title: `${product.title} | Nirvana Today`,
+    description: product.description,
+    keywords: [...product.tags, product.category, "Nirvana Today"],
+    openGraph: {
+      title: product.title,
+      description: product.description,
+      images: [
+        {
+          url: product.image,
+          width: 800,
+          height: 800,
+          alt: product.title,
+        },
+      ],
+    },
+  };
+}
 
 export default async function ProductPage({
   params,
@@ -29,6 +59,36 @@ export default async function ProductPage({
     notFound();
   }
 
+  // Generate JSON-LD
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    image: product.image,
+    description: product.description,
+    brand: {
+      "@type": "Brand",
+      name: "Nirvana Today",
+    },
+    offers: {
+      "@type": "Offer",
+      price: product.price.replace(/[^0-9.]/g, ""),
+      priceCurrency: "USD",
+      availability: product.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: `https://nirvanatoday.com/shop/product/${product.handle}`,
+    },
+  };
+
+  if (product.rating && product.reviewCount) {
+    (jsonLd as any).aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      reviewCount: product.reviewCount,
+    };
+  }
+
   const { products: allProducts } = await getProducts(1, 250);
   const relatedProducts = allProducts
     .filter((p) => p.handle !== product.handle)
@@ -36,6 +96,11 @@ export default async function ProductPage({
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Dynamic SEO JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto w-full max-w-7xl space-y-4 px-4 py-8 sm:px-6 lg:px-8">
         <Breadcrumb>
           <BreadcrumbList>

@@ -104,7 +104,7 @@ export default function ShopByCategory() {
           </CarouselContent>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute sm:block hidden inset-y-0 right-0 z-30 w-10 bg-linear-to-l from-secondary via-secondary/95 to-transparent sm:w-14 lg:w-20"
+            className="pointer-events-none absolute sm:block hidden inset-y-0 -right-1 z-30 w-10 bg-linear-to-l from-white via-white/95 to-transparent sm:w-14 lg:w-20"
           />
           <div className="hidden md:block">
             <button

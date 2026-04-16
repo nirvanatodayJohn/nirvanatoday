@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ "blog-nam
   return {
     title: `${article.title} | Nirvana Today`,
     description: article.excerpt,
+    keywords: [...article.tags, "Nirvana Today Blog", "Wellness Article"],
     openGraph: {
       title: article.title,
       description: article.excerpt,

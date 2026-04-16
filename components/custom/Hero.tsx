@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 
 export default function Hero() {
-    
+
     return (
         <section className=" bg-card">
             <div className="px-4 sm:py-0 py-8">
                 <div className="grid min-h-[calc(92svh-4rem)] items-center lg:grid-cols-2 ">
-                    <div className="max-w-2xl space-y-7 text-left">
-                        <h1 className="text-pretty text-5xl font-semibold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+                    <div className="space-y-7 text-left">
+                        <h1 className="text-pretty font-serif text-5xl font-black tracking-normal text-foreground md:text-6xl lg:text-7xl">
                             {HERO_CONTENT.title.prefix}
                             <br />
                             <span className="text-primary"> {HERO_CONTENT.title.emphasis}</span>
@@ -21,7 +21,7 @@ export default function Hero() {
                             {HERO_CONTENT.title.suffix}
                         </h1>
 
-                        <p className="max-w-xl text-base leading-tight text-muted-foreground lg:mx-0">
+                        <p className="text-base leading-tight text-muted-foreground lg:mx-0">
                             {HERO_CONTENT.description}
                         </p>
 
@@ -42,7 +42,7 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    <div className="relative mx-auto w-full max-w-2xl">
+                    <div className="relative mx-auto w-full">
                         <div className="relative">
                             <div className="relative overflow-hidden">
                                 <Image

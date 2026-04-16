@@ -11,7 +11,7 @@ export default async function BlogSection() {
 
   return (
     <section className="border-t py-16">
-      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4">
         <div className="mb-12 flex items-end justify-between gap-6">
           <div className="max-w-2xl space-y-1">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Latest Blogs</h2>

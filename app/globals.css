@@ -7,9 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-bitter);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -162,7 +163,7 @@
   .product-description-html h2,
   .product-description-html h3,
   .product-description-html h4 {
-    @apply text-balance font-semibold tracking-tight text-foreground;
+    @apply text-balance font-serif font-semibold tracking-normal text-foreground;
   }
 
   .product-description-html h1 {

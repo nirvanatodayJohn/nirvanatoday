@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Poppins, Bitter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/custom/Navigation/Navbar";
@@ -7,11 +7,15 @@ import Footer from "@/components/custom/Navigation/Footer";
 import FloatingActions from "@/components/custom/FloatingActions";
 import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-
-const geistSans = Geist({
-  variable: "--font-geist",
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+});
+
+const bitter = Bitter({
+  subsets: ["latin"],
+  variable: "--font-bitter",
 });
 
 const geistMono = Geist_Mono({
@@ -20,8 +24,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nirvanatoday.com"),
   title: "Nirvana Today",
   description: "Experience premium wellness with Nirvana Today",
+  keywords: ["CBD", "Wellness", "Natural Health", "Veteran Owned", "Shopify CBD", "Vapes", "Gummies", "Nirvana Today"],
 };
 
 export default function RootLayout({
@@ -32,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
+      className={cn("h-full", "antialiased", poppins.variable, bitter.variable, geistMono.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
         <Navbar />

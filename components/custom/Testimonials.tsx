@@ -87,7 +87,7 @@ const TESTIMONIALS: Testimonial[] = [
 export default function Testimonials() {
     return (
         <section className="border-t py-16">
-            <div className="flex w-full max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
+            <div className="flex w-full flex-col gap-10 px-4">
                 <p className="text-center text-2xl font-semibold text-foreground sm:text-5xl">
                     What our Customers Say
                 </p>
@@ -104,7 +104,7 @@ export default function Testimonials() {
                                 </div>
 
                                 <div className="flex items-start py-6">
-                                    <p className="text-balance text-lg font-medium text-foreground">
+                                    <p className="text-balance font-serif text-lg font-medium text-foreground italic">
                                         "{testimonial.quote}"
                                     </p>
                                 </div>

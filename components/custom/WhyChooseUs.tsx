@@ -43,7 +43,7 @@ const FEATURES = [
 export default function WhyChooseUs() {
     return (
         <section className="border-t py-16">
-            <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4">
                 <div className="mb-10 flex max-w-4xl flex-col">
                     <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-7xl">
                         Uncompromising quality.<br />
