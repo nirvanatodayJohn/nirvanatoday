@@ -62,7 +62,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-col flex-1 pt-4 text-left">
         <Link href={`/shop/product/${product.handle}`} className="focus:outline-none">
           <div className="space-y-1.5">
-            <div className="min-h-5">
+            <div className={hasReviews ? "min-h-5" : "min-h-0"}>
               {hasReviews ? (
                 <div className="flex max-w-full items-center gap-1.5 text-xs text-muted-foreground">
                   <ReviewStars
@@ -82,9 +82,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   )}
                 </div>
               ) : (
-                <span className="text-xs font-medium text-muted-foreground/80">
-                  No reviews yet
-                </span>
+                <span className="hidden" />
               )}
             </div>
             <h3 className="text-sm font-bold leading-tight text-foreground line-clamp-2 transition-colors group-hover:text-primary">
