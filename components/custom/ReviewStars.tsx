@@ -8,11 +8,21 @@ interface ReviewStarsProps {
   rating?: number;
   count?: number;
   className?: string;
+  starClassName?: string;
   showCount?: boolean;
 }
 
-export default function ReviewStars({ rating = 0, count = 0, className, showCount = true }: ReviewStarsProps) {
-  if (count === 0 && !rating) {
+export default function ReviewStars({
+  rating = 0,
+  count = 0,
+  className,
+  starClassName,
+  showCount = true,
+}: ReviewStarsProps) {
+  const numericRating = Number(rating);
+  const numericCount = Number(count);
+
+  if (numericCount === 0 && !numericRating) {
     return null;
   }
 
@@ -20,8 +30,8 @@ export default function ReviewStars({ rating = 0, count = 0, className, showCoun
     <div className={cn("flex items-center gap-2", className)}>
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((i) => {
-          const isFull = i <= Math.floor(rating);
-          const isPartial = i === Math.ceil(rating) && rating % 1 !== 0;
+          const isFull = i <= Math.floor(numericRating);
+          const isPartial = i === Math.ceil(numericRating) && numericRating % 1 !== 0;
 
           return (
             <HugeiconsIcon
@@ -29,7 +39,10 @@ export default function ReviewStars({ rating = 0, count = 0, className, showCoun
               icon={StarIcon}
               className={cn(
                 "size-4",
-                isFull || isPartial ? "text-primary" : "text-muted-foreground/30"
+                starClassName,
+                isFull || isPartial
+                  ? "fill-current text-primary"
+                  : "text-muted-foreground/30"
               )}
               strokeWidth={isFull ? 0 : 2}
             />
@@ -37,8 +50,8 @@ export default function ReviewStars({ rating = 0, count = 0, className, showCoun
         })}
       </div>
       {showCount && (
-        <span className="text-[13px] font-bold text-foreground">
-          {rating.toFixed(1)} <span className="text-muted-foreground font-medium ml-1">({count} reviews)</span>
+        <span className="text-xs font-bold text-foreground">
+          {numericRating.toFixed(1)} <span className="ml-1 font-medium text-muted-foreground">({numericCount} reviews)</span>
         </span>
       )}
     </div>

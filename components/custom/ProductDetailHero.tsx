@@ -25,10 +25,10 @@ export default function ProductDetailHero({ product }: { product: Product }) {
     (variant) => variant.title && variant.title.toLowerCase() !== "default title"
   );
   const initialVariantId =
-    interactiveVariants.find((variant) => variant.image)?.id ??
-    interactiveVariants[0]?.id ??
-    product.id;
-  const [selectedVariantId, setSelectedVariantId] = useState(initialVariantId);
+    (interactiveVariants.length > 0) ? (interactiveVariants.find((variant) => variant.image)?.id ??
+    interactiveVariants[0]?.id) : product.id;
+  
+  const [selectedVariantId, setSelectedVariantId] = useState(initialVariantId || product.id);
   const [zoomPosition, setZoomPosition] = useState({
     x: 50,
     y: 50,

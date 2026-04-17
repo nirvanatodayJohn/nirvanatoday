@@ -10,6 +10,7 @@ export const CACHE_TAGS = {
   products: "products",
   blogs: "blogs",
   collections: "collections",
+  judgeMeReviews: "judgeme-reviews",
 } as const;
 
 type ShopifyFetchArgs = {
@@ -124,6 +125,8 @@ export type Product = {
   availableForSale: boolean;
   rating?: number;
   reviewCount?: number;
+  reviewWidget?: string;
+  shopifyId?: string;
   options: { name: string; values: string[] }[];
   variants: {
     id: string;
@@ -166,6 +169,15 @@ const productFragment = `
         value
     }
     reviewCount: metafield(namespace: "reviews", key: "rating_count") {
+        value
+    }
+    judgemeRating: metafield(namespace: "judgeme", key: "average_rating") {
+        value
+    }
+    judgemeCount: metafield(namespace: "judgeme", key: "review_count") {
+        value
+    }
+    judgemeWidget: metafield(namespace: "judgeme", key: "widget") {
         value
     }
     priceRange {
@@ -266,6 +278,7 @@ export async function getProducts(
 
     return {
       id: node.variants.edges[0]?.node.id || node.id,
+      shopifyId: node.id.split("/").at(-1),
       handle: node.handle,
       title: node.title,
       description: node.description,
@@ -291,8 +304,21 @@ export async function getProducts(
         ) || "",
       tags: node.tags,
       availableForSale: node.availableForSale,
-      rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
-      reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+      rating: (() => {
+        const val = node.rating?.value || node.judgemeRating?.value;
+        if (!val) return undefined;
+        try {
+          const parsed = JSON.parse(val);
+          return typeof parsed === 'object' ? parsed.value : parseFloat(val);
+        } catch (e) {
+          return parseFloat(val);
+        }
+      })(),
+      reviewCount: (() => {
+        const val = node.reviewCount?.value || node.judgemeCount?.value;
+        return val ? parseInt(val) : 0;
+      })(),
+      reviewWidget: node.judgemeWidget?.value || undefined,
       options: node.options || [],
       variants: node.variants.edges.map((v: any) => ({
         id: v.node.id,
@@ -333,18 +359,22 @@ export async function getProductByHandle(
     tags: [CACHE_TAGS.products],
   });
 
-  const node = res.body.data.product;
-  if (!node) return null;
+  const node = res.body?.data?.product;
+  if (!node) {
+    console.error(`[Shopify] Product not found for handle: ${handle}`);
+    return null;
+  }
 
   const price = node.priceRange.minVariantPrice;
   const compareAt = node.compareAtPriceRange?.minVariantPrice;
 
   return {
     id: node.variants.edges[0]?.node.id || node.id,
+    shopifyId: node.id.split("/").at(-1),
     handle: node.handle,
     title: node.title,
-    description: node.description,
-    descriptionHtml: node.descriptionHtml,
+    description: node.description || "",
+    descriptionHtml: node.descriptionHtml || node.description || "",
     category: node.productType || "Product",
     price: new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -358,7 +388,7 @@ export async function getProductByHandle(
           }).format(compareAt.amount)
         : undefined,
     image:
-      node.images.edges[0]?.node.url ||
+      node.images?.edges?.[0]?.node?.url ||
       "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
     badge:
       node.tags.find(
@@ -368,8 +398,21 @@ export async function getProductByHandle(
       ) || "",
     tags: node.tags,
     availableForSale: node.availableForSale,
-    rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
-    reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+    rating: (() => {
+      const val = node.rating?.value || node.judgemeRating?.value;
+      if (!val) return undefined;
+      try {
+        const parsed = JSON.parse(val);
+        return typeof parsed === 'object' ? parsed.value : parseFloat(val);
+      } catch (e) {
+        return parseFloat(val);
+      }
+    })(),
+    reviewCount: (() => {
+      const val = node.reviewCount?.value || node.judgemeCount?.value;
+      return val ? parseInt(val) : 0;
+    })(),
+    reviewWidget: node.judgemeWidget?.value || undefined,
     options: node.options || [],
     variants: node.variants.edges.map((v: any) => ({
       id: v.node.id,
@@ -417,6 +460,7 @@ export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
 
     return {
       id: node.variants.edges[0]?.node.id || node.id,
+      shopifyId: node.id.split("/").at(-1),
       handle: node.handle,
       title: node.title,
       description: node.description,
@@ -434,8 +478,21 @@ export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
       badge: node.tags.find((t: string) => (t || "").toLowerCase().includes("support") || (t || "").toLowerCase().includes("focus")) || "",
       tags: node.tags,
       availableForSale: node.availableForSale,
-      rating: node.rating?.value ? JSON.parse(node.rating.value).value : undefined,
-      reviewCount: node.reviewCount?.value ? parseInt(node.reviewCount.value) : 0,
+      rating: (() => {
+        const val = node.rating?.value || node.judgemeRating?.value;
+        if (!val) return undefined;
+        try {
+          const parsed = JSON.parse(val);
+          return typeof parsed === 'object' ? parsed.value : parseFloat(val);
+        } catch (e) {
+          return parseFloat(val);
+        }
+      })(),
+      reviewCount: (() => {
+        const val = node.reviewCount?.value || node.judgemeCount?.value;
+        return val ? parseInt(val) : 0;
+      })(),
+      reviewWidget: node.judgemeWidget?.value || undefined,
       options: node.options || [],
       variants: node.variants.edges.map((v: any) => ({
         id: v.node.id,

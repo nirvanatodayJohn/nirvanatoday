@@ -8,7 +8,6 @@ import AddToCartButton from "@/components/custom/AddToCartButton";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Product } from "@/lib/shopify";
-import { cn } from "@/lib/utils";
 import ReviewStars from "@/components/custom/ReviewStars";
 
 interface ProductCardProps {
@@ -31,6 +30,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     ? `${product.title} - ${selectedVariant.title}`
     : product.title;
   const selectedVariantTitle = selectedVariant?.title || "Select option";
+  const rating = Number(product.rating) || 0;
+  const reviewCount = Number(product.reviewCount) || 0;
+  const hasReviews = rating > 0 || reviewCount > 0;
+  const reviewLabel = reviewCount === 1 ? "review" : "reviews";
 
   return (
     <article className="group relative flex flex-col h-full rounded-2xl bg-card ring ring-black/10 shadow-sm shadow-black/10 p-4">
@@ -49,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {product.badge && (
           <div className="absolute left-3 top-3">
-            <span className="inline-flex items-center rounded-full border border-black/5 bg-white/90 px-2 py-0.5 text-[10px] font-bold tracking-widest text-black shadow-sm backdrop-blur-md">
+            <span className="inline-flex items-center rounded-full border border-black/5 bg-white/90 px-2 py-0.5 text-xs font-bold tracking-widest text-black shadow-sm backdrop-blur-md">
               {product.badge}
             </span>
           </div>
@@ -59,12 +62,31 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-col flex-1 pt-4 text-left">
         <Link href={`/shop/product/${product.handle}`} className="focus:outline-none">
           <div className="space-y-1.5">
-            <ReviewStars
-              rating={product.rating}
-              count={product.reviewCount}
-              showCount
-              className="scale-[0.8] origin-left -ml-0.5"
-            />
+            <div className="min-h-5">
+              {hasReviews ? (
+                <div className="flex max-w-full items-center gap-1.5 text-xs text-muted-foreground">
+                  <ReviewStars
+                    rating={rating}
+                    count={reviewCount}
+                    showCount={false}
+                    className="shrink-0 gap-1 opacity-80"
+                    starClassName="size-3"
+                  />
+                  <span className="font-medium text-foreground/80">
+                    {rating.toFixed(1)}
+                  </span>
+                  {reviewCount > 0 && (
+                    <span className="truncate font-medium">
+                      {reviewCount} {reviewLabel}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <span className="text-xs font-medium text-muted-foreground/80">
+                  No reviews yet
+                </span>
+              )}
+            </div>
             <h3 className="text-sm font-bold leading-tight text-foreground line-clamp-2 transition-colors group-hover:text-primary">
               {product.title}
             </h3>
@@ -100,7 +122,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
 
-        {/* Actions */}
         <div className="flex items-center mt-auto gap-2 pt-2">
           <AddToCartButton product={product} selectedVariant={selectedVariant} />
           <Link href={`/shop/product/${product.handle}`} className="flex-1">

@@ -218,6 +218,7 @@
   .product-description-html em {
     @apply italic text-foreground/70;
   }
+
 }
 
 .cen {

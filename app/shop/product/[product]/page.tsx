@@ -1,9 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Metadata } from "next";
 
 import { getProductByHandle, getProducts } from "@/lib/shopify";
-import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/custom/ProductCard";
 import ProductDescriptionSection from "@/components/custom/ProductDescriptionSection";
 import ProductDetailHero from "@/components/custom/ProductDetailHero";
@@ -15,8 +15,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import ReviewStars from "@/components/custom/ReviewStars";
-import { Metadata } from "next";
+import ReviewsList from "@/components/custom/Product/ReviewsList";
+import { getJudgeMeReviews } from "@/lib/judgeme";
 
 export async function generateMetadata({
   params,
@@ -31,7 +31,7 @@ export async function generateMetadata({
   return {
     title: `${product.title} | Nirvana Today`,
     description: product.description,
-    keywords: [...product.tags, product.category, "Nirvana Today"],
+    keywords: [...(product.tags || []), product.category || "", "Nirvana Today"],
     openGraph: {
       title: product.title,
       description: product.description,
@@ -56,8 +56,14 @@ export default async function ProductPage({
   const product = await getProductByHandle(productHandle);
 
   if (!product) {
+    console.log(`[ProductPage] Product NOT found for handle: ${productHandle}`);
     notFound();
   }
+
+  console.log(`[ProductPage] Product found: ${product.title}`);
+
+  // Fetch reviews from Judge.me API
+  const reviews = await getJudgeMeReviews(product.handle);
 
   // Generate JSON-LD
   const jsonLd = {
@@ -72,7 +78,7 @@ export default async function ProductPage({
     },
     offers: {
       "@type": "Offer",
-      price: product.price.replace(/[^0-9.]/g, ""),
+      price: (product.price || "0").replace(/[^0-9.]/g, ""),
       priceCurrency: "USD",
       availability: product.availableForSale
         ? "https://schema.org/InStock"
@@ -81,13 +87,17 @@ export default async function ProductPage({
     },
   };
 
-  if (product.rating && product.reviewCount) {
-    (jsonLd as any).aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: product.rating,
-      reviewCount: product.reviewCount,
-    };
-  }
+  const productJsonLd =
+    product.rating && product.reviewCount
+      ? {
+          ...jsonLd,
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: product.rating,
+            reviewCount: product.reviewCount,
+          },
+        }
+      : jsonLd;
 
   const { products: allProducts } = await getProducts(1, 250);
   const relatedProducts = allProducts
@@ -99,7 +109,7 @@ export default async function ProductPage({
       {/* Dynamic SEO JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
       <div className="mx-auto w-full max-w-7xl space-y-4 px-4 py-8 sm:px-6 lg:px-8">
         <Breadcrumb>
@@ -138,39 +148,10 @@ export default async function ProductPage({
         <ProductDetailHero product={product} />
         <ProductDescriptionSection product={product} />
 
-        <section className="mt-32 border-t border-border/40 pt-24 text-left">
-          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-4">
-              <h2 className="text-4xl font-bold tracking-tighter text-foreground">
-                Customer <span className="text-muted-foreground">Reviews.</span>
-              </h2>
-              <ReviewStars
-                rating={product.rating}
-                count={product.reviewCount}
-                showCount={false}
-                className="origin-left scale-110"
-              />
-              <p className="text-lg font-medium text-muted-foreground">
-                {product.reviewCount
-                  ? `Based on ${product.reviewCount} verified reviews`
-                  : "Share your experience with this product."}
-              </p>
-            </div>
-            <Button variant="outline" className="h-12 rounded-xl font-bold">
-              Write a Review
-            </Button>
-          </div>
-
-          <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-            {!product.reviewCount && (
-              <div className="col-span-full rounded-3xl bg-muted/30 p-12 text-center">
-                <p className="text-muted-foreground">
-                  Share your thoughts with other customers!
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* Custom API-driven Reviews */}
+        <div className="border-t border-border/40 mt-16 pt-16">
+          <ReviewsList reviews={reviews} />
+        </div>
 
         <section className="border-t border-border/40 pt-16">
           <div className="flex items-end justify-between">

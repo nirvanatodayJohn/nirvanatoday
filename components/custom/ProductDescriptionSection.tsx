@@ -11,7 +11,7 @@ export default function ProductDescriptionSection({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const descriptionHtml = (product.descriptionHtml || product.description || "")
-    .replace(/\\n/g, "<br />")
+    .replace(/\\r\\n|\\r|\\n|\r\n|\r|\n/g, "<br />")
     .trim();
   const shouldCollapse = useMemo(() => {
     const plainText = descriptionHtml.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -20,12 +20,10 @@ export default function ProductDescriptionSection({
     return plainText.length > 900 || headingCount > 3;
   }, [descriptionHtml]);
 
-  if (!descriptionHtml) {
-    return null;
-  }
+  const displayContent = descriptionHtml || "No details available for this product.";
 
   return (
-    <section className="border-t border-border/40 pt-16 sm:pt-20">
+    <section className="border-t border-border/40 pt-16 sm:pt-20" id="product-details">
       <div className="space-y-4">
         <p className="font-semibold">
           Product Details
@@ -36,11 +34,11 @@ export default function ProductDescriptionSection({
         >
           <div className="relative">
             <div
-              className={`${shouldCollapse && !isExpanded ? "max-h-144 overflow-hidden" : ""}`}
+              className=""
             >
               <div
                 className="product-description-html max-w-none"
-                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                dangerouslySetInnerHTML={{ __html: displayContent }}
               />
             </div>
 
