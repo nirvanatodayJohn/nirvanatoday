@@ -111,7 +111,7 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-      <div className="mx-auto w-full max-w-7xl space-y-4 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-7xl space-y-4 px-4 py-8">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -144,7 +144,7 @@ export default async function ProductPage({
         </Breadcrumb>
       </div>
 
-      <main className="mx-auto w-full max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-24">
         <ProductDetailHero product={product} />
         <ProductDescriptionSection product={product} />
 

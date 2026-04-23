@@ -50,7 +50,7 @@ export default async function BlogsPage({
 
   return (
     <main className="min-h-screen bg-background pb-24 pt-16">
-      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4">
 
         {/* Page Header */}
         <div className="mb-10 max-w-3xl space-y-4">

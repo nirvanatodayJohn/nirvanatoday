@@ -27,7 +27,7 @@ export default function NoGimmicksPage() {
         <main className="flex-1 bg-background">
             {/* Header Section */}
             <section className="py-24 sm:py-32 lg:py-40">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="flex flex-col items-center text-center">
                         <h1 className="text-6xl font-bold tracking-tighter text-foreground sm:text-8xl lg:text-9xl">
                             No <br />
@@ -43,7 +43,7 @@ export default function NoGimmicksPage() {
 
             {/* Core Values Section */}
             <section className="bg-muted py-24 sm:py-32">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8">
                         <div className="flex flex-col gap-6 rounded-[2.5rem] bg-background p-10 ring-1 ring-border/50">
                             <HugeiconsIcon icon={FactoryIcon} strokeWidth={1.5} className="size-12 text-primary" />
@@ -72,7 +72,7 @@ export default function NoGimmicksPage() {
 
             {/* The "No" List Section */}
             <section className="py-24 sm:py-32">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-24">
                         <div className="lg:w-1/3">
                             <h2 className="sticky top-32 text-4xl font-bold tracking-tighter text-foreground sm:text-6xl">
@@ -97,7 +97,7 @@ export default function NoGimmicksPage() {
 
             {/* The Rant Section (Popups etc) */}
             <section className="bg-rose-500 py-24 sm:py-32 lg:py-48 text-white">
-                <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className="mx-auto w-full max-w-4xl px-4 text-center">
                     <h2 className="text-4xl font-bold tracking-tighter sm:text-6xl lg:text-7xl">
                         No pop-ups. <br />
                         <span className="opacity-70 italic text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight mt-4 block">"Pop ups make me puke!"</span>
@@ -110,7 +110,7 @@ export default function NoGimmicksPage() {
 
             {/* CTA Section */}
             <section className="py-24 sm:py-32 lg:py-48 text-center">
-                <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-5xl px-4">
                     <h2 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl lg:text-8xl">
                         Trust the bottom line.
                     </h2>

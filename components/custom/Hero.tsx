@@ -60,7 +60,7 @@ export default function Hero() {
             </div>
 
             <div className="border-t border-border/60 bg-card">
-                <div className="container mx-auto px-6 lg:px-20">
+                <div className="mx-auto px-4">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-8 py-7 sm:py-8 md:grid-cols-4">
                         {HERO_CONTENT.stats.map((stat) => (
                             <div key={stat.label} className="space-y-1.5">

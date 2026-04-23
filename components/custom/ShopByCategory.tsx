@@ -38,7 +38,7 @@ export default function ShopByCategory() {
 
   return (
     <section className="border-t py-16 bg-card">
-      <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl px-4">
         <div className="mb-2 space-y-1">
           <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
             Shop by category.
@@ -49,7 +49,7 @@ export default function ShopByCategory() {
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="relative px-4 sm:px-6 lg:px-8"
+        className="relative px-4"
       >
         <Carousel
           setApi={setApi}

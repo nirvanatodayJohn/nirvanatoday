@@ -168,7 +168,7 @@ export default function Navbar() {
         className="relative isolate overflow-hidden border-b bg-primary/90 text-black"
       >
         <div
-          className="relative mx-auto flex max-w-7xl overflow-hidden px-4 sm:px-6 lg:px-8"
+          className="relative mx-auto flex overflow-hidden px-4"
           style={{
             maskImage:
               "linear-gradient(to right, transparent 0, white 10%, white 90%, transparent 100%)",
@@ -193,12 +193,12 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full items-center gap-4 px-4 py-4">
         <Link
           href="/"
-          className=""
+          className="shrink-0"
         >
-          <Image src="/Logo.png" width={200} height={200} alt="Logo" className="w-fit sm:h-16 h-14" />
+          <Image src="/Logo.png" width={200} height={200} alt="Logo" className="h-14 w-auto object-contain sm:h-16" />
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
@@ -340,7 +340,7 @@ export default function Navbar() {
 
       {mobileOpen && (
         <div className="border-t border-border bg-background lg:hidden">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4">
             <div className="grid gap-2">
               <Link
                 href="/"

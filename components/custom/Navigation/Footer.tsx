@@ -89,7 +89,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border bg-background">
-      <div className="mx-auto flex w-full max-w-7xl pt-4 flex-col px-4">
+      <div className="mx-auto flex w-full pt-4 flex-col px-4">
         <div className="flex flex-col pb-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-md space-y-4">
             <Link
@@ -182,7 +182,7 @@ export default function Footer() {
       </div>
       {/* TODO: Need to work on it */}
       {/* <div className="border-t border-border/60 bg-muted/30">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <div className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
           <div className="rounded-3xl border border-border/60 bg-card px-6 py-8 text-center sm:px-10">
             <div className="mx-auto flex size-20 items-center justify-center rounded-2xl border border-primary/40 bg-primary/8 text-primary">
               <HugeiconsIcon icon={HourglassIcon} strokeWidth={1.8} className="size-8" />

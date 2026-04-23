@@ -50,7 +50,7 @@ export default async function ShopPage(props: { searchParams: Promise<{ category
 
             {/* Filter & Sort Bar */}
             <div className="z-30 bg-muted">
-                <div className="mx-auto flex w-full items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+                <div className="mx-auto flex w-full items-center justify-between px-4 py-3">
                     <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
                         {CATEGORIES.map((cat) => {
                             const isActive = selectedCategory === cat;

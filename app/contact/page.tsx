@@ -30,7 +30,7 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen bg-[#FBFBFD] pt-24 pb-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4">
         
         {/* Header Section */}
         <div className="max-w-3xl mb-24">

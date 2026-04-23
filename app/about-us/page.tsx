@@ -17,7 +17,7 @@ export default function AboutUsPage() {
         <main className="flex-1 bg-background">
             {/* Hero Section */}
             <section className="py-24 sm:py-32 lg:py-40">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="flex flex-col items-center text-center">
                         <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl lg:text-8xl">
                             About <br />
@@ -33,7 +33,7 @@ export default function AboutUsPage() {
 
             {/* High-Quality Hemp & Healthy Living (Side-by-side style) */}
             <section className="bg-muted py-24 sm:py-32">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
                         <div className="flex flex-col gap-8">
                             <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
@@ -76,7 +76,7 @@ export default function AboutUsPage() {
 
             {/* Mid-page Statement */}
             <section className="py-24 sm:py-32 lg:py-48">
-                <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className="mx-auto w-full max-w-5xl px-4 text-center">
                     <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
                         Reach Nirvana with premium CBD products.
                     </h2>
@@ -90,7 +90,7 @@ export default function AboutUsPage() {
 
             {/* Calmness & Daily Challenges (Bento-style Cards) */}
             <section className="bg-muted py-24 sm:py-32">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         <div className="flex flex-col justify-between rounded-[2.5rem] bg-background p-8 sm:p-12 lg:p-16 transition-transform hover:scale-[1.01]">
                             <div className="flex flex-col gap-8">
@@ -133,7 +133,7 @@ export default function AboutUsPage() {
 
             {/* Safe & Pure / Customer Service (Minimal List) */}
             <section className="py-24 sm:py-32 lg:py-48">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24 lg:items-center">
                         <div className="flex flex-col gap-12">
                             <div className="flex flex-col gap-6">
@@ -179,7 +179,7 @@ export default function AboutUsPage() {
 
             {/* Final CTA */}
             <section className="bg-foreground py-24 sm:py-32 lg:py-48 text-center text-background">
-                <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-5xl px-4">
                     <h2 className="text-5xl font-bold tracking-tighter sm:text-7xl lg:text-8xl">
                         Believe in a product you can trust.
                     </h2>

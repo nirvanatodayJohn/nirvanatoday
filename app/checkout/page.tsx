@@ -48,7 +48,7 @@ export default function CheckoutPage() {
 
   return (
     <main className="min-h-screen bg-[#FBFBFD] pb-24 pt-12 text-[#1d1d1f]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4">
 
         {/* Simple Header */}
         <div className="mb-12 flex items-center justify-between border-b pb-8">
