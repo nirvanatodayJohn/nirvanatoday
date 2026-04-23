@@ -1,18 +1,14 @@
 import { StarIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { JudgeMeReview } from "@/lib/judgeme";
-import { cn } from "@/lib/utils";
+import { cn, formatRelativeDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const ratingValues = [5, 4, 3, 2, 1] as const;
 const starValues = [1, 2, 3, 4, 5] as const;
 
 function formatReviewDate(date: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
+  return formatRelativeDate(date);
 }
 
 function getInitial(name: string) {

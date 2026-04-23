@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon, Calendar01Icon, UserIcon } from "@hugeicons/core-free-icons";
-import { cn } from "@/lib/utils";
+import { cn, formatRelativeDate } from "@/lib/utils";
 import BlogCard from "@/components/custom/BlogCard";
 import {
   Pagination,
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/pagination";
 
 export const metadata = {
-  title: "Blogs | Nirvana Today",
+  title: "Blog | Nirvana Today",
   description: "Read the latest about wellness, THCA, and CBD at Nirvana Today.",
 };
 
@@ -50,12 +50,12 @@ export default async function BlogsPage({
 
   return (
     <main className="min-h-screen bg-background pb-24 pt-16">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
         <div className="mb-10 max-w-3xl space-y-4">
           <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
-            Latest Blogs
+            Latest Blog Posts
           </h1>
           <p className="text-xl text-muted-foreground font-medium">
             Thoughts, news, and deep dives from the Nirvana Today team.
@@ -65,7 +65,7 @@ export default async function BlogsPage({
         {/* Featured Article - Only on Page 1 */}
         {featuredArticle && (
           <Link
-            href={`/blogs/${featuredArticle.handle}`}
+            href={`/blog/${featuredArticle.handle}`}
             className="group flex flex-col md:flex-row overflow-hidden rounded-3xl border bg-muted p-4 mb-8"
           >
             <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-3xl bg-background md:w-[55%] md:aspect-auto">
@@ -83,7 +83,7 @@ export default async function BlogsPage({
               <div className="mb-4 flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground line-clamp-1">
                 <div className="flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 shadow-xs border border-border/50">
                   <HugeiconsIcon icon={Calendar01Icon} strokeWidth={2} className="size-4" />
-                  {new Date(featuredArticle.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  {formatRelativeDate(featuredArticle.publishedAt)}
                 </div>
                 <div className="flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 shadow-xs border border-border/50">
                   <HugeiconsIcon icon={UserIcon} strokeWidth={2} className="size-4" />
@@ -111,7 +111,7 @@ export default async function BlogsPage({
 
         {/* Latest Articles Grid */}
         <div className="space-y-10">
-          <h3 className="text-2xl pl-2 font-bold tracking-tight">{!isFirstPage ? "Previous Blogs" : "More from the blogs"}</h3>
+          <h3 className="text-2xl pl-2 font-bold tracking-tight">{!isFirstPage ? "Previous Posts" : "More from the blog"}</h3>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {gridArticles.map((article: Article) => (
@@ -126,7 +126,7 @@ export default async function BlogsPage({
                 <PaginationContent className="gap-2">
                   <PaginationItem>
                     <PaginationPrevious
-                      href={hasPreviousPage ? `/blogs?page=${currentPage - 1}` : undefined}
+                      href={hasPreviousPage ? `/blog?page=${currentPage - 1}` : undefined}
                       className={!hasPreviousPage ? "pointer-events-none opacity-50" : ""}
                     />
                   </PaginationItem>
@@ -134,7 +134,7 @@ export default async function BlogsPage({
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <PaginationItem key={page}>
                       <PaginationLink
-                        href={`/blogs?page=${page}`}
+                        href={`/blog?page=${page}`}
                         isActive={currentPage === page}
                         className={cn(
                           "size-8 rounded-lg font-bold transition-all duration-300",
@@ -150,7 +150,7 @@ export default async function BlogsPage({
 
                   <PaginationItem>
                     <PaginationNext
-                      href={hasNextPage ? `/blogs?page=${currentPage + 1}` : undefined}
+                      href={hasNextPage ? `/blog?page=${currentPage + 1}` : undefined}
                       className={!hasNextPage ? "pointer-events-none opacity-50" : ""}
                     />
                   </PaginationItem>

@@ -38,7 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="group relative flex flex-col h-full rounded-2xl bg-card ring ring-black/10 shadow-sm shadow-black/10 p-4">
       <Link
-        href={`/shop/product/${product.handle}`}
+        href={`/product/${product.handle}`}
         className="relative aspect-square w-full block overflow-hidden rounded-xl "
       >
         <div className="absolute inset-4">
@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       <div className="flex flex-col flex-1 pt-4 text-left">
-        <Link href={`/shop/product/${product.handle}`} className="focus:outline-none">
+        <Link href={`/product/${product.handle}`} className="focus:outline-none">
           <div className="space-y-1.5">
             <div className={hasReviews ? "min-h-5" : "min-h-0"}>
               {hasReviews ? (
@@ -122,7 +122,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center mt-auto gap-2 pt-2">
           <AddToCartButton product={product} selectedVariant={selectedVariant} />
-          <Link href={`/shop/product/${product.handle}`} className="flex-1">
+          <Link href={`/product/${product.handle}`} className="flex-1">
             <Button className="w-full font-bold group/btn">
               Buy Now <HugeiconsIcon icon={ArrowRight01Icon} className="size-4 transition-transform group-hover/btn:translate-x-0.5" />
             </Button>

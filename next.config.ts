@@ -15,6 +15,50 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/shop/product",
+        destination: "/shop",
+        permanent: true,
+      },
+      {
+        source: "/shop/product/:slug",
+        destination: "/product/:slug",
+        permanent: true,
+      },
+      {
+        source: "/blogs",
+        destination: "/blog",
+        permanent: true,
+      },
+      {
+        source: "/blogs/:slug",
+        destination: "/blog/:slug",
+        permanent: true,
+      },
+      {
+        source: "/shop/type/:type",
+        destination: "/:type",
+        permanent: true,
+      },
+      {
+        source: "/shop/:family",
+        destination: "/:family",
+        permanent: true,
+      },
+      {
+        source: "/shop/:family/:item",
+        destination: "/:family/:item",
+        permanent: true,
+      },
+      {
+        source: "/contact-us",
+        destination: "/contact",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

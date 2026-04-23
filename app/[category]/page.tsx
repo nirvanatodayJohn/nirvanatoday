@@ -10,24 +10,44 @@ import Link from "next/link"
 import { getProductsByQuery, getCollectionByHandle, type Product } from "@/lib/shopify"
 import ProductCard from "@/components/custom/ProductCard"
 import { FaqAccordion } from "@/components/custom/Blog/FaqAccordion"
+import { notFound } from "next/navigation"
 
-export default async function FamilyPage({ params }: { params: Promise<{ family: string }> }) {
-    const { family } = await params;
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+    const { category } = await params;
 
-    const singularFamily = family.endsWith('s') ? family.slice(0, -1) : family;
-    const pluralFamily = family.endsWith('s') ? family : `${family}s`;
+    // List of reserved routes to avoid accidental matches
+    const reserved = ["shop", "product", "blog", "cart", "checkout", "account", "auth", "api"];
+    if (reserved.includes(category)) return notFound();
 
-    // Support both lowercase/title-case tags AND title-based searching
-    const familyTags = [singularFamily.toLowerCase(), pluralFamily.toLowerCase(), singularFamily.toUpperCase(), pluralFamily.toUpperCase(), singularFamily.charAt(0).toUpperCase() + singularFamily.slice(1)];
-    const familyQuery = `(${familyTags.map(t => `tag:${t}`).join(' OR ')} OR title:*${singularFamily}*)`;
+    const normalizedHandle = category === "pre-rolls" ? "pre-roll" : category;
+    const singularItem = normalizedHandle.endsWith('s') ? normalizedHandle.slice(0, -1) : normalizedHandle;
+    const pluralItem = normalizedHandle.endsWith('s') ? normalizedHandle : `${normalizedHandle}s`;
 
-    // Fetch products that match the family tags
+    // Match both tags (for types) and titles (for families)
+    const categoryTags = [
+        singularItem.toLowerCase(),
+        pluralItem.toLowerCase(),
+        singularItem.charAt(0).toUpperCase() + singularItem.slice(1),
+        pluralItem.charAt(0).toUpperCase() + pluralItem.slice(1),
+        singularItem.toUpperCase(),
+        pluralItem.toUpperCase(),
+    ];
+    
+    // Broad query to catch both families and types
+    const query = `(${[...new Set(categoryTags)].map((tag) => `tag:${tag}`).join(' OR ')} OR title:*${singularItem}*)`;
+
+    // Fetch products and collection data
     const [products, collectionData] = await Promise.all([
-        getProductsByQuery(familyQuery),
-        getCollectionByHandle(family)
+        getProductsByQuery(query),
+        getCollectionByHandle(normalizedHandle)
     ]);
 
-    const title = collectionData?.title || family.charAt(0).toUpperCase() + family.slice(1).replace("-", " ");
+    // If no products and no collection data, it's probably not a real category
+    if (products.length === 0 && !collectionData) {
+        return notFound();
+    }
+
+    const title = collectionData?.title || category.charAt(0).toUpperCase() + category.slice(1).replace("-", " ");
 
     return (
         <div className="min-h-screen bg-background">
@@ -76,7 +96,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ family:
 
                 {/* Collection Content - Apple Styled */}
                 {collectionData?.descriptionHtml && (
-                    <section className="mx-auto mt-4 mb-16 max-w-4xl border-t border-border/10 pt-16">
+                    <section className="mx-auto mt-4 mb-16 border-t border-border/10 pt-16">
                         <article className="prose-apple">
                             <FaqAccordion html={collectionData.descriptionHtml} />
                         </article>

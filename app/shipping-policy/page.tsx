@@ -72,7 +72,7 @@ export default function ShippingPolicyPage() {
               <h2 className="text-xl font-bold text-foreground">
                 Still have questions?
               </h2>
-              <Link href="/contact-us">
+              <Link href="/contact">
                 <button className="flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-bold text-primary-foreground transition-all hover:scale-[1.03] active:scale-95 shadow-xl shadow-primary/20">
                   <HugeiconsIcon icon={Mail01Icon} className="size-4" strokeWidth={2.5} />
                   Contact Us

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon, Calendar01Icon } from "@hugeicons/core-free-icons";
 import type { Article } from "@/lib/shopify";
+import { formatRelativeDate } from "@/lib/utils";
 
 interface BlogCardProps {
   article: Article;
@@ -18,7 +19,7 @@ export default function BlogCard({ article, variant = "default" }: BlogCardProps
 
   return (
     <Link
-      href={`/blogs/${article.handle}`}
+      href={`/blog/${article.handle}`}
       className="group flex h-full flex-col rounded-3xl border bg-primary shadow-sm shadow-black/10 ring-1 ring-black/10 p-4"
     >
       <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl">
@@ -39,11 +40,7 @@ export default function BlogCard({ article, variant = "default" }: BlogCardProps
         <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-medium text-primary-foreground">
           <span className="flex items-center gap-1.5">
             <HugeiconsIcon icon={Calendar01Icon} strokeWidth={2} className="size-3.5" />
-            {new Date(article.publishedAt).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
+            {formatRelativeDate(article.publishedAt)}
           </span>
         </div>
 

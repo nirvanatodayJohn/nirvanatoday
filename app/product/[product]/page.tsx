@@ -83,7 +83,7 @@ export default async function ProductPage({
       availability: product.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `https://nirvanatoday.com/shop/product/${product.handle}`,
+      url: `https://nirvanatoday.com/product/${product.handle}`,
     },
   };
 
@@ -128,7 +128,7 @@ export default async function ProductPage({
                 <React.Fragment key={trimmedCat}>
                   <BreadcrumbItem>
                     <BreadcrumbLink
-                      href={`/shop/type/${trimmedCat.toLowerCase().replace(/ /g, "-")}`}
+                      href={`/${trimmedCat.toLowerCase().replace(/ /g, "-")}`}
                     >
                       {trimmedCat}
                     </BreadcrumbLink>

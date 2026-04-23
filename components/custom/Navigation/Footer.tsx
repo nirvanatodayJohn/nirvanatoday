@@ -31,8 +31,8 @@ const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { label: "About Us", href: "/about-us" },
       { label: "Lab Results", href: "/lab-results" },
-      { label: "Blogs", href: "/blogs" },
-      { label: "Contact Us", href: "/contact-us" },
+      { label: "Blog", href: "/blog" },
+      { label: "Contact Us", href: "/contact" },
     ],
   },
   {
@@ -40,8 +40,8 @@ const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { label: "THCA Flower", href: "/shop/thca-flower" },
       { label: "CBD", href: "/shop/cbd" },
-      { label: "Capsules", href: "/shop/type/capsules" },
-      { label: "Gummies", href: "/shop/type/gummies" },
+      { label: "Capsules", href: "/capsules" },
+      { label: "Gummies", href: "/gummies" },
       { label: "Nootropics", href: "/shop/nootropics" },
     ],
   },

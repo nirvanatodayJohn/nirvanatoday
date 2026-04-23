@@ -10,30 +10,29 @@ import Link from "next/link"
 import { getProductsByQuery } from "@/lib/shopify"
 import ProductCard from "@/components/custom/ProductCard"
 
-export default async function FamilyItemPage({ params }: { params: Promise<{ family: string, item: string }> }) {
-    const { family, item } = await params;
+export default async function CategoryItemPage({ params }: { params: Promise<{ category: string, item: string }> }) {
+    const { category, item } = await params;
 
-    // Normalize the names and create case-insensitive, plural-resistant queries
     const normalizedItem = item === "pre-rolls" ? "pre-roll" : item;
     const singularItem = normalizedItem.endsWith('s') ? normalizedItem.slice(0, -1) : normalizedItem;
     const pluralItem = normalizedItem.endsWith('s') ? normalizedItem : `${normalizedItem}s`;
     
-    const singularFamily = family.endsWith('s') ? family.slice(0, -1) : family;
-    const pluralFamily = family.endsWith('s') ? family : `${family}s`;
+    const singularCategory = category.endsWith('s') ? category.slice(0, -1) : category;
+    const pluralCategory = category.endsWith('s') ? category : `${category}s`;
 
     // Support both lowercase and title-case for family/items
-    const familyTags = [singularFamily.toLowerCase(), pluralFamily.toLowerCase(), singularFamily.toUpperCase(), pluralFamily.toUpperCase(), singularFamily.charAt(0).toUpperCase() + singularFamily.slice(1)];
+    const categoryTags = [singularCategory.toLowerCase(), pluralCategory.toLowerCase(), singularCategory.toUpperCase(), pluralCategory.toUpperCase(), singularCategory.charAt(0).toUpperCase() + singularCategory.slice(1)];
     const itemTags = [singularItem.toLowerCase(), pluralItem.toLowerCase(), singularItem.charAt(0).toUpperCase() + singularItem.slice(1), pluralItem.charAt(0).toUpperCase() + pluralItem.slice(1)];
 
-    const familyQuery = `(${familyTags.map(t => `tag:${t}`).join(' OR ')} OR title:*${singularFamily}*)`;
+    const categoryQuery = `(${categoryTags.map(t => `tag:${t}`).join(' OR ')} OR title:*${singularCategory}*)`;
     const itemQuery = `(${itemTags.map(t => `tag:${t}`).join(' OR ')} OR title:*${singularItem}*)`;
     
-    const query = `${familyQuery} AND ${itemQuery}`;
+    const query = `${categoryQuery} AND ${itemQuery}`;
     const products = await getProductsByQuery(query);
 
-    const familyTitle = family.charAt(0).toUpperCase() + family.slice(1).replace("-", " ");
+    const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1).replace("-", " ");
     const itemTitle = item.charAt(0).toUpperCase() + item.slice(1).replace("-", " ");
-    const fullTitle = `${familyTitle} ${itemTitle}`;
+    const fullTitle = `${categoryTitle} ${itemTitle}`;
 
     return (
         <div className="min-h-screen bg-background">
@@ -51,7 +50,7 @@ export default async function FamilyItemPage({ params }: { params: Promise<{ fam
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <BreadcrumbLink href={`/shop/${family}`}>{familyTitle}</BreadcrumbLink>
+                                    <BreadcrumbLink href={`/${category}`}>{categoryTitle}</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
@@ -60,7 +59,7 @@ export default async function FamilyItemPage({ params }: { params: Promise<{ fam
                             </BreadcrumbList>
                         </Breadcrumb>
                         <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
-                            {familyTitle} <span className="text-muted-foreground">{itemTitle}.</span>
+                            {categoryTitle} <span className="text-muted-foreground">{itemTitle}.</span>
                         </h1>
                     </div>
                 </div>
@@ -78,8 +77,8 @@ export default async function FamilyItemPage({ params }: { params: Promise<{ fam
                         <p className="max-w-md text-muted-foreground">
                             We're currently updating our {fullTitle} selection. Check back soon for the latest drops!
                         </p>
-                        <Link href={`/shop/${family}`} className="font-bold underline underline-offset-4 decoration-2">
-                            Back to All {familyTitle}
+                        <Link href={`/${category}`} className="font-bold underline underline-offset-4 decoration-2">
+                            Back to All {categoryTitle}
                         </Link>
                     </div>
                 )}

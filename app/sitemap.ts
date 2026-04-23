@@ -9,22 +9,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { articles } = await getArticles(1, 250)
 
   const productUrls = products.map((product) => ({
-    url: `${baseUrl}/shop/product/${product.handle}`,
+    url: `${baseUrl}/product/${product.handle}`,
     lastModified: new Date(), 
   }))
 
   const blogUrls = articles.map((article) => ({
-    url: `${baseUrl}/blogs/${article.handle}`,
+    url: `${baseUrl}/blog/${article.handle}`,
     lastModified: new Date(article.publishedAt),
   }))
 
   const staticUrls = [
     '',
     '/shop',
-    '/blogs',
+    '/blog',
     '/about-us',
     '/no-gimmicks',
-    '/contact-us',
+    '/contact',
     '/terms-conditions',
     '/privacy-policy',
     '/shipping-policy',

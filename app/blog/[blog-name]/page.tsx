@@ -5,6 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { notFound } from "next/navigation";
 import { FaqAccordion } from "@/components/custom/Blog/FaqAccordion";
+import { formatRelativeDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
   const { articles } = await getArticles(1, 250);
@@ -48,9 +49,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
   return (
     <main className="min-h-screen bg-background">
       <div className="relative bg-background pt-10">
-        <div className="mx-auto max-w-4xl px-5 sm:px-6 lg:px-8">
+        <div className="mx-auto px-5 sm:px-6 lg:px-8">
           <Link
-            href="/blogs"
+            href="/blog"
             className="group mb-12 sm:mb-24 inline-flex items-center gap-2 text-[15px] font-semibold text-muted-foreground transition-colors hover:text-foreground"
           >
             <HugeiconsIcon
@@ -59,7 +60,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
               strokeWidth={2}
               className="transition-transform group-hover:-translate-x-1"
             />
-            All Blogs
+            Back to Blog
           </Link>
 
           <header className="flex flex-col items-start gap-4 pb-12 text-left sm:pb-20">
@@ -69,11 +70,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
 
             <div className="mt-6 flex flex-wrap items-center justify-start gap-x-4 gap-y-2 text-sm font-medium text-muted-foreground">
               <time dateTime={article.publishedAt}>
-                {new Date(article.publishedAt).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+                {formatRelativeDate(article.publishedAt)}
               </time>
               <div className="h-1 w-1 rounded-full bg-muted-foreground/40"></div>
               <span>{article.author}</span>
@@ -86,7 +83,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
 
       {/* Featured Image */}
       {article.image && (
-        <div className="mx-auto mb-16 max-w-4xl px-5  sm:px-6 lg:px-8">
+        <div className="mx-auto mb-16 px-5  sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] shadow-sm ring-1 ring-border/10">
             <div className="relative aspect-video w-full">
               <Image
@@ -102,7 +99,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ "blog-
       )}
 
       {/* Content */}
-      <article className="mx-auto max-w-4xl px-5 sm:px-6 lg:px-8">
+      <article className="mx-auto px-5 sm:px-6 lg:px-8">
         <FaqAccordion html={article.contentHtml} />
       </article>
 

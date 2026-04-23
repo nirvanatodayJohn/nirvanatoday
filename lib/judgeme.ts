@@ -9,9 +9,42 @@ export interface JudgeMeReview {
     name: string;
   };
   created_at: string;
+  product_handle?: string;
 }
 
-export async function getJudgeMeReviews(handle: string) {
+const PER_PAGE = 100;
+
+async function fetchReviewPage(
+  token: string,
+  shop: string,
+  page: number
+): Promise<JudgeMeReview[]> {
+  const params = new URLSearchParams({
+    api_token: token,
+    shop_domain: shop,
+    per_page: String(PER_PAGE),
+    page: String(page),
+  });
+
+  const res = await fetch(`https://judge.me/api/v1/reviews?${params.toString()}`, {
+    cache: "force-cache",
+    next: {
+      tags: [CACHE_TAGS.judgeMeReviews],
+    },
+  });
+
+  if (!res.ok) return [];
+  const data = await res.json();
+
+  // Log first review structure once so we can verify the product_handle field
+  if (page === 1 && data.reviews?.length > 0) {
+    console.log("[Judge.me] First review keys:", Object.keys(data.reviews[0]));
+  }
+
+  return (data.reviews ?? []) as JudgeMeReview[];
+}
+
+export async function getJudgeMeReviews(handle: string): Promise<JudgeMeReview[]> {
   const shop = process.env.JUDGEME_SHOP_DOMAIN;
   const token = process.env.JUDGEME_PRIVATE_TOKEN;
 
@@ -21,35 +54,24 @@ export async function getJudgeMeReviews(handle: string) {
   }
 
   try {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), 10000);
+    // Fetch up to 3 pages (300 reviews) in parallel — cached indefinitely,
+    // purged only when /api/revalidate receives a Judge.me webhook
+    const pages = await Promise.all([
+      fetchReviewPage(token, shop, 1),
+      fetchReviewPage(token, shop, 2),
+      fetchReviewPage(token, shop, 3),
+    ]);
 
-    const params = new URLSearchParams({
-      api_token: token,
-      shop_domain: shop,
-      handle,
-    });
-    const url = `https://judge.me/api/v1/reviews?${params.toString()}`;
-    console.log(`[Judge.me] Fetching reviews for product handle: ${handle}`);
+    const allReviews = pages.flat();
+    const productReviews = allReviews.filter((r) => r.product_handle === handle);
 
-    const res = await fetch(url, {
-      cache: "force-cache",
-      next: {
-        tags: [CACHE_TAGS.judgeMeReviews],
-      },
-      signal: controller.signal,
-    });
-    clearTimeout(id);
-    console.log(`[Judge.me] Status: ${res.status}`);
+    console.log(
+      `[Judge.me] ${allReviews.length} total cached → ${productReviews.length} for "${handle}"`
+    );
 
-    if (!res.ok) {
-      return [];
-    }
-
-    const data = await res.json();
-    return data.reviews as JudgeMeReview[];
+    return productReviews;
   } catch (error) {
-    console.error("Error fetching Judge.me reviews:", error);
+    console.error("[Judge.me] Fetch error:", error);
     return [];
   }
 }

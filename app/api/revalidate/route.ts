@@ -6,39 +6,68 @@ import { CACHE_TAGS } from "@/lib/shopify";
  * 🔔 Shopify Webhook → On-Demand Revalidation
  *
  * Setup in Shopify Admin → Settings → Notifications → Webhooks:
- *   - Product creation/update/deletion → POST https://your-domain.com/api/revalidate
- *   - Blog entry created/updated       → POST https://your-domain.com/api/revalidate
+ *   - Product creation/update/deletion → POST https://nirvanatoday.com/api/revalidate
+ *   - Blog entry created/updated       → POST https://nirvanatoday.com/api/revalidate
+ *
+ * Shopify signs every webhook with HMAC-SHA256 using the secret they show
+ * in the webhook setup screen. Store that value as SHOPIFY_WEBHOOK_SECRET.
  *
  * Manual trigger from browser:
- *   GET https://your-domain.com/api/revalidate?secret=YOUR_SECRET&tag=products
+ *   GET https://nirvanatoday.com/api/revalidate?secret=YOUR_REVALIDATION_SECRET&tag=products
  */
 
-const WEBHOOK_SECRET = process.env.REVALIDATION_SECRET;
+const SHOPIFY_WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET ?? "";
+const MANUAL_SECRET = process.env.REVALIDATION_SECRET;
 const ALL_CACHE_TAGS = Object.values(CACHE_TAGS);
 
 function resolveCacheTag(tag: string) {
   if (tag in CACHE_TAGS) {
     return CACHE_TAGS[tag as keyof typeof CACHE_TAGS];
   }
-
   return ALL_CACHE_TAGS.includes(tag as (typeof ALL_CACHE_TAGS)[number])
     ? tag
     : null;
 }
 
+/**
+ * Verify Shopify's HMAC-SHA256 webhook signature using the Web Crypto API.
+ * Shopify sends the digest as base64 in X-Shopify-Hmac-Sha256.
+ */
+async function verifyShopifyWebhook(
+  rawBody: ArrayBuffer,
+  signature: string
+): Promise<boolean> {
+  if (!SHOPIFY_WEBHOOK_SECRET) return false;
+  try {
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      "raw",
+      enc.encode(SHOPIFY_WEBHOOK_SECRET),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
+    const digest = await crypto.subtle.sign("HMAC", key, rawBody);
+    const digestBase64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
+    return digestBase64 === signature;
+  } catch {
+    return false;
+  }
+}
+
 // ─── POST: Shopify Webhook Handler ──────────────────────────
 export async function POST(request: NextRequest) {
   try {
-    const secret = request.headers.get("x-revalidation-secret");
+    const signature = request.headers.get("x-shopify-hmac-sha256") ?? "";
+    const shopifyTopic = request.headers.get("x-shopify-topic") ?? "";
 
-    if (WEBHOOK_SECRET && secret !== WEBHOOK_SECRET) {
+    // Read raw body as ArrayBuffer for HMAC verification
+    const rawBody = await request.arrayBuffer();
+
+    if (!(await verifyShopifyWebhook(rawBody, signature))) {
+      console.warn(`[Revalidate] Invalid webhook signature for topic: "${shopifyTopic}"`);
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const shopifyTopic = request.headers.get("x-shopify-topic") || "";
-
-    // Consume the body so request doesn't hang
-    await request.json().catch(() => ({}));
 
     let revalidatedTags: string[] = [];
 
@@ -70,8 +99,8 @@ export async function POST(request: NextRequest) {
 
     // Unknown topic → revalidate everything
     if (revalidatedTags.length === 0) {
-      ALL_CACHE_TAGS.forEach((cacheTag) => revalidateTag(cacheTag, "default"));
-      revalidatedTags = ALL_CACHE_TAGS;
+      ALL_CACHE_TAGS.forEach((tag) => revalidateTag(tag, "default"));
+      revalidatedTags = [...ALL_CACHE_TAGS];
     }
 
     console.log(
@@ -86,10 +115,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("❌ Revalidation error:", message);
-    return NextResponse.json(
-      { error: "Revalidation failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Revalidation failed" }, { status: 500 });
   }
 }
 
@@ -99,7 +125,7 @@ export async function GET(request: NextRequest) {
   const secret = searchParams.get("secret");
   const tag = searchParams.get("tag");
 
-  if (WEBHOOK_SECRET && secret !== WEBHOOK_SECRET) {
+  if (MANUAL_SECRET && secret !== MANUAL_SECRET) {
     return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
   }
 
@@ -107,19 +133,10 @@ export async function GET(request: NextRequest) {
 
   if (cacheTag) {
     revalidateTag(cacheTag, "default");
-    return NextResponse.json({
-      revalidated: true,
-      tag: cacheTag,
-      now: Date.now(),
-    });
+    return NextResponse.json({ revalidated: true, tag: cacheTag, now: Date.now() });
   }
 
   // No tag specified → revalidate all
-  ALL_CACHE_TAGS.forEach((cacheTag) => revalidateTag(cacheTag, "default"));
-
-  return NextResponse.json({
-    revalidated: true,
-    tags: ALL_CACHE_TAGS,
-    now: Date.now(),
-  });
+  ALL_CACHE_TAGS.forEach((t) => revalidateTag(t, "default"));
+  return NextResponse.json({ revalidated: true, tags: ALL_CACHE_TAGS, now: Date.now() });
 }

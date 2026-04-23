@@ -14,16 +14,16 @@ export default async function BlogSection() {
       <div className="w-full px-4">
         <div className="mb-12 flex items-end justify-between gap-6">
           <div className="max-w-2xl space-y-1">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Latest Blogs</h2>
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Latest from the Blog</h2>
             <p className="text-muted-foreground">
               Deep dives into wellness, THCA flower, and lifestyle from the Nirvana Today team.
             </p>
           </div>
           <Link
-            href="/blogs"
+            href="/blog"
             className="hidden items-center gap-2 text-sm font-bold text-foreground hover:text-primary transition-colors sm:flex group"
           >
-            View all blogs
+            View all posts
             <HugeiconsIcon
               icon={ArrowRight01Icon}
               strokeWidth={2.5}
@@ -40,10 +40,10 @@ export default async function BlogSection() {
 
         <div className="mt-12 flex justify-center sm:hidden">
           <Link
-            href="/blogs"
+            href="/blog"
             className="flex items-center gap-2 text-base font-bold text-foreground"
           >
-            View all blogs <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.5} className="size-5 text-primary" />
+            View all posts <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.5} className="size-5 text-primary" />
           </Link>
         </div>
       </div>

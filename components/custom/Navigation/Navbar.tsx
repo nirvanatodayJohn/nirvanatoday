@@ -38,11 +38,11 @@ function toSlug(value: string) {
 }
 
 function getFamilyHref(name: string) {
-  return `/shop/${toSlug(name)}`;
+  return `/${toSlug(name)}`;
 }
 
 function getTypeHref(name: string) {
-  return `/shop/type/${toSlug(name)}`;
+  return `/${toSlug(name)}`;
 }
 
 function getProductHref(familyName: string, itemName: string) {

@@ -56,7 +56,7 @@ export default function CartPage() {
               <div key={item.id} className="group relative flex gap-6 sm:gap-10">
                 {/* Product Image */}
                 <div className="relative aspect-square size-24 shrink-0 overflow-hidden rounded-2xl border border-border/40 bg-muted/30 sm:size-40">
-                  <Link href={`/shop/product/${item.handle}`}>
+                  <Link href={`/product/${item.handle}`}>
                     <Image
                       src={item.image}
                       alt={item.title}
@@ -70,7 +70,7 @@ export default function CartPage() {
                 <div className="flex flex-1 flex-col justify-between py-1">
                   <div className="flex justify-between gap-4">
                     <div className="space-y-1">
-                      <Link href={`/shop/product/${item.handle}`}>
+                      <Link href={`/product/${item.handle}`}>
                         <h3 className="text-lg font-bold tracking-tight hover:text-primary transition-colors sm:text-xl">
                           {item.title}
                         </h3>

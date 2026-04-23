@@ -6,21 +6,21 @@ export type ProductFamily = {
 export const SHOP_CATEGORIES = [
   {
     name: "Gummies",
-    href: "/shop/type/gummies",
+    href: "/gummies",
     image: "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Gummies.png",
     tagline: "Daily mood and calm support in easy-to-love flavors.",
     pill: "Best Seller",
   },
   {
     name: "Tinctures",
-    href: "/shop/type/tinctures",
+    href: "/tinctures",
     image: "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/T2.png",
     tagline: "Fast-acting drops with precise control per serving.",
     pill: "New",
   },
   {
     name: "THCP Vapes",
-    href: "/shop/type/vapes",
+    href: "/vapes",
     image:
       "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/THCPVape.png",
     tagline: "Portable, smooth, and crafted for instant unwind.",
@@ -28,21 +28,21 @@ export const SHOP_CATEGORIES = [
   },
   {
     name: "CBD",
-    href: "/shop/cbd",
+    href: "/cbd",
     image: "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/CBDHemp.png",
     tagline: "Clean everyday essentials for total body balance.",
     pill: "Essential",
   },
   {
     name: "Pets",
-    href: "/shop/type/pets",
+    href: "/pets",
     image:
       "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/PetsTincture.png",
     tagline: "Calm routines and joint comfort for furry companions.",
   },
   {
     name: "Capsules",
-    href: "/shop/type/capsules",
+    href: "/capsules",
     image:
       "https://cdn.shopify.com/s/files/1/0753/2635/7667/files/Capsules.png",
     tagline: "No-mess precision and consistent strength per capsule.",
@@ -182,7 +182,7 @@ export const SHOP_BY_TYPE = [
 ];
 
 export const PRIMARY_LINKS = [
-  { label: "Blogs", href: "/blogs" },
+  { label: "Blog", href: "/blog" },
   { label: "About Us", href: "/about-us" },
   { label: "No Gimmicks", href: "/no-gimmicks" },
 ];

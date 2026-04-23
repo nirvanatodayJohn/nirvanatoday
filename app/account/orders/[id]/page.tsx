@@ -94,7 +94,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     </div>
                     <div className="flex flex-1 flex-col justify-between">
                       <div>
-                        <Link href={`/shop/product/${item.variant.product.handle}`} className="font-semibold hover:underline">
+                        <Link href={`/product/${item.variant.product.handle}`} className="font-semibold hover:underline">
                           {item.title}
                         </Link>
                         <p className="text-sm text-muted-foreground">{item.variant.title}</p>

@@ -116,7 +116,7 @@ export default function ContactPage() {
                   id="message" 
                   placeholder="Your Message" 
                   required 
-                  className="w-full min-h-[150px] rounded-2x border border-zinc-200 bg-zinc-50/50 p-6 outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary transition-all text-sm font-medium resize-none"
+                  className="w-full min-h-[150px] rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary transition-all text-sm font-medium resize-none"
                 />
               </div>
 
