@@ -135,14 +135,14 @@ export default function ProductDetailHero({ product }: { product: Product }) {
 
       <div className="flex flex-col justify-start p-6 sm:p-8">
         <div className="space-y-4">
-          <h1 className="font-serif text-4xl font-bold tracking-normal text-foreground sm:text-5xl">
+          <h1 className="font-serif text-3xl font-bold tracking-normal text-foreground sm:text-4xl">
             {product.title}
           </h1>
 
           <ReviewStars rating={product.rating} count={product.reviewCount} />
 
           <div className="flex items-end gap-4">
-            <span className="text-4xl font-black tracking-tight text-foreground sm:text-5xl">
+            <span className="text-3xl font-black tracking-tight text-foreground sm:text-4xl">
               {displayPrice}
             </span>
             {product.compareAtPrice && showCompareAtPrice && (

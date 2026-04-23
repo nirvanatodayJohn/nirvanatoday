@@ -61,7 +61,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ type:
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
-                        <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
+                        <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
                             Shop <span className="text-muted-foreground">{title}.</span>
                         </h1>
                     </div>

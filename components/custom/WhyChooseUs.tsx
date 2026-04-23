@@ -45,7 +45,7 @@ export default function WhyChooseUs() {
         <section className="border-t py-16">
             <div className="w-full px-4">
                 <div className="mb-10 flex max-w-4xl flex-col">
-                    <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-7xl">
+                    <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-5xl">
                         Uncompromising quality.<br />
                         <span className="text-muted-foreground">For everyone.</span>
                     </h2>

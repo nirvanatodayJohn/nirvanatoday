@@ -19,7 +19,7 @@ export default function AboutUsPage() {
             <section className="py-24 sm:py-32 lg:py-40">
                 <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="flex flex-col items-center text-center">
-                        <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl lg:text-8xl">
+                        <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl lg:text-6xl">
                             About <br />
                             <span className="text-muted-foreground">Nirvana Today.</span>
                         </h1>
@@ -36,7 +36,7 @@ export default function AboutUsPage() {
                 <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
                         <div className="flex flex-col gap-8">
-                            <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
+                            <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
                                 High-Quality <br />
                                 <span className="text-muted-foreground">Hemp.</span>
                             </h2>
@@ -54,7 +54,7 @@ export default function AboutUsPage() {
                         </div>
 
                         <div className="flex flex-col gap-8">
-                            <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
+                            <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
                                 Healthy <br />
                                 <span className="text-muted-foreground">Living.</span>
                             </h2>
@@ -77,7 +77,7 @@ export default function AboutUsPage() {
             {/* Mid-page Statement */}
             <section className="py-24 sm:py-32 lg:py-48">
                 <div className="mx-auto w-full max-w-5xl px-4 text-center">
-                    <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
+                    <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
                         Reach Nirvana with premium CBD products.
                     </h2>
                     <p className="mt-12 text-xl font-medium tracking-tight text-muted-foreground sm:text-2xl">
@@ -137,7 +137,7 @@ export default function AboutUsPage() {
                     <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24 lg:items-center">
                         <div className="flex flex-col gap-12">
                             <div className="flex flex-col gap-6">
-                                <h2 className="text-5xl font-bold tracking-tighter text-foreground sm:text-6xl">
+                                <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
                                     Safe. Pure. <br />
                                     <span className="text-muted-foreground">Certified.</span>
                                 </h2>
@@ -180,7 +180,7 @@ export default function AboutUsPage() {
             {/* Final CTA */}
             <section className="bg-foreground py-24 sm:py-32 lg:py-48 text-center text-background">
                 <div className="mx-auto w-full max-w-5xl px-4">
-                    <h2 className="text-5xl font-bold tracking-tighter sm:text-7xl lg:text-8xl">
+                    <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl lg:text-6xl">
                         Believe in a product you can trust.
                     </h2>
                     <p className="mt-12 text-xl font-medium tracking-tight text-background/70 sm:text-2xl">

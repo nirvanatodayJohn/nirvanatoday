@@ -54,7 +54,7 @@ export default async function BlogsPage({
 
         {/* Page Header */}
         <div className="mb-10 max-w-3xl space-y-4">
-          <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
+          <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
             Latest Blog Posts
           </h1>
           <p className="text-xl text-muted-foreground font-medium">
@@ -91,7 +91,7 @@ export default async function BlogsPage({
                 </div>
               </div>
 
-              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl lg:leading-[1.1] transition-colors group-hover:text-primary">
+              <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl lg:leading-[1.1] transition-colors group-hover:text-primary">
                 {featuredArticle.title}
               </h2>
 

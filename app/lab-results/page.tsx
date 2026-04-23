@@ -92,7 +92,7 @@ export default function LabResultsPage() {
                         <HugeiconsIcon icon={CircleCheck} size={16} />
                         <span>Third-Party Tested</span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                         Quality You Can <span className="text-primary italic">Verify</span>
                     </h1>
                     <p className="max-w-2xl mx-auto text-lg text-muted-foreground">

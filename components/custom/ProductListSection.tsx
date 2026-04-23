@@ -32,7 +32,7 @@ export default async function ProductListSection() {
     <section className="border-t py-16">
       <div className="flex w-full flex-col gap-8 px-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <h2 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl lg:text-6xl">
+          <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
             Best Sellers
           </h2>
           <Link href="/shop" className="hidden md:flex items-center gap-1.5 text-lg font-medium text-primary hover:underline underline-offset-4 transition-all">

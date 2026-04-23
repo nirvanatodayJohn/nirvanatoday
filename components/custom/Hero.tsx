@@ -13,7 +13,7 @@ export default function Hero() {
             <div className="px-4 sm:py-0 py-8">
                 <div className="grid min-h-[calc(92svh-4rem)] items-center lg:grid-cols-2 ">
                     <div className="space-y-7 text-left">
-                        <h1 className="text-pretty font-serif text-5xl font-black tracking-normal text-foreground md:text-6xl lg:text-7xl">
+                        <h1 className="text-pretty font-serif text-4xl font-black tracking-normal text-foreground md:text-5xl lg:text-6xl">
                             {HERO_CONTENT.title.prefix}
                             <br />
                             <span className="text-primary"> {HERO_CONTENT.title.emphasis}</span>

@@ -61,7 +61,7 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
     <section className="grid gap-8 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         <div>
-          <h2 className="font-serif text-4xl font-bold tracking-normal text-foreground sm:text-5xl">
+          <h2 className="font-serif text-3xl font-bold tracking-normal text-foreground sm:text-4xl">
             Customer Feedbacks
           </h2>
         </div>
@@ -96,7 +96,7 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
       </div>
 
       <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
-        <h2 className="font-serif text-4xl font-bold tracking-normal text-foreground sm:text-5xl">
+        <h2 className="font-serif text-3xl font-bold tracking-normal text-foreground sm:text-4xl">
           Average Rating
         </h2>
 

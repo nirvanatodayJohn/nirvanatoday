@@ -34,7 +34,7 @@ export default function ContactPage() {
         
         {/* Header Section */}
         <div className="max-w-3xl mb-24">
-          <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-7xl mb-8">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl mb-8">
             Contact Us
           </h1>
           <p className="text-xl font-medium text-muted-foreground leading-relaxed">

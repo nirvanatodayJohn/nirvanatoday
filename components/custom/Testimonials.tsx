@@ -88,7 +88,7 @@ export default function Testimonials() {
     return (
         <section className="border-t py-16">
             <div className="flex w-full flex-col gap-10 px-4">
-                <p className="text-center text-2xl font-semibold text-foreground sm:text-5xl">
+                <p className="text-center text-xl font-semibold text-foreground sm:text-3xl">
                     What our Customers Say
                 </p>
 

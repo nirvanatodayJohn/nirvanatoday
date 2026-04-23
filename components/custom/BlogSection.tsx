@@ -14,7 +14,7 @@ export default async function BlogSection() {
       <div className="w-full px-4">
         <div className="mb-12 flex items-end justify-between gap-6">
           <div className="max-w-2xl space-y-1">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Latest from the Blog</h2>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Latest from the Blog</h2>
             <p className="text-muted-foreground">
               Deep dives into wellness, THCA flower, and lifestyle from the Nirvana Today team.
             </p>

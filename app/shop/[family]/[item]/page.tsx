@@ -59,7 +59,7 @@ export default async function FamilyItemPage({ params }: { params: Promise<{ fam
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
-                        <h1 className="text-5xl font-bold tracking-tighter text-foreground sm:text-7xl">
+                        <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
                             {familyTitle} <span className="text-muted-foreground">{itemTitle}.</span>
                         </h1>
                     </div>

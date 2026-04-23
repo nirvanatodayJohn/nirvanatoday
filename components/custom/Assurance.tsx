@@ -43,7 +43,7 @@ export default function Assurance() {
                     <div className="flex flex-col items-start lg:py-8">
                         <div className="sticky top-32 space-y-4">
                             <div className="space-y-4">
-                                <h2 className="text-5xl leading-15 font-bold tracking-tighter text-foreground sm:text-7xl">
+                                <h2 className="text-4xl leading-15 font-bold tracking-tighter text-foreground sm:text-5xl">
                                     Absolute <br />
                                     <span className="text-primary">transparency.</span>
                                 </h2>

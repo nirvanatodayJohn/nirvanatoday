@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
       <div className="mx-auto max-w-3xl px-4">
         {/* Header Section */}
         <div className="mb-16 space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Privacy Policy
           </h1>
         </div>
