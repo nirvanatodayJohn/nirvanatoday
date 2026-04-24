@@ -1,9 +1,9 @@
 import React from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
 
-import { getProductByHandle, getProducts } from "@/lib/shopify";
+import { getProductByHandle, getProducts, getProductsByQuery } from "@/lib/shopify";
 import ProductCard from "@/components/custom/ProductCard";
 import ProductDescriptionSection from "@/components/custom/ProductDescriptionSection";
 import ProductDetailHero from "@/components/custom/ProductDetailHero";
@@ -53,9 +53,20 @@ export default async function ProductPage({
   params: Promise<{ product: string }>;
 }) {
   const { product: productHandle } = await params;
-  const product = await getProductByHandle(productHandle);
+  let product = await getProductByHandle(productHandle);
 
   if (!product) {
+    console.log(`[ProductPage] Exact handle match failed for: ${productHandle}. Attempting fallback search...`);
+    
+    const searchTerms = productHandle.split("-").filter(t => !["750mg", "30ct", "2ml", "mg", "ct", "ml"].includes(t)).join(" ");
+    const potentialMatches = await getProductsByQuery(searchTerms);
+
+    if (potentialMatches && potentialMatches.length > 0) {
+      const bestMatch = potentialMatches[0];
+      console.log(`[ProductPage] Found match for fallback: ${bestMatch.handle}. Redirecting...`);
+      redirect(`/product/${bestMatch.handle}`);
+    }
+
     console.log(`[ProductPage] Product NOT found for handle: ${productHandle}`);
     notFound();
   }
