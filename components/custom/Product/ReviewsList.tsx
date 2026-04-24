@@ -61,7 +61,7 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
     <section className="grid gap-8 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         <div>
-          <h2 className="font-serif text-3xl font-bold tracking-normal text-foreground sm:text-4xl">
+          <h2 className="font-serif text-2xl font-bold tracking-normal text-foreground sm:text-3xl">
             Customer Feedbacks
           </h2>
         </div>
@@ -77,7 +77,7 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
                   {getInitial(review.reviewer.name)}
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate text-xl font-semibold text-foreground">
+                  <h3 className="truncate text-lg font-semibold text-foreground">
                     {review.reviewer.name}
                   </h3>
                   <p className="text-sm font-medium text-muted-foreground">
@@ -88,7 +88,7 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
               <StarRow rating={review.rating} />
             </div>
 
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-base text-muted-foreground">
               {review.body}
             </p>
           </article>
@@ -96,13 +96,13 @@ export default function ReviewsList({ reviews }: { reviews: JudgeMeReview[] }) {
       </div>
 
       <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
-        <h2 className="font-serif text-3xl font-bold tracking-normal text-foreground sm:text-4xl">
+        <h2 className="font-serif text-2xl font-bold tracking-normal text-foreground sm:text-3xl">
           Average Rating
         </h2>
 
         <div className="rounded-2xl border border-border bg-card p-4 sm:p-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-4xl font-semibold text-foreground">
+            <span className="text-3xl font-semibold text-foreground">
               {averageRating.toFixed(1)}
             </span>
             <StarRow rating={averageRating} size="large" />

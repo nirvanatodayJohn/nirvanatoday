@@ -43,11 +43,11 @@ export default function Assurance() {
                     <div className="flex flex-col items-start lg:py-8">
                         <div className="sticky top-32 space-y-4">
                             <div className="space-y-4">
-                                <h2 className="text-4xl leading-15 font-bold tracking-tighter text-foreground sm:text-5xl">
+                                <h2 className="text-2xl leading-15 font-bold tracking-tighter text-foreground sm:text-3xl">
                                     Absolute <br />
                                     <span className="text-primary">transparency.</span>
                                 </h2>
-                                <p className="max-w-md text-xl font-medium tracking-tight text-muted-foreground lg:text-xl">
+                                <p className="max-w-md text-base font-medium tracking-tight text-muted-foreground lg:text-base">
                                     We publish Certificates of Analysis for potency and purity on every product, so you know exactly what you are getting.
                                 </p>
                             </div>
@@ -80,10 +80,10 @@ export default function Assurance() {
                                     className="size-24 text-foreground transition-transform duration-700 ease-out group-hover:scale-110 sm:size-32"
                                 />
                                 <div className="mt-2 flex flex-col gap-3">
-                                    <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                                    <h3 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                                         {item.label}
                                     </h3>
-                                    <p className="max-w-xl text-lg font-medium tracking-tight text-muted-foreground sm:text-xl">
+                                    <p className="max-w-xl text-base font-medium tracking-tight text-muted-foreground sm:text-lg">
                                         {item.description}
                                     </p>
                                 </div>

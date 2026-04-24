@@ -45,7 +45,7 @@ export default function WhyChooseUs() {
         <section className="border-t py-16">
             <div className="w-full px-4">
                 <div className="mb-10 flex max-w-4xl flex-col">
-                    <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-5xl">
+                    <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-4xl">
                         Uncompromising quality.<br />
                         <span className="text-muted-foreground">For everyone.</span>
                     </h2>
@@ -62,10 +62,10 @@ export default function WhyChooseUs() {
                             )}
                         >
                             <div className="z-10 flex flex-col items-center gap-4 text-background">
-                                <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                                <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
                                     {feature.title}
                                 </h3>
-                                <p className="max-w-md text-lg font-medium tracking-tight ">
+                                <p className="max-w-md text-base font-medium tracking-tight ">
                                     {feature.description}
                                 </p>
                             </div>

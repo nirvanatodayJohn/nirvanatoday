@@ -44,7 +44,7 @@ export default function BlogCard({ article, variant = "default" }: BlogCardProps
           </span>
         </div>
 
-        <h3 className="mb-3 text-xl font-bold tracking-tight text-primary-foreground line-clamp-2 leading-snug">
+        <h3 className="mb-3 text-lg font-bold tracking-tight text-primary-foreground line-clamp-2 leading-snug">
           {article.title}
         </h3>
 

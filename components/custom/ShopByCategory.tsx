@@ -40,7 +40,7 @@ export default function ShopByCategory() {
     <section className="border-t py-16 bg-card">
       <div className="w-full max-w-7xl px-4">
         <div className="mb-2 space-y-1">
-          <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
+          <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl lg:text-4xl">
             Shop by category.
           </h2>
           <p className="text-muted-foreground font-semibold">Take a look at what's right for you.</p>
@@ -85,7 +85,7 @@ export default function ShopByCategory() {
                   )}
 
                   <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end p-6 sm:p-6">
-                    <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                    <h3 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                       {category.name}
                     </h3>
 

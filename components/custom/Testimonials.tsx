@@ -88,7 +88,7 @@ export default function Testimonials() {
     return (
         <section className="border-t py-16">
             <div className="flex w-full flex-col gap-10 px-4">
-                <p className="text-center text-xl font-semibold text-foreground sm:text-3xl">
+                <p className="text-center text-lg font-semibold text-foreground sm:text-2xl">
                     What our Customers Say
                 </p>
 
@@ -104,7 +104,7 @@ export default function Testimonials() {
                                 </div>
 
                                 <div className="flex items-start py-6">
-                                    <p className="text-balance font-serif text-lg font-medium text-foreground italic">
+                                    <p className="text-balance font-serif text-base font-medium text-foreground italic">
                                         "{testimonial.quote}"
                                     </p>
                                 </div>

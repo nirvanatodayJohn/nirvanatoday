@@ -19,11 +19,11 @@ export default function AboutUsPage() {
             <section className="py-24 sm:py-32 lg:py-40">
                 <div className="mx-auto w-full max-w-7xl px-4">
                     <div className="flex flex-col items-center text-center">
-                        <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl lg:text-6xl">
+                        <h1 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
                             About <br />
                             <span className="text-muted-foreground">Nirvana Today.</span>
                         </h1>
-                        <p className="mt-12 max-w-3xl text-xl font-medium tracking-tight text-muted-foreground sm:text-2xl lg:text-3xl">
+                        <p className="mt-12 max-w-3xl text-lg font-medium tracking-tight text-muted-foreground sm:text-xl lg:text-2xl">
                             Nirvana Today is a company that promotes wellness through the use of hemp products.
                             Hemp is a natural plant that has been used for thousands of years to promote health and well-being.
                         </p>
@@ -40,7 +40,7 @@ export default function AboutUsPage() {
                                 High-Quality <br />
                                 <span className="text-muted-foreground">Hemp.</span>
                             </h2>
-                            <p className="text-lg font-medium tracking-tight text-muted-foreground sm:text-xl">
+                            <p className="text-base font-medium tracking-tight text-muted-foreground sm:text-lg">
                                 Nirvana Today uses non-GMO plants to ensure our products are safe and healthy.
                                 Our hemp is grown organically, without pesticides or other harmful chemicals.
                                 We strive to provide customers with the highest quality products while ensuring the health and safety of all our CBD oil users.
@@ -58,7 +58,7 @@ export default function AboutUsPage() {
                                 Healthy <br />
                                 <span className="text-muted-foreground">Living.</span>
                             </h2>
-                            <p className="text-lg font-medium tracking-tight text-muted-foreground sm:text-xl">
+                            <p className="text-base font-medium tracking-tight text-muted-foreground sm:text-lg">
                                 Hemp has been used for centuries to promote mind and body wellness.
                                 The popular plant contains over 500 naturally occurring compounds, including more than 100 phytocannabinoids similar to CBD.
                                 The organic formula also has terpenes, which account for the sweet aromas, and plenty of nutrients ideal for your well-being.
@@ -77,10 +77,10 @@ export default function AboutUsPage() {
             {/* Mid-page Statement */}
             <section className="py-24 sm:py-32 lg:py-48">
                 <div className="mx-auto w-full max-w-5xl px-4 text-center">
-                    <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl lg:text-5xl">
+                    <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl lg:text-4xl">
                         Reach Nirvana with premium CBD products.
                     </h2>
-                    <p className="mt-12 text-xl font-medium tracking-tight text-muted-foreground sm:text-2xl">
+                    <p className="mt-12 text-lg font-medium tracking-tight text-muted-foreground sm:text-xl">
                         Hemp CBD oil is a natural anti-inflammatory and can help reduce everyday discomforts,
                         such as common complaints following a challenging workout.
                         The ancient compound also helps promote better sleep, mood, and focus by balancing the body’s endocannabinoid system.
@@ -137,7 +137,7 @@ export default function AboutUsPage() {
                     <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24 lg:items-center">
                         <div className="flex flex-col gap-12">
                             <div className="flex flex-col gap-6">
-                                <h2 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
+                                <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl">
                                     Safe. Pure. <br />
                                     <span className="text-muted-foreground">Certified.</span>
                                 </h2>
@@ -162,7 +162,7 @@ export default function AboutUsPage() {
                             <h3 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
                                 Highest Customer <br /> Service Standards.
                             </h3>
-                            <p className="text-lg font-medium tracking-tight text-muted-foreground sm:text-xl">
+                            <p className="text-base font-medium tracking-tight text-muted-foreground sm:text-lg">
                                 Nirvana Today is dedicated to ensuring our customers receive the best experience possible.
                                 Our team’s always available to help you find the right hemp CBD supplements for your wellness needs.
                             </p>

@@ -92,7 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
 
         <div className="mt-1 flex items-baseline gap-2">
-          <span className="text-lg font-extrabold tracking-tight text-foreground">{displayPrice}</span>
+          <span className="text-base font-extrabold tracking-tight text-foreground">{displayPrice}</span>
           {product.compareAtPrice && showCompareAtPrice && (
             <span className="text-xs text-muted-foreground line-through opacity-50">{product.compareAtPrice}</span>
           )}

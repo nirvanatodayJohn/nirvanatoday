@@ -148,7 +148,7 @@
 
 @layer components {
   .product-description-html {
-    @apply mx-auto max-w-4xl text-[1.05rem] leading-8 text-foreground/80;
+    @apply mx-auto max-w-4xl text-[0.95rem] leading-7 text-foreground/80;
   }
 
   .product-description-html > :first-child {
@@ -156,7 +156,7 @@
   }
 
   .product-description-html > p:first-of-type {
-    @apply text-[1.18rem] leading-9 text-foreground/88 sm:text-[1.28rem];
+    @apply text-lg leading-8 text-foreground/88 sm:text-xl;
   }
 
   .product-description-html h1,
@@ -167,28 +167,28 @@
   }
 
   .product-description-html h1 {
-    @apply mb-6 text-3xl sm:text-4xl;
+    @apply mb-6 text-2xl sm:text-3xl;
   }
 
   .product-description-html h2 {
-    @apply mt-14 mb-5 text-2xl sm:text-3xl;
+    @apply mt-14 mb-5 text-xl sm:text-2xl;
   }
 
   .product-description-html h3 {
-    @apply mt-11 mb-4 text-xl sm:text-2xl;
+    @apply mt-11 mb-4 text-lg sm:text-xl;
   }
 
   .product-description-html h4 {
-    @apply mt-8 mb-3 text-lg sm:text-xl;
+    @apply mt-8 mb-3 text-base sm:text-lg;
   }
 
   .product-description-html p {
-    @apply mb-5 text-[1.05rem] leading-8 text-foreground/75;
+    @apply mb-5 text-[0.95rem] leading-7 text-foreground/75;
   }
 
   .product-description-html ul,
   .product-description-html ol {
-    @apply mb-7 space-y-3 pl-6 text-[1.05rem] leading-8 text-foreground/75;
+    @apply mb-7 space-y-3 pl-6 text-[0.95rem] leading-7 text-foreground/75;
   }
 
   .product-description-html ul {
