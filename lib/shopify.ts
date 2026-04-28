@@ -13,6 +13,21 @@ export const CACHE_TAGS = {
   judgeMeReviews: "judgeme-reviews",
 } as const;
 
+const EXCLUDED_TERMS = ["THCA", "Delta 10", "Delta-10"];
+
+function isExcludedProduct(node: any): boolean {
+  const title = (node.title || "").toUpperCase();
+  const tags = (node.tags || []).map((t: string) => t.toUpperCase());
+  const productType = (node.productType || "").toUpperCase();
+
+  return EXCLUDED_TERMS.some(term => {
+    const upperTerm = term.toUpperCase();
+    return title.includes(upperTerm) || 
+           tags.includes(upperTerm) || 
+           productType.includes(upperTerm);
+  });
+}
+
 type ShopifyFetchArgs = {
   query: string;
   variables?: Record<string, any>;
@@ -264,7 +279,7 @@ export async function getProducts(
     };
   }
 
-  const allEdges = res.body.data.products.edges;
+  const allEdges = res.body.data.products.edges.filter((edge: any) => !isExcludedProduct(edge.node));
   const totalProducts = allEdges.length;
 
   const startIdx = (page - 1) * pageSize;
@@ -453,7 +468,9 @@ export async function getProductsByQuery(queryStr: string): Promise<Product[]> {
 
   if (!res.body?.data?.products) return [];
 
-  return res.body.data.products.edges.map((edge: any) => {
+  return res.body.data.products.edges
+    .filter((edge: any) => !isExcludedProduct(edge.node))
+    .map((edge: any) => {
     const node = edge.node;
     const price = node.priceRange.minVariantPrice;
     const compareAt = node.compareAtPriceRange?.minVariantPrice;

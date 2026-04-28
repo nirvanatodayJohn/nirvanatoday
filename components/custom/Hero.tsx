@@ -9,8 +9,8 @@ import { buttonVariants } from "../ui/button";
 export default function Hero() {
 
     return (
-        <section className=" bg-card">
-            <div className="px-4 sm:py-0 py-8">
+        <section className="bg-card px-10">
+            <div className="sm:py-0 py-8">
                 <div className="grid min-h-[calc(92svh-4rem)] items-center lg:grid-cols-2 ">
                     <div className="space-y-7 text-left">
                         <h1 className="text-pretty font-serif text-4xl font-black tracking-normal text-foreground md:text-5xl lg:text-6xl">
@@ -60,8 +60,8 @@ export default function Hero() {
             </div>
 
             <div className="border-t border-border/60 bg-card">
-                <div className="mx-auto px-4">
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-8 py-7 sm:py-8 md:grid-cols-4">
+                <div className="mx-auto px-10">
+                    <div className="flex justify-evenly gap-8 py-7 sm:py-8 md:grid-cols-4">
                         {HERO_CONTENT.stats.map((stat) => (
                             <div key={stat.label} className="space-y-1.5">
                                 <p className="text-[0.7rem] font-semibold text-muted-foreground">

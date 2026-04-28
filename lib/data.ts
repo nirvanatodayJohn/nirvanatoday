@@ -99,12 +99,14 @@ export const FAQ_ITEMS = [
     answer:
       "Yes, all of our products undergo third-party lab testing for quality assurance. We provide Certificates of Analysis (COA) for each product, which you can access on the product page. These certificates show the exact potency and ingredient profile, so you can shop with confidence knowing what’s in every item.",
   },
+  /*
   {
     question:
       "What is THCA and how is it different from CBD or Delta‑8/Delta‑9?",
     answer:
       "THCA is a cannabinoid found in raw cannabis and hemp. Unlike CBD, which does not convert into THC, THCA can convert into Delta‑9 THC when heated, providing different effects. It’s important to know the distinction so you can choose the right product for your needs. We make sure to explain the differences clearly on our site so you can make an informed decision.",
   },
+  */
   {
     question:
       "How long will it take for my order to arrive and how is it shipped?",
@@ -151,14 +153,18 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
     name: "Delta 9",
     items: ["Gummies"],
   },
+  /*
   {
     name: "Delta 10",
     items: ["Tinctures", "Vapes"],
   },
+  */
+  /*
   {
     name: "THCP",
     items: ["Vapes"],
   },
+  */
   {
     name: "Blends",
     items: ["Vapes"],

@@ -16,7 +16,8 @@ import {
 
 export const metadata = {
   title: "Blog | Nirvana Today",
-  description: "Read the latest about wellness, THCA, and CBD at Nirvana Today.",
+  // description: "Read the latest about wellness, THCA, and CBD at Nirvana Today.",
+  description: "Read the latest about wellness and CBD at Nirvana Today.",
 };
 
 export default async function BlogsPage({

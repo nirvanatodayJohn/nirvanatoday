@@ -33,7 +33,8 @@ const FEATURES = [
     },
     {
         title: "Full-Spectrum Range.",
-        description: "Premium CBD, THCA flower, kratom, and nootropics engineered for calm, focus, and rapid recovery.",
+        // description: "Premium CBD, THCA flower, kratom, and nootropics engineered for calm, focus, and rapid recovery.",
+        description: "Premium CBD, kratom, and nootropics engineered for calm, focus, and rapid recovery.",
         icon: FlowerIcon,
         className: "md:col-span-3",
         iconClassName: "size-40 sm:size-60",
@@ -42,8 +43,8 @@ const FEATURES = [
 
 export default function WhyChooseUs() {
     return (
-        <section className="border-t py-16">
-            <div className="w-full px-4">
+        <section className="border-t py-16 px-10">
+            <div className="w-full">
                 <div className="mb-10 flex max-w-4xl flex-col">
                     <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-4xl">
                         Uncompromising quality.<br />

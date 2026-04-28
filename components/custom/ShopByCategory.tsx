@@ -37,8 +37,8 @@ export default function ShopByCategory() {
   }, [api, isPaused]);
 
   return (
-    <section className="border-t py-16 bg-card">
-      <div className="w-full max-w-7xl px-4">
+    <section className="border-t px-10 py-16 bg-card">
+      <div className="w-full max-w-7xl">
         <div className="mb-2 space-y-1">
           <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl lg:text-4xl">
             Shop by category.

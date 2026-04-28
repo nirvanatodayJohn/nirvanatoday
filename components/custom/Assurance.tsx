@@ -35,8 +35,8 @@ const ASSURANCES = [
 
 export default function Assurance() {
     return (
-        <section className="border-t py-16">
-            <div className="w-full px-4">
+        <section className="border-t py-16 px-10">
+            <div className="w-full">
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
                     {/* Left Column: Sticky Title (Apple style scroll effect) */}

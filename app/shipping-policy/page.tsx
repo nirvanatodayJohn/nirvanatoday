@@ -45,11 +45,13 @@ export default function ShippingPolicyPage() {
             </h2>
             
             <div className="space-y-8">
-               <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-foreground">THCA Products</h3>
-                  <p className="text-muted-foreground">Not available for shipment to the following states:</p>
-                  <p className="font-semibold text-foreground">Arkansas, Hawaii, Idaho, Kansas, Louisiana, Oklahoma, Oregon, Rhode Island, Utah, Vermont</p>
-               </div>
+                {/* 
+                <div className="space-y-3">
+                   <h3 className="text-lg font-bold text-foreground">THCA Products</h3>
+                   <p className="text-muted-foreground">Not available for shipment to the following states:</p>
+                   <p className="font-semibold text-foreground">Arkansas, Hawaii, Idaho, Kansas, Louisiana, Oklahoma, Oregon, Rhode Island, Utah, Vermont</p>
+                </div> 
+                */}
 
                <div className="space-y-3">
                   <h3 className="text-lg font-bold text-foreground">Delta-8 Products</h3>

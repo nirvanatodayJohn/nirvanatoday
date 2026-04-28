@@ -38,7 +38,7 @@ const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Our Category",
     links: [
-      { label: "THCA Flower", href: "/shop/thca-flower" },
+      // { label: "THCA Flower", href: "/shop/thca-flower" },
       { label: "CBD", href: "/shop/cbd" },
       { label: "Capsules", href: "/capsules" },
       { label: "Gummies", href: "/gummies" },
@@ -88,8 +88,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="border-t border bg-background">
-      <div className="mx-auto flex w-full pt-4 flex-col px-4">
+    <footer className="border-t border bg-background px-10 py-4">
+      <div className="mx-auto flex w-full pt-4 flex-col">
         <div className="flex flex-col pb-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-md space-y-4">
             <Link

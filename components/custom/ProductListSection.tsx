@@ -29,8 +29,8 @@ export default async function ProductListSection() {
     : allProducts.slice(0, 4);
 
   return (
-    <section className="border-t py-16">
-      <div className="flex w-full flex-col gap-8 px-4">
+    <section className="border-t py-16 px-10">
+      <div className="flex w-full flex-col gap-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl lg:text-4xl">
             Best Sellers

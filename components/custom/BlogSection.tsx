@@ -10,13 +10,14 @@ export default async function BlogSection() {
   if (!articles || articles.length === 0) return null;
 
   return (
-    <section className="border-t py-16">
+    <section className="border-t py-16 px-10">
       <div className="w-full px-4">
         <div className="mb-12 flex items-end justify-between gap-6">
           <div className="max-w-2xl space-y-1">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Latest from the Blog</h2>
             <p className="text-muted-foreground">
-              Deep dives into wellness, THCA flower, and lifestyle from the Nirvana Today team.
+              {/* Deep dives into wellness, THCA flower, and lifestyle from the Nirvana Today team. */}
+              Deep dives into wellness and lifestyle from the Nirvana Today team.
             </p>
           </div>
           <Link
