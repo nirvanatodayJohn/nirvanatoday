@@ -3,7 +3,8 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
 
-import { getProductByHandle, getProducts, getProductsByQuery } from "@/lib/shopify";
+import { getProductByHandle, getProducts, getProductsByQuery, getCustomerPurchasedProductHandles } from "@/lib/shopify";
+import { cookies } from "next/headers";
 import ProductCard from "@/components/custom/ProductCard";
 import ProductDescriptionSection from "@/components/custom/ProductDescriptionSection";
 import ProductDetailHero from "@/components/custom/ProductDetailHero";
@@ -75,6 +76,16 @@ export default async function ProductPage({
 
   // Fetch reviews from Judge.me API
   const reviews = await getJudgeMeReviews(product.handle);
+
+  // Check if logged in customer has purchased this product
+  const cookieStore = await cookies();
+  const customerToken = cookieStore.get("shopify_customer_token")?.value;
+  let hasPurchased = false;
+
+  if (customerToken) {
+    const purchasedHandles = await getCustomerPurchasedProductHandles(customerToken);
+    hasPurchased = purchasedHandles.includes(product.handle);
+  }
 
   // Generate JSON-LD
   const jsonLd = {
@@ -161,7 +172,12 @@ export default async function ProductPage({
 
         {/* Custom API-driven Reviews */}
         <div className="border-t border-border/40 mt-16 pt-16">
-          <ReviewsList reviews={reviews} />
+          <ReviewsList 
+            reviews={reviews} 
+            productId={product.shopifyId || ""} 
+            productHandle={product.handle} 
+            hasPurchased={hasPurchased} 
+          />
         </div>
 
         <section className="border-t border-border/40 pt-16">

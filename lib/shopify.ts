@@ -789,6 +789,59 @@ export async function getCustomer(accessToken: string) {
   return res.body.data.customer;
 }
 
+export async function getCustomerPurchasedProductHandles(accessToken: string): Promise<string[]> {
+  const query = `
+    query getCustomerPurchasedProducts($customerAccessToken: String!) {
+      customer(customerAccessToken: $customerAccessToken) {
+        orders(first: 50) {
+          edges {
+            node {
+              lineItems(first: 100) {
+                edges {
+                  node {
+                    variant {
+                      product {
+                        handle
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const res = await shopifyFetch<any>({
+      query,
+      variables: { customerAccessToken: accessToken },
+      cache: "no-store",
+    });
+
+    const orders = res.body?.data?.customer?.orders?.edges || [];
+    const handles: string[] = [];
+
+    for (const orderEdge of orders) {
+      const lineItems = orderEdge.node?.lineItems?.edges || [];
+      for (const itemEdge of lineItems) {
+        const handle = itemEdge.node?.variant?.product?.handle;
+        if (handle && !handles.includes(handle)) {
+          handles.push(handle);
+        }
+      }
+    }
+
+    return handles;
+  } catch (error) {
+    console.error("[Shopify] Error fetching purchased product handles:", error);
+    return [];
+  }
+}
+
+
 export async function getCustomerOrder(accessToken: string, orderId: string) {
   const query = `
     query getCustomerOrder($customerAccessToken: String!, $orderId: ID!) {
@@ -947,7 +1000,10 @@ export async function addCustomerAddress(accessToken: string, addressInput: any)
 
   return res.body.data.customerAddressCreate;
 }
-export async function createCheckout(items: { id: string; quantity: number }[]) {
+export async function createCheckout(
+  items: { id: string; quantity: number }[],
+  customerAccessToken?: string
+) {
   const query = `
     mutation cartCreate($input: CartInput!) {
       cartCreate(input: $input) {
@@ -963,16 +1019,22 @@ export async function createCheckout(items: { id: string; quantity: number }[]) 
     }
   `;
 
+  const input: any = {
+    lines: items.map((item) => ({
+      merchandiseId: item.id,
+      quantity: item.quantity,
+    })),
+  };
+
+  if (customerAccessToken) {
+    input.buyerIdentity = {
+      customerAccessToken,
+    };
+  }
+
   const res = await shopifyFetch<any>({
     query,
-    variables: {
-      input: {
-        lines: items.map((item) => ({
-          merchandiseId: item.id,
-          quantity: item.quantity,
-        })),
-      },
-    },
+    variables: { input },
     cache: "no-store",
   });
 

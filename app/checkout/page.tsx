@@ -16,15 +16,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useCart } from "@/lib/store/useCart"
-import { cn } from "@/lib/utils"
+import { handleCheckoutAction } from "@/app/actions/checkout"
 
 export default function CheckoutPage() {
   const router = useRouter()
-  const { items, totalPrice, totalItems, clearCart } = useCart()
+  const { items, totalPrice, clearCart } = useCart()
   const [showDifferentShipping, setShowDifferentShipping] = React.useState(false)
   const [showCoupon, setShowCoupon] = React.useState(false)
   const [couponCode, setCouponCode] = React.useState("")
   const [isProcessing, setIsProcessing] = React.useState(false)
+  const [checkoutError, setCheckoutError] = React.useState<string | null>(null)
 
   // Redirect if cart is empty
   React.useEffect(() => {
@@ -33,15 +34,32 @@ export default function CheckoutPage() {
     }
   }, [items, router, isProcessing])
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsProcessing(true)
+    setCheckoutError(null)
 
-    // Simulate order processing
-    setTimeout(() => {
-      clearCart()
-      router.push("/checkout/success") // Assuming a success page exists or will be created
-    }, 2000)
+    try {
+      const result = await handleCheckoutAction(
+        items.map((item) => ({
+          id: item.id,
+          quantity: item.quantity,
+        }))
+      );
+
+      if (result?.webUrl) {
+        clearCart()
+        window.location.href = result.webUrl
+      } else {
+        console.error("Checkout creation failed:", result?.errors)
+        setCheckoutError(result?.errors?.[0]?.message || "There was an error processing your checkout. Please try again.")
+        setIsProcessing(false)
+      }
+    } catch (error) {
+      console.error("Error creating checkout:", error)
+      setCheckoutError("A connection error occurred. Please try again.")
+      setIsProcessing(false)
+    }
   }
 
   if (items.length === 0) return null
@@ -247,10 +265,16 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {checkoutError && (
+                <div className="mt-6 rounded-2xl bg-destructive/10 border border-destructive/20 p-4 text-sm font-medium text-destructive">
+                  {checkoutError}
+                </div>
+              )}
+
               <Button
                 type="submit"
                 disabled={isProcessing}
-                className="w-full mt-10 h-14 rounded-full text-base font-bold shadow-xl shadow-primary/20 hover:scale-[1.02]"
+                className="w-full mt-6 h-14 rounded-full text-base font-bold shadow-xl shadow-primary/20 hover:scale-[1.02]"
               >
                 {isProcessing ? (
                   <div className="flex items-center gap-2">

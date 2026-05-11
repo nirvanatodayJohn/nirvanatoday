@@ -12,9 +12,10 @@ import ReviewStars from "@/components/custom/ReviewStars";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority }: ProductCardProps) {
   const displayVariants = (product.variants ?? []).filter(
     (variant) => variant.title && variant.title.toLowerCase() !== "default title"
   );
@@ -47,6 +48,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={displayAlt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            priority={priority}
             className="object-contain object-center mix-blend-multiply transition-all duration-300 dark:mix-blend-normal"
           />
         </div>

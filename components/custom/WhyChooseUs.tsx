@@ -44,7 +44,7 @@ const FEATURES = [
 export default function WhyChooseUs() {
     return (
         <section className="border-t py-16 px-10">
-            <div className="w-full">
+            <div className="mx-auto w-full max-w-7xl">
                 <div className="mb-10 flex max-w-4xl flex-col">
                     <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-4xl">
                         Uncompromising quality.<br />

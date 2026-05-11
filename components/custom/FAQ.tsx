@@ -11,7 +11,7 @@ import { FAQ_ITEMS } from "@/lib/data"
 export default function FAQ() {
     return (
         <section className="border-t px-10 py-16">
-            <div className="flex w-full flex-col gap-8">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
                 <div className="flex flex-col gap-1">
                     <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                         Frequently Asked Questions

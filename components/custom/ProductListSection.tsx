@@ -30,7 +30,7 @@ export default async function ProductListSection() {
 
   return (
     <section className="border-t py-16 px-10">
-      <div className="flex w-full flex-col gap-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl lg:text-4xl">
             Best Sellers
@@ -40,14 +40,14 @@ export default async function ProductListSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-2">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4 mt-2">
+          {featuredProducts.map((product, index) => (
+            <ProductCard key={product.id} product={product} priority={index < 4} />
           ))}
         </div>
 
         {/* Mobile View All Button */}
-        <div className="mt-4 flex justify-center lg:hidden">
+        <div className="mt-4 flex justify-center md:hidden">
           <Link href="/shop" className="w-full sm:w-auto">
             <Button size="lg" className="w-full rounded-full text-base font-semibold">
               Shop the full collection

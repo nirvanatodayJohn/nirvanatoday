@@ -236,7 +236,7 @@ export type HeroContent = {
 export const HERO_CONTENT: HeroContent = {
   title: {
     prefix: "Wellness for",
-    emphasis: "High-Stakes",
+    emphasis: "Comfortable",
     suffix: "Living",
   },
   description:

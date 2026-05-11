@@ -34,7 +34,7 @@ function createAvatar(initials: string, background: string, foreground: string) 
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-/*
+
 const TESTIMONIALS: Testimonial[] = [
     {
         name: "Jenna M.",
@@ -85,38 +85,12 @@ const TESTIMONIALS: Testimonial[] = [
         avatar: createAvatar("AH", "#E7F1E1", "#5A8244"),
     },
 ];
-*/
 
-const TESTIMONIALS: Testimonial[] = [
-    {
-        name: "Jenna M.",
-        role: "Premium product customer",
-        quote:
-            "I have tried a few different shops, and I did not expect the quality here to be priced this low. The products are lab tested and the labels actually tell you what you are getting, so it feels like you know exactly what you are getting before you even try it.",
-        stars: 5,
-        avatar: createAvatar("JM", "#E8F4DA", "#497A2F"),
-    },
-    {
-        name: "Daniel S.",
-        role: "Nationwide shipping customer",
-        quote:
-            "I've ordered from Nirvana Today a few times now, and honestly, I'm always surprised by how fast my orders get here. Even though I'm not in Florida, they still show up quick, and the packaging is always discreet. It feels like they really do have a nationwide operation.",
-        stars: 5,
-        avatar: createAvatar("DS", "#F2F7E9", "#5A8D3A"),
-    },
-    {
-        name: "Austin Hayes",
-        role: "Repeat wellness buyer",
-        quote:
-            "I've been using Nirvana Today for a bit now, and I have to say, I'm pretty impressed with the vapes and gummies. The prices are way lower than I expected, especially for lab-tested stuff. Feels like I found a solid go-to for quality without paying a premium.",
-        stars: 5,
-        avatar: createAvatar("AH", "#EDF2E4", "#6A9650"),
-    },
-];
+
 export default function Testimonials() {
     return (
         <section className="border-t py-16 px-10">
-            <div className="flex w-full flex-col gap-10">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-10">
                 <p className="text-center text-lg font-semibold text-foreground sm:text-2xl">
                     What our Customers Say
                 </p>

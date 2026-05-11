@@ -36,14 +36,14 @@ const ASSURANCES = [
 export default function Assurance() {
     return (
         <section className="border-t py-16 px-10">
-            <div className="w-full">
+            <div className="mx-auto w-full max-w-7xl">
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
                     {/* Left Column: Sticky Title (Apple style scroll effect) */}
                     <div className="flex flex-col items-start lg:py-8">
                         <div className="sticky top-32 space-y-4">
                             <div className="space-y-4">
-                                <h2 className="text-2xl leading-15 font-bold tracking-tighter text-foreground sm:text-3xl">
+                                <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl">
                                     Absolute <br />
                                     <span className="text-primary">transparency.</span>
                                 </h2>
