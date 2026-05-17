@@ -542,7 +542,7 @@ export async function getCollectionByHandle(handle: string, cache: RequestCache 
     tags: [CACHE_TAGS.collections]
   });
 
-  return res.body.data.collection || null;
+  return res.body?.data?.collection || null;
 }
 
 const articleFragment = `
@@ -718,7 +718,7 @@ export async function createCustomer(
     cache: "no-store",
   });
 
-  return res.body.data.customerCreate;
+  return res.body?.data?.customerCreate;
 }
 
 export async function createAccessToken(email: string, password: string) {
@@ -746,7 +746,7 @@ export async function createAccessToken(email: string, password: string) {
     cache: "no-store",
   });
 
-  return res.body.data.customerAccessTokenCreate;
+  return res.body?.data?.customerAccessTokenCreate;
 }
 
 export async function getCustomer(accessToken: string) {
@@ -786,7 +786,7 @@ export async function getCustomer(accessToken: string) {
     cache: "no-store",
   });
 
-  return res.body.data.customer;
+  return res.body?.data?.customer;
 }
 
 export async function getCustomerPurchasedProductHandles(accessToken: string): Promise<string[]> {
@@ -919,7 +919,7 @@ export async function getCustomerOrder(accessToken: string, orderId: string) {
     cache: "no-store",
   });
 
-  return res.body.data?.customer?.order;
+  return res.body?.data?.customer?.order;
 }
 
 export async function updateCustomer(accessToken: string, customerInput: any) {
@@ -948,7 +948,7 @@ export async function updateCustomer(accessToken: string, customerInput: any) {
     cache: "no-store",
   });
 
-  return res.body.data.customerUpdate;
+  return res.body?.data?.customerUpdate;
 }
 
 export async function updateCustomerAddress(accessToken: string, addressId: string, addressInput: any) {
@@ -973,7 +973,7 @@ export async function updateCustomerAddress(accessToken: string, addressId: stri
     cache: "no-store",
   });
 
-  return res.body.data.customerAddressUpdate;
+  return res.body?.data?.customerAddressUpdate;
 }
 
 export async function addCustomerAddress(accessToken: string, addressInput: any) {
@@ -998,7 +998,7 @@ export async function addCustomerAddress(accessToken: string, addressInput: any)
     cache: "no-store",
   });
 
-  return res.body.data.customerAddressCreate;
+  return res.body?.data?.customerAddressCreate;
 }
 export async function createCheckout(
   items: { id: string; quantity: number }[],
