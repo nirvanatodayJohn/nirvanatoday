@@ -35,9 +35,17 @@ function resolveCacheTag(tag: string) {
  */
 async function verifyShopifyWebhook(
   rawBody: ArrayBuffer,
-  signature: string
+  signature: string,
+  shopifyTopic: string
 ): Promise<boolean> {
-  if (!SHOPIFY_WEBHOOK_SECRET) return false;
+  if (!SHOPIFY_WEBHOOK_SECRET) {
+    console.error("[Revalidate] SHOPIFY_WEBHOOK_SECRET is not set in environment variables!");
+    return false;
+  }
+  if (!signature) {
+    console.warn(`[Revalidate] Missing signature header for topic: "${shopifyTopic}"`);
+    return false;
+  }
   try {
     const enc = new TextEncoder();
     const key = await crypto.subtle.importKey(
@@ -49,8 +57,16 @@ async function verifyShopifyWebhook(
     );
     const digest = await crypto.subtle.sign("HMAC", key, rawBody);
     const digestBase64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
-    return digestBase64 === signature;
-  } catch {
+    
+    const isValid = digestBase64 === signature;
+    if (!isValid) {
+      console.warn(
+        `[Revalidate] HMAC signature mismatch for topic "${shopifyTopic}". Received: "${signature}", Generated: "${digestBase64}"`
+      );
+    }
+    return isValid;
+  } catch (error) {
+    console.error("[Revalidate] Error verifying Shopify webhook signature:", error);
     return false;
   }
 }
@@ -61,23 +77,24 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get("x-shopify-hmac-sha256") ?? "";
     const shopifyTopic = request.headers.get("x-shopify-topic") ?? "";
 
+    console.log(`[Revalidate] Received webhook. Topic: "${shopifyTopic}", Signature length: ${signature.length}`);
+
     // Read raw body as ArrayBuffer for HMAC verification
     const rawBody = await request.arrayBuffer();
 
-    if (!(await verifyShopifyWebhook(rawBody, signature))) {
-      console.warn(`[Revalidate] Invalid webhook signature for topic: "${shopifyTopic}"`);
+    if (!(await verifyShopifyWebhook(rawBody, signature, shopifyTopic))) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     let revalidatedTags: string[] = [];
 
     if (shopifyTopic.startsWith("products/")) {
-      revalidateTag(CACHE_TAGS.products, "default");
+      revalidateTag(CACHE_TAGS.products, { expire: 0 });
       revalidatedTags.push(CACHE_TAGS.products);
     }
 
     if (shopifyTopic.startsWith("collections/")) {
-      revalidateTag(CACHE_TAGS.collections, "default");
+      revalidateTag(CACHE_TAGS.collections, { expire: 0 });
       revalidatedTags.push(CACHE_TAGS.collections);
     }
 
@@ -85,7 +102,7 @@ export async function POST(request: NextRequest) {
       shopifyTopic.startsWith("articles/") ||
       shopifyTopic.startsWith("blogs/")
     ) {
-      revalidateTag(CACHE_TAGS.blogs, "default");
+      revalidateTag(CACHE_TAGS.blogs, { expire: 0 });
       revalidatedTags.push(CACHE_TAGS.blogs);
     }
 
@@ -93,13 +110,13 @@ export async function POST(request: NextRequest) {
       shopifyTopic.startsWith("judgeme/") ||
       shopifyTopic.startsWith("reviews/")
     ) {
-      revalidateTag(CACHE_TAGS.judgeMeReviews, "default");
+      revalidateTag(CACHE_TAGS.judgeMeReviews, { expire: 0 });
       revalidatedTags.push(CACHE_TAGS.judgeMeReviews);
     }
 
     // Unknown topic → revalidate everything
     if (revalidatedTags.length === 0) {
-      ALL_CACHE_TAGS.forEach((tag) => revalidateTag(tag, "default"));
+      ALL_CACHE_TAGS.forEach((tag) => revalidateTag(tag, { expire: 0 }));
       revalidatedTags = [...ALL_CACHE_TAGS];
     }
 
@@ -132,11 +149,11 @@ export async function GET(request: NextRequest) {
   const cacheTag = tag ? resolveCacheTag(tag) : null;
 
   if (cacheTag) {
-    revalidateTag(cacheTag, "default");
+    revalidateTag(cacheTag, { expire: 0 });
     return NextResponse.json({ revalidated: true, tag: cacheTag, now: Date.now() });
   }
 
   // No tag specified → revalidate all
-  ALL_CACHE_TAGS.forEach((t) => revalidateTag(t, "default"));
+  ALL_CACHE_TAGS.forEach((t) => revalidateTag(t, { expire: 0 }));
   return NextResponse.json({ revalidated: true, tags: ALL_CACHE_TAGS, now: Date.now() });
 }

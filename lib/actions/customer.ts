@@ -16,6 +16,9 @@ export async function updateProfileAction(formData: FormData) {
 
   const res = await updateCustomer(token, { firstName, lastName, phone });
 
+  if (!res) {
+    return { error: 'Failed to update profile. Please try again.' };
+  }
   if (res.customerUserErrors?.length > 0) {
     return { error: res.customerUserErrors[0].message };
   }
@@ -45,6 +48,9 @@ export async function updateAddressAction(formData: FormData) {
     country,
   });
 
+  if (!res) {
+    return { error: 'Failed to update address. Please try again.' };
+  }
   if (res.customerUserErrors?.length > 0) {
     return { error: res.customerUserErrors[0].message };
   }
@@ -73,6 +79,9 @@ export async function addAddressAction(formData: FormData) {
     country,
   });
 
+  if (!res) {
+    return { error: 'Failed to add address. Please try again.' };
+  }
   if (res.customerUserErrors?.length > 0) {
     return { error: res.customerUserErrors[0].message };
   }

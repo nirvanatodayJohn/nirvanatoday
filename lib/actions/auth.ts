@@ -15,11 +15,17 @@ export async function loginAction(formData: FormData) {
   try {
     const result = await createAccessToken(email, password);
     console.log(result)
+    if (!result) {
+      return { error: "Failed to create access token. Please try again." };
+    }
     if (result.customerUserErrors && result.customerUserErrors.length > 0) {
       return { error: result.customerUserErrors[0].message };
     }
 
-    const { accessToken, expiresAt } = result.customerAccessToken;
+    const { accessToken, expiresAt } = result.customerAccessToken || {};
+    if (!accessToken || !expiresAt) {
+      return { error: "Invalid credentials or account not found." };
+    }
 
     // Set cookie
     const cookieStore = await cookies();
@@ -50,6 +56,9 @@ export async function registerAction(formData: FormData) {
   try {
     const result = await createCustomer(email, password, firstName, lastName);
 
+    if (!result) {
+      return { error: "Failed to create customer. Please try again." };
+    }
     if (result.customerUserErrors && result.customerUserErrors.length > 0) {
       return { error: result.customerUserErrors[0].message };
     }
