@@ -1,6 +1,9 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { CACHE_TAGS } from "@/lib/shopify";
+import crypto from "crypto";
+
+export const dynamic = "force-dynamic";
 
 /**
  * 🔔 Shopify Webhook → On-Demand Revalidation
@@ -30,7 +33,7 @@ function resolveCacheTag(tag: string) {
 }
 
 /**
- * Verify Shopify's HMAC-SHA256 webhook signature using the Web Crypto API.
+ * Verify Shopify's HMAC-SHA256 webhook signature using Node.js crypto.
  * Shopify sends the digest as base64 in X-Shopify-Hmac-Sha256.
  */
 async function verifyShopifyWebhook(
@@ -47,21 +50,19 @@ async function verifyShopifyWebhook(
     return false;
   }
   try {
-    const enc = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      "raw",
-      enc.encode(SHOPIFY_WEBHOOK_SECRET),
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign"]
-    );
-    const digest = await crypto.subtle.sign("HMAC", key, rawBody);
-    const digestBase64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
+    const hmac = crypto.createHmac("sha256", SHOPIFY_WEBHOOK_SECRET);
+    hmac.update(Buffer.from(rawBody));
+    const digest = hmac.digest("base64");
     
-    const isValid = digestBase64 === signature;
+    const signatureBuffer = Buffer.from(signature, "utf8");
+    const digestBuffer = Buffer.from(digest, "utf8");
+    
+    const isValid = signatureBuffer.length === digestBuffer.length && 
+                    crypto.timingSafeEqual(signatureBuffer, digestBuffer);
+                    
     if (!isValid) {
       console.warn(
-        `[Revalidate] HMAC signature mismatch for topic "${shopifyTopic}". Received: "${signature}", Generated: "${digestBase64}"`
+        `[Revalidate] HMAC signature mismatch for topic "${shopifyTopic}".\nReceived (Shopify): "${signature}"\nGenerated (App):    "${digest}"`
       );
     }
     return isValid;
