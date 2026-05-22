@@ -76,7 +76,7 @@ export default async function ShopPage(props: { searchParams: Promise<{ category
             {/* Product Grid */}
             <section className="w-full p-4">
                 {paginatedProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-2">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 mt-2">
                         {paginatedProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
@@ -134,4 +134,3 @@ export default async function ShopPage(props: { searchParams: Promise<{ category
         </main>
     )
 }
-

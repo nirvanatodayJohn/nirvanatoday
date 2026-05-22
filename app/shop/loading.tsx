@@ -29,7 +29,7 @@ export default function ShopLoading() {
             {/* Product Grid Skeleton */}
             <section className="py-12 sm:py-20">
                 <div className="mx-auto w-full max-w-7xl px-4">
-                    <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 md:grid-cols-4">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                             <div key={i} className="flex flex-col gap-6">
                                 <div className="relative aspect-4/5 w-full animate-pulse rounded-[2rem] bg-muted/30" />
